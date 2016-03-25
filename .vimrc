@@ -7,12 +7,16 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 "---------------------------
 " neobundle自体をneobundleで管理
 NeoBundleFetch 'Shougo/neobundle.vim'
+" unite.vim
+NeoBundle 'Shougo/unite.vim'
+" vimfiler
+NeoBundle 'Shougo/vimfiler'
+" vimproc
+NeoBundle 'Shougo/vimproc'
 " im_control.vim
 NeoBundle 'fuenor/im_control.vim'
 " neat-json.vim
 NeoBundle '5t111111/neat-json.vim'
-" NERDTree setting
-NeoBundle 'scrooloose/nerdtree'
 " autoclose
 NeoBundle 'Townk/vim-autoclose'
 " Emmet
@@ -27,18 +31,10 @@ filetype plugin indent on
 NeoBundleCheck
 "---------------------------
 "script --------------------
-autocmd vimenter * if !argc() | NERDTree | endif
-nnoremap <silent><C-e> :NERDTreeToggle<CR>
-let NERDTreeShowHidden= 0
-let g:quickrun_config = {
-\   "_" : {
-\       "outputter/buffer/split" : ":botright 5sp",
-\       "outputter/buffer/close_on_empty" : 1
-\   },
-\}
-nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=45 -toggle -no-quit<Cr>
 "---------------------------
 "set------------------------
+syntax on
 set nocompatible
 set number " 行番号を表示する
 set cursorline " カーソル行の背景色を変える
