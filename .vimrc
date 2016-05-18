@@ -39,7 +39,7 @@ NeoBundleCheck
 "---------------------------
 "script --------------------
 "vimfiler
-nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=45 -toggle -no-quit<Cr>
+nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=30 -toggle -no-quit<Cr>
 "vim-indent-guides
 colorscheme default
 let g:indent_guides_enable_on_vim_startup=1
@@ -173,9 +173,9 @@ set smartcase " 大文字と小文字が混在した言葉で検索を行った�
 set wrapscan " 最後尾まで検索を終えたら次の検索で先頭に移る
 set gdefault " 置換の時 g オプションをデフォルトで有効にする
 set expandtab " タブ入力を複数の空白入力に置き換える
-set tabstop=4 " 画面上でタブ文字が占める幅
-set shiftwidth=4 " 自動インデントでずれる幅
-set softtabstop=4 " 連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
+set tabstop=2 " 画面上でタブ文字が占める幅
+set shiftwidth=2 " 自動インデントでずれる幅
+set softtabstop=2 " 連続した空白に対してタブキーやバックスペースキーでカーソルが動く幅
 set autoindent " 改行時に前の行のインデントを継続する
 set smartindent " 改行時に入力された行の末尾に合わせて次の行のインデントを増減する
 set showmatch
@@ -186,3 +186,9 @@ set wildmenu wildmode=list:longest,full
 set history=10000
 set imdisable
 set foldmethod=marker
+set modifiable
+set write
+inoremap {<Enter> {}<Left><CR><ESC><S-o>
+" inoremap [<Enter> []<Left><CR><ESC><S-o>
+" inoremap (<Enter> ()<Left><CR><ESC><S-o>
+" inoremap ( ()<LEFT>
