@@ -32,14 +32,19 @@ NeoBundle 'Shougo/neocomplcache.vim'
 " neosnippet
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
+" vim-haskell-indent
+NeoBundle 'itchyny/vim-haskell-indent'
+" gips-vim
+" NeoBundle 'modsound/gips-vim'
 call neobundle#end()
 " Required:
 filetype plugin indent on
 NeoBundleCheck
 "---------------------------
 "script --------------------
+" quickrun
 "vimfiler
-nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=30 -toggle -no-quit<Cr>
+nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=50 -toggle -no-quit<Cr>
 "vim-indent-guides
 colorscheme default
 let g:indent_guides_enable_on_vim_startup=1
@@ -48,13 +53,22 @@ let g:indent_guides_guide_size=1
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
 " SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 " For snippet_complete marker.
 if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
 "-----
+" quickrun
+let g:quickrun_config = {
+\   "_" : {
+\       "outputter/buffer/split" : ":botright 8sp",
+\       "outputter/buffer/close_on_empty" : 1
+\   },
+\}
+nnoremap <expr><silent> <C-c> quickrun#is_running() ? quickrun#sweep_sessions() : "\<C-c>"
+au FileType qf nnoremap <silent><buffer>q :quit<CR>
 " neocomplcache.vim
 "Note: This option must set it in .vimrc(_vimrc).  NOT IN .gvimrc(_gvimrc)!
 " Disable AutoComplPop.
@@ -188,7 +202,10 @@ set imdisable
 set foldmethod=marker
 set modifiable
 set write
-inoremap {<Enter> {}<Left><CR><ESC><S-o>
+" inoremap {<Enter> {}<Left><CR><ESC><S-o>
 " inoremap [<Enter> []<Left><CR><ESC><S-o>
 " inoremap (<Enter> ()<Left><CR><ESC><S-o>
 " inoremap ( ()<LEFT>
+""
+"" quickrun
+""

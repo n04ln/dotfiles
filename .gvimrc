@@ -1,4 +1,4 @@
 colorscheme desert
-set lines=40
-set columns=120
+set lines=50
+set columns=200
 set transparency=20
