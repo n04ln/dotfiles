@@ -44,7 +44,7 @@ NeoBundleCheck
 "script --------------------
 " quickrun
 "vimfiler
-nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=50 -toggle -no-quit<Cr>
+nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=25 -toggle -no-quit<Cr>
 "vim-indent-guides
 colorscheme default
 let g:indent_guides_enable_on_vim_startup=1
