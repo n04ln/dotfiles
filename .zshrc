@@ -4,7 +4,6 @@ colors
 
 PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "
-
 #------
 HISTFILE=$HOME/.zsh/.zsh_histry
 HISTSIZE=1000000
