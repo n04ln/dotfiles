@@ -19,6 +19,7 @@ NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'itchyny/vim-haskell-indent'
+NeoBundle 'Shougo/vimshell.vim'
 call neobundle#end()
 " Required:
 filetype plugin indent on
@@ -28,7 +29,8 @@ NeoBundleCheck
 "---------------
 " vimfiler {{{
 nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=25 -toggle -no-quit<Cr>
-" vim-indent-guides
+" }}}
+" vim-indent-guides {{{
 colorscheme default
 let g:indent_guides_auto_colors=0
 autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=110
@@ -156,6 +158,9 @@ let g:neocomplcache_force_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\
 " https://github.com/c9s/perlomni.vim
 let g:neocomplcache_force_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " }}}
+" vimshell.vim {{{
+
+" }}}
 "---------------
 " set
 "---------------
@@ -168,8 +173,9 @@ set cmdheight=2
 set showmatch
 set backspace=indent,eol,start
 set smartcase
-set expandtab
 set tabstop=4
+set autoindent
+set expandtab
 set shiftwidth=4
 set softtabstop=4
 set foldmethod=marker
