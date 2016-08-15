@@ -18,7 +18,9 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'itchyny/vim-haskell-indent'
+NeoBundle 'bling/vim-airline'
+" NeoBundle 'itchyny/vim-haskell-indent'
+NeoBundle 'kana/vim-filetype-haskell'
 NeoBundle 'Shougo/vimshell.vim'
 call neobundle#end()
 " Required:
@@ -28,7 +30,8 @@ NeoBundleCheck
 " keymap and setting
 "---------------
 " vimfiler {{{
-nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=25 -toggle -no-quit<Cr>
+nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=50 -toggle -no-quit<Cr>
+" noremap sw <C-w>w
 " }}}
 " vim-indent-guides {{{
 colorscheme default
@@ -161,6 +164,9 @@ let g:neocomplcache_force_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " vimshell.vim {{{
 
 " }}}
+" airline {{{
+let g:airline_powerline_fonts = 1
+" }}}
 "---------------
 " set
 "---------------
@@ -173,10 +179,10 @@ set cmdheight=2
 set showmatch
 set backspace=indent,eol,start
 set smartcase
-set tabstop=4
 set autoindent
 set expandtab
+set tabstop=4
 set shiftwidth=4
 set softtabstop=4
 set foldmethod=marker
-
+set noswapfile
