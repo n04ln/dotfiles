@@ -14,13 +14,15 @@ NeoBundle 'Townk/vim-autoclose'
 NeoBundle 'mattn/emmet-vim'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'nathanaelkane/vim-indent-guides'
+" NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'Shougo/neocomplcache.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 NeoBundle 'Shougo/neosnippet-snippets'
 NeoBundle 'bling/vim-airline'
 " NeoBundle 'itchyny/vim-haskell-indent'
-NeoBundle 'kana/vim-filetype-haskell'
+" NeoBundle 'kana/vim-filetype-haskell'
+" NeoBundle 'dag/vim2hs'
+NeoBundle 'neovimhaskell/haskell-vim'
 NeoBundle 'Shougo/vimshell.vim'
 call neobundle#end()
 " Required:
@@ -30,17 +32,17 @@ NeoBundleCheck
 " keymap and setting
 "---------------
 " vimfiler {{{
-nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=50 -toggle -no-quit<Cr>
+nnoremap <C-f> :VimFiler -buffer-name=explorer -split -winwidth=35 -toggle -no-quit<Cr>
 " noremap sw <C-w>w
 " }}}
-" vim-indent-guides {{{
-colorscheme default
-let g:indent_guides_auto_colors=0
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=110
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=140
-let g:indent_guides_enable_on_vim_startup=1
-let g:indent_guides_guide_size=1
-" }}}
+" " vim-indent-guides {{{
+" colorscheme default
+" let g:indent_guides_auto_colors=0
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd   ctermbg=110
+" autocmd VimEnter,Colorscheme * :hi IndentGuidesEven  ctermbg=140
+" let g:indent_guides_enable_on_vim_startup=1
+" let g:indent_guides_guide_size=1
+" " }}}
 " neosnippet {{{
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -181,8 +183,8 @@ set backspace=indent,eol,start
 set smartcase
 set autoindent
 set expandtab
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set foldmethod=marker
 set noswapfile
