@@ -1,6 +1,6 @@
 colorscheme desert
-set lines=50
-set columns=100
+set lines=44
+set columns=170
 set transparency=20
-set guifont=Melso\ LG\ M\ DZ\ Regular\ for\ Powerline:h14
-set guifontwide=Melso\ LG\ M\ DZ\ Regular\ for\ Powerline:h14
+set guifont=Meslo\ LG\ M\ DZ\ Regular\ for\ Powerline:h11
+set guifontwide=Meslo\ LG\ M\ DZ\ Regular\ for\ Powerline:h11

@@ -5,6 +5,7 @@ set runtimepath+=~/.vim/bundle/neobundle.vim/
 " Required
 call neobundle#begin(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimproc'
@@ -188,3 +189,4 @@ set shiftwidth=2
 set softtabstop=2
 set foldmethod=marker
 set noswapfile
+set shortmess+=A
