@@ -9,10 +9,14 @@ colors
 
 bindkey "^N" menu-complete
 
-export XDG_CONFIG_HOME=~/.config
+export XDG_CONFIG_HOME=$HOME/.config
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 
 export GOPATH="$HOME/.go"
 export PATH="$GOPATH/bin:/Users/reo/git/sccp2016_first_semester_final/src:$HOME/.rbenv/shims:$HOME/.local/bin:$PATH"
+export PATH="/usr/local/Cellar/postgresql/9.6.1/bin:$PATH"
+export PATH="$HOME/.pyenv/shims:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
 export PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "
 #------
@@ -25,9 +29,14 @@ setopt extended_history
 alias ls='ls -F'
 alias rm='rm -i'
 alias emacs='emacs -nw'
-alias ghc='stack ghc'
-alias ghci='stack ghci'
-alias runghc='stack runghc'
+alias vim='nvim'
+alias vi='nvim'
+alias ssha='ssh u-aizu -X'
+# alias js='osascript -l JavaScript'
+alias jsc='/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc'
+# alias ghc='stack ghc'
+# alias ghci='stack ghci'
+# alias runghc='stack runghc'
 alias -g B='|bash' 
 alias -g C='|pbcopy' # output -> clipboard
 alias -g G='|grep -e' # output -> grep

@@ -25,6 +25,8 @@ NeoBundle 'bling/vim-airline'
 " NeoBundle 'dag/vim2hs'
 NeoBundle 'neovimhaskell/haskell-vim'
 NeoBundle 'Shougo/vimshell.vim'
+NeoBundle 'cocopon/iceberg.vim'
+
 call neobundle#end()
 " Required:
 filetype plugin indent on
