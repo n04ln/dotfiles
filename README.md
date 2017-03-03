@@ -1,5 +1,3 @@
 # my dot files
-  - .vimrc 
-  - .gvimrc 
-  - .zshrc 
+~/.config/nvim/init.vim
 

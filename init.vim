@@ -1,5 +1,5 @@
 language C
-"dein Scripts-----------------------------
+" dein{{{
 if &compatible
   set nocompatible               " Be iMproved
 endif
@@ -19,13 +19,20 @@ call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/deoplete.nvim')
 call dein#add('Shougo/denite.nvim')
-call dein#add('bling/vim-airline')
+" call dein#add('davidhalter/jedi-vim')
+" call dein#add('zchee/deoplete-jedi')
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
 call dein#add('mattn/emmet-vim')
 call dein#add('Townk/vim-autoclose')
 call dein#add('elixir-lang/vim-elixir')
 call dein#add('neovimhaskell/haskell-vim')
 call dein#add('tomtom/tcomment_vim')
-
+call dein#add('Yggdroot/indentLine')
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('thinca/vim-quickrun')
+call dein#add('derekwyatt/vim-scala')
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 " You can specify revision/branch/tag.
 call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
@@ -41,8 +48,8 @@ if dein#check_install()
   call dein#install()
 endif
 
-"End dein Scripts-------------------------
-"Start neosnippets Scripts----------------
+"}}}
+" neosnippets{{{
 " Plugin key-mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 smap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -67,18 +74,60 @@ let g:neosnippet#enable_snipmate_compatibility = 1
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.config/nvim/bundle/repos/github.com/Shougo/neosnippet-snippets/neosnippets/'
 
-"End neosnippets Script-------------------
-
+"}}}
+" deoplete{{{
 let g:deoplete#enable_at_startup = 1
 let g:python3_host_prog = expand('/Users/noahorberg/.pyenv/shims/python3')
-
-"
+" }}}
+" vimproc{{{
+" }}}
+" jedi-vim{{{
+" let g:jedi#rename_command = "<leader>R" " default: \r (because Conflict with quickrun)
+" }}}
+" deoplete-jedi{{{
+" }}}
+" airline{{{
+set laststatus=2
+set showtabline=2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='laederon'
+"}}}
+" indentLine {{{
+  let g:indentLine_char = '>'
+  let g:indentLine_color_term = 239
+  set list lcs=tab:\>\ 
+" }}}
+" NERDTree {{{
+  " nnoremap <silent><C-e> :NERDTreeToggle<CR>
+" }}}
+" quickrun.vim{{{
+nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
+let g:quickrun_config = {
+\   '_': {
+\     'split': '5',
+\     'runner': 'vimproc',
+\     'runner/vimproc/updatetime' : 10,
+\     'outputter/buffer/close_on_empty' : 1,
+\   },
+\   'haskell' : { 'type' : 'haskell/stack' },
+\   'haskell/stack' : {
+\       'command' : 'stack',
+\       'exec' : '%c %o %s %a',
+\       'cmdopt' : 'runghc',
+\   }
+\}
+set splitbelow
+" }}}
+" other setting{{{
 syntax on
+colorscheme railscasts
 hi Comment ctermfg=darkcyan
 set number
+set hidden
 set cursorline
-set cursorcolumn
-set laststatus=2
+" set cursorcolumn
 set cmdheight=2
 set showmatch
 set backspace=indent,eol,start
@@ -91,3 +140,22 @@ set softtabstop=2
 set foldmethod=marker
 set noswapfile
 set shortmess+=A
+" *** quote complete
+inoremap " ""<LEFT>
+inoremap ' ''<LEFT>
+" *** buffer control
+nnoremap <silent>bp :bprevious<CR>
+nnoremap <silent>bn :bnext<CR>
+nnoremap <silent>bb :b#<CR>
+" WANTED :: Smart Solution...
+nnoremap <silent>b1 :b1<CR>
+nnoremap <silent>b2 :b2<CR>
+nnoremap <silent>b3 :b3<CR>
+nnoremap <silent>b4 :b4<CR>
+nnoremap <silent>b5 :b5<CR>
+nnoremap <silent>b6 :b6<CR>
+nnoremap <silent>b7 :b7<CR>
+nnoremap <silent>b8 :b8<CR>
+nnoremap <silent>b9 :b9<CR>
+
+"}}}
