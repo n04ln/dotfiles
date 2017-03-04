@@ -144,18 +144,18 @@ set shortmess+=A
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 " *** buffer control
-nnoremap <silent>bp :bprevious<CR>
-nnoremap <silent>bn :bnext<CR>
-nnoremap <silent>bb :b#<CR>
+nnoremap <silent><C-b>p :bprevious<CR>
+nnoremap <silent><C-b>n :bnext<CR>
+nnoremap <silent><C-b>b :b#<CR>
 " WANTED :: Smart Solution...
-nnoremap <silent>b1 :b1<CR>
-nnoremap <silent>b2 :b2<CR>
-nnoremap <silent>b3 :b3<CR>
-nnoremap <silent>b4 :b4<CR>
-nnoremap <silent>b5 :b5<CR>
-nnoremap <silent>b6 :b6<CR>
-nnoremap <silent>b7 :b7<CR>
-nnoremap <silent>b8 :b8<CR>
-nnoremap <silent>b9 :b9<CR>
+nnoremap <silent><C-b>1 :b1<CR>
+nnoremap <silent><C-b>2 :b2<CR>
+nnoremap <silent><C-b>3 :b3<CR>
+nnoremap <silent><C-b>4 :b4<CR>
+nnoremap <silent><C-b>5 :b5<CR>
+nnoremap <silent><C-b>6 :b6<CR>
+nnoremap <silent><C-b>7 :b7<CR>
+nnoremap <silent><C-b>8 :b8<CR>
+nnoremap <silent><C-b>9 :b9<CR>
 
 "}}}
