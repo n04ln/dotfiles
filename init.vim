@@ -15,6 +15,8 @@ call dein#begin('/Users/noahorberg/.config/nvim/bundle')
 call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
+call dein#add('mopp/layoutplugin.vim')
+call dein#add('NoahOrberg/vimtask2.vim')
 call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/deoplete.nvim')
@@ -159,3 +161,4 @@ nnoremap <silent><C-b>8 :b8<CR>
 nnoremap <silent><C-b>9 :b9<CR>
 
 "}}}
+
