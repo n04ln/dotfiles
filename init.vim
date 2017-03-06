@@ -17,6 +17,7 @@ call dein#add('Shougo/dein.vim')
 " Add or remove your plugins here:
 call dein#add('mopp/layoutplugin.vim')
 call dein#add('NoahOrberg/vimtask2.vim')
+call dein#add('NoahOrberg/castOfArrow.vim')
 call dein#add('Shougo/neosnippet.vim')
 call dein#add('Shougo/neosnippet-snippets')
 call dein#add('Shougo/deoplete.nvim')
@@ -36,7 +37,7 @@ call dein#add('thinca/vim-quickrun')
 call dein#add('derekwyatt/vim-scala')
 call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 " You can specify revision/branch/tag.
-call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
 " Required:
 call dein#end()

@@ -8,6 +8,7 @@ This repo is my dotfiles.
 ~/.config/nvim/init.vim  
 ~/.vimrc  
 ~/.zshrc  
+~/.tmux.conf
 ```
 
 ## Using this repo
