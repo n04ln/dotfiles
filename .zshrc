@@ -1,4 +1,5 @@
 fpath=(/usr/local/share/zsh-completions $fpath)
+bindkey -v
 autoload -U compinit
 compinit 
 autoload _U promptinit
@@ -11,8 +12,12 @@ bindkey "^N" menu-complete
 
 export XDG_CONFIG_HOME=$HOME/.config
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
-export PATH="$HOME/.pyenv/shims:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$HOME/go/bin:$GOPATH/bin
+export PATH=$HOME/.pyenv/shims:$PATH
+export PATH=$HOME/.local/bin:$PATH
+export PATH=/usr/local/Cellar/go/1.8/bin:$PATH
 export PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "
 
@@ -20,6 +25,8 @@ HISTFILE=$HOME/.zsh/.zsh_histry
 HISTSIZE=1000000
 SAVEHIST=1000000
 setopt extended_history
+
+if which pyenv 2>&1 >/dev/null; then alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"; fi
 
 alias ls='ls -F'
 alias rm='rm -i'

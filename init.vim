@@ -1,4 +1,40 @@
 language C
+syntax on
+filetype plugin indent on
+set background=dark
+colorscheme hybrid
+set clipboard=unnamed
+set number
+set hidden
+set cursorline
+" set cursorcolumn
+set cmdheight=2
+set showmatch
+set backspace=indent,eol,start
+set smartcase
+set autoindent
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set foldmethod=marker
+set noswapfile
+set shortmess+=A
+" *** buffer control
+nnoremap <silent><C-b>p :bprevious<CR>
+nnoremap <silent><C-b>n :bnext<CR>
+nnoremap <silent><C-b>b :b#<CR>
+" WANTED :: Smart Solution...
+nnoremap <silent><C-b>1 :b1<CR>
+nnoremap <silent><C-b>2 :b2<CR>
+nnoremap <silent><C-b>3 :b3<CR>
+nnoremap <silent><C-b>4 :b4<CR>
+nnoremap <silent><C-b>5 :b5<CR>
+nnoremap <silent><C-b>6 :b6<CR>
+nnoremap <silent><C-b>7 :b7<CR>
+nnoremap <silent><C-b>8 :b8<CR>
+nnoremap <silent><C-b>9 :b9<CR>
+tnoremap <silent> <ESC> <C-\><C-n>
 " dein{{{
 if &compatible
   set nocompatible               " Be iMproved
@@ -16,6 +52,7 @@ call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
 call dein#add('mopp/layoutplugin.vim')
+call dein#add('glidenote/memolist.vim')
 call dein#add('NoahOrberg/vimtask2.vim')
 call dein#add('NoahOrberg/castOfArrow.vim')
 call dein#add('Shougo/neosnippet.vim')
@@ -27,7 +64,8 @@ call dein#add('Shougo/denite.nvim')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('mattn/emmet-vim')
-call dein#add('Townk/vim-autoclose')
+" call dein#add('Townk/vim-autoclose')
+call dein#add('cohama/lexima.vim')
 call dein#add('elixir-lang/vim-elixir')
 call dein#add('neovimhaskell/haskell-vim')
 call dein#add('tomtom/tcomment_vim')
@@ -35,6 +73,9 @@ call dein#add('Yggdroot/indentLine')
 call dein#add('ctrlpvim/ctrlp.vim')
 call dein#add('thinca/vim-quickrun')
 call dein#add('derekwyatt/vim-scala')
+call dein#add('fatih/vim-go')
+call dein#add('vim-jp/vim-go-extra')
+call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
 call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 " You can specify revision/branch/tag.
 " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
@@ -99,7 +140,7 @@ let g:airline_theme='laederon'
 "}}}
 " indentLine {{{
   let g:indentLine_char = '>'
-  let g:indentLine_color_term = 239
+  let g:indentLine_color_term = 200
   set list lcs=tab:\>\ 
 " }}}
 " NERDTree {{{
@@ -123,43 +164,13 @@ let g:quickrun_config = {
 \}
 set splitbelow
 " }}}
-" other setting{{{
-syntax on
-colorscheme railscasts
-hi Comment ctermfg=darkcyan
-set number
-set hidden
-set cursorline
-" set cursorcolumn
-set cmdheight=2
-set showmatch
-set backspace=indent,eol,start
-set smartcase
-set autoindent
-set expandtab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
-set foldmethod=marker
-set noswapfile
-set shortmess+=A
-" *** quote complete
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-" *** buffer control
-nnoremap <silent><C-b>p :bprevious<CR>
-nnoremap <silent><C-b>n :bnext<CR>
-nnoremap <silent><C-b>b :b#<CR>
-" WANTED :: Smart Solution...
-nnoremap <silent><C-b>1 :b1<CR>
-nnoremap <silent><C-b>2 :b2<CR>
-nnoremap <silent><C-b>3 :b3<CR>
-nnoremap <silent><C-b>4 :b4<CR>
-nnoremap <silent><C-b>5 :b5<CR>
-nnoremap <silent><C-b>6 :b6<CR>
-nnoremap <silent><C-b>7 :b7<CR>
-nnoremap <silent><C-b>8 :b8<CR>
-nnoremap <silent><C-b>9 :b9<CR>
-
-"}}}
+" vim-go {{{
+let g:go_highlight_functions = 1 
+let g:go_highlight_methods = 1 
+let g:go_highlight_structs = 1 
+let g:go_highlight_operators = 1 
+let g:go_highlight_build_constraints = 1 
+let g:go_fmt_fail_silently = 1 
+let g:go_fmt_autosave = 0
+" }}}
 
