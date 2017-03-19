@@ -6,9 +6,8 @@ set cursorline
 " set cursorcolumn
 set cmdheight=2
 set showmatch
-set nocompatible
 set backspace=indent,eol,start
-" set smartcase
+set smartcase
 set autoindent
 set expandtab
 set tabstop=2
@@ -16,7 +15,7 @@ set shiftwidth=2
 set softtabstop=2
 set foldmethod=marker
 set noswapfile
-" set shortmess+=A
+set shortmess+=A
 inoremap " ""<LEFT>
 inoremap ' ''<LEFT>
 nnoremap <silent>bp :bprevious<CR>
