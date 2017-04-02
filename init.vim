@@ -140,7 +140,7 @@ let g:airline_theme='laederon'
 "}}}
 " indentLine {{{
   let g:indentLine_char = '>'
-  let g:indentLine_color_term = 200
+  " let g:indentLine_color_term = 200
   set list lcs=tab:\>\ 
 " }}}
 " NERDTree {{{
