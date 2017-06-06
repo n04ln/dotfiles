@@ -10,6 +10,7 @@ colors
 
 bindkey "^N" menu-complete
 
+export ZPLUG_HOME=~/.zplug
 export XDG_CONFIG_HOME=$HOME/.config
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export GOPATH=$HOME/go
@@ -28,6 +29,7 @@ setopt extended_history
 
 if which pyenv 2>&1 >/dev/null; then alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"; fi
 
+alias g='git'
 alias ls='ls -F'
 alias rm='rm -i'
 alias emacs='emacs -nw'
@@ -44,3 +46,6 @@ setopt no_beep
 setopt auto_cd
 setopt correct
 
+
+### Added by the Bluemix CLI
+source /usr/local/Bluemix/bx/zsh_autocomplete

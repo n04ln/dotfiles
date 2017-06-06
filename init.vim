@@ -3,10 +3,11 @@ syntax on
 filetype plugin indent on
 set background=dark
 colorscheme hybrid
-set clipboard=unnamed
+" colorscheme railscasts
+" set clipboard=unnamed
 set number
 set hidden
-set cursorline
+" set cursorline
 " set cursorcolumn
 set cmdheight=2
 set showmatch
@@ -52,6 +53,7 @@ call dein#add('Shougo/dein.vim')
 
 " Add or remove your plugins here:
 call dein#add('mopp/layoutplugin.vim')
+call dein#add('miyakogi/seiya.vim')
 call dein#add('glidenote/memolist.vim')
 call dein#add('NoahOrberg/vimtask2.vim')
 call dein#add('NoahOrberg/castOfArrow.vim')
@@ -150,7 +152,7 @@ let g:airline_theme='laederon'
 nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
 let g:quickrun_config = {
 \   '_': {
-\     'split': '5',
+\     'split': '10',
 \     'runner': 'vimproc',
 \     'runner/vimproc/updatetime' : 10,
 \     'outputter/buffer/close_on_empty' : 1,
@@ -173,4 +175,6 @@ let g:go_highlight_build_constraints = 1
 let g:go_fmt_fail_silently = 1 
 let g:go_fmt_autosave = 0
 " }}}
-
+" seiya.vim{{{
+let g:seiya_auto_enable=1
+" }}}
