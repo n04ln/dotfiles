@@ -6,7 +6,7 @@ colorscheme hybrid
 " set clipboard=unnamed
 set number
 set hidden
-set cursorline
+" set cursorline
 " set cursorcolumn
 set cmdheight=2
 set showmatch
@@ -62,6 +62,7 @@ if dein#load_state('/Users/reo/.config/nvim/bundle')
   " Required:
   call dein#add('/Users/reo/.config/nvim/bundle/repos/github.com/Shougo/dein.vim')
 
+<<<<<<< HEAD
   " Add or remove your plugins here:
   call dein#add('neovimhaskell/haskell-vim')
   call dein#add('NoahOrberg/castOfArrow.vim')
@@ -87,6 +88,38 @@ if dein#load_state('/Users/reo/.config/nvim/bundle')
   " call dein#add('Shougo/vimshell')
   " You can specify revision/branch/tag.
   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+=======
+" Add or remove your plugins here:
+call dein#add('mopp/layoutplugin.vim')
+call dein#add('miyakogi/seiya.vim')
+call dein#add('glidenote/memolist.vim')
+call dein#add('NoahOrberg/vimtask2.vim')
+call dein#add('NoahOrberg/castOfArrow.vim')
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
+call dein#add('Shougo/deoplete.nvim')
+call dein#add('Shougo/denite.nvim')
+" call dein#add('davidhalter/jedi-vim')
+" call dein#add('zchee/deoplete-jedi')
+call dein#add('vim-airline/vim-airline')
+call dein#add('vim-airline/vim-airline-themes')
+call dein#add('mattn/emmet-vim')
+" call dein#add('Townk/vim-autoclose')
+call dein#add('cohama/lexima.vim')
+call dein#add('elixir-lang/vim-elixir')
+call dein#add('neovimhaskell/haskell-vim')
+call dein#add('tomtom/tcomment_vim')
+call dein#add('Yggdroot/indentLine')
+call dein#add('ctrlpvim/ctrlp.vim')
+call dein#add('thinca/vim-quickrun')
+call dein#add('derekwyatt/vim-scala')
+call dein#add('fatih/vim-go')
+call dein#add('vim-jp/vim-go-extra')
+call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+" You can specify revision/branch/tag.
+" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+>>>>>>> 145b9e049325ff729a48eb15d8262c1fbf2ed292
 
   " Required:
   call dein#end()
@@ -122,6 +155,11 @@ let g:airline_theme='laederon'
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
 autocmd VimEnter * execute 'TagbarToggle'
+" indentLine {{{
+  let g:indentLine_char = '>'
+  " let g:indentLine_color_term = 200
+  set list lcs=tab:\>\ 
+>>>>>>> 145b9e049325ff729a48eb15d8262c1fbf2ed292
 " }}}
 " NERDTree {{{
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
@@ -157,4 +195,7 @@ let g:go_fmt_command = "goimports"
 " cnoremap gr GoRename<space>
 " cnoremap gi GoImport<space>
 " cnoremap gd GoDoc<space>
+" }}}
+" seiya.vim{{{
+let g:seiya_auto_enable=1
 " }}}
