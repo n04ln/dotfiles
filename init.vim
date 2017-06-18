@@ -3,7 +3,7 @@ syntax on
 filetype plugin indent on
 set background=dark
 colorscheme hybrid
-set clipboard=unnamed
+" set clipboard=unnamed
 set number
 set hidden
 set cursorline
@@ -20,9 +20,16 @@ set softtabstop=4
 set foldmethod=marker
 set noswapfile
 set shortmess+=A
+inoremap <silent><C-j> <C-n>
+tnoremap <silent> jj <C-\><C-n>
+inoremap <silent> jj <ESC>
+" Window size
+nnoremap <silent><C-w>- s-
+nnoremap <silent><C-w>+ s+
 " *** buffer control
 nnoremap <silent><C-b>p :bprevious<CR>
 nnoremap <silent><C-b>n :bnext<CR>
+nnoremap <silent>bn :bnext<CR>
 nnoremap <silent><C-b>b :b#<CR>
 " WANTED :: Smart Solution...
 nnoremap <silent><C-b>1 :b1<CR>
@@ -35,100 +42,73 @@ nnoremap <silent><C-b>7 :b7<CR>
 nnoremap <silent><C-b>8 :b8<CR>
 nnoremap <silent><C-b>9 :b9<CR>
 tnoremap <silent> <ESC> <C-\><C-n>
+" *** Terminal
+nnoremap <silent><C-t>t :terminal<CR>
+" *** like emacs
+
 " dein{{{
 if &compatible
   set nocompatible               " Be iMproved
 endif
 
 " Required:
-set runtimepath+=/Users/noahorberg/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+set runtimepath+=/Users/reo/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 
 " Required:
-call dein#begin('/Users/noahorberg/.config/nvim/bundle')
+if dein#load_state('/Users/reo/.config/nvim/bundle')
+  call dein#begin('/Users/reo/.config/nvim/bundle')
 
-" Let dein manage dein
-" Required:
-call dein#add('Shougo/dein.vim')
+  " Let dein manage dein
+  " Required:
+  call dein#add('/Users/reo/.config/nvim/bundle/repos/github.com/Shougo/dein.vim')
 
-" Add or remove your plugins here:
-call dein#add('mopp/layoutplugin.vim')
-call dein#add('glidenote/memolist.vim')
-call dein#add('NoahOrberg/vimtask2.vim')
-call dein#add('NoahOrberg/castOfArrow.vim')
-call dein#add('Shougo/neosnippet.vim')
-call dein#add('Shougo/neosnippet-snippets')
-call dein#add('Shougo/deoplete.nvim')
-call dein#add('Shougo/denite.nvim')
-" call dein#add('davidhalter/jedi-vim')
-" call dein#add('zchee/deoplete-jedi')
-call dein#add('vim-airline/vim-airline')
-call dein#add('vim-airline/vim-airline-themes')
-call dein#add('mattn/emmet-vim')
-" call dein#add('Townk/vim-autoclose')
-call dein#add('cohama/lexima.vim')
-call dein#add('elixir-lang/vim-elixir')
-call dein#add('neovimhaskell/haskell-vim')
-call dein#add('tomtom/tcomment_vim')
-call dein#add('Yggdroot/indentLine')
-call dein#add('ctrlpvim/ctrlp.vim')
-call dein#add('thinca/vim-quickrun')
-call dein#add('derekwyatt/vim-scala')
-call dein#add('fatih/vim-go')
-call dein#add('vim-jp/vim-go-extra')
-call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
-call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-" You can specify revision/branch/tag.
-" call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+  " Add or remove your plugins here:
+  call dein#add('neovimhaskell/haskell-vim')
+  call dein#add('NoahOrberg/castOfArrow.vim')
+  call dein#add('NoahOrberg/hello.nvim')
+  call dein#add('NoahOrberg/vimtask2.vim')
+  call dein#add('glidenote/memolist.vim')
+  call dein#add('majutsushi/tagbar')
+  call dein#add('scrooloose/nerdtree')
+  call dein#add('Shougo/neosnippet.vim')
+  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+  call dein#add('thinca/vim-quickrun')
+  call dein#add('Shougo/neosnippet-snippets')
+  call dein#add('Shougo/deoplete.nvim')
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
+  call dein#add('Yggdroot/indentLine')
+  call dein#add('tomtom/tcomment_vim')
+  call dein#add('cohama/lexima.vim')
+  call dein#add('fatih/vim-go')
+  call dein#add('vim-jp/vim-go-extra')
+  call dein#add('mattn/emmet-vim')
+  call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
+  " call dein#add('Shougo/vimshell')
+  " You can specify revision/branch/tag.
+  call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
-" Required:
-call dein#end()
+  " Required:
+  call dein#end()
+  call dein#save_state()
+endif
 
 " Required:
 filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-if dein#check_install()
-  call dein#install()
-endif
-
-"}}}
-" neosnippets{{{
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.config/nvim/bundle/repos/github.com/Shougo/neosnippet-snippets/neosnippets/'
-
-"}}}
-" deoplete{{{
+"if dein#check_install()
+"  call dein#install()
+"endif
+" }}}
+" deoplete {{{
 let g:deoplete#enable_at_startup = 1
-let g:python3_host_prog = expand('/Users/noahorberg/.pyenv/shims/python3')
 " }}}
-" vimproc{{{
-" }}}
-" jedi-vim{{{
-" let g:jedi#rename_command = "<leader>R" " default: \r (because Conflict with quickrun)
-" }}}
-" deoplete-jedi{{{
+" indentLine {{{
+  let g:indentLine_char = '>'
+  let g:indentLine_color_term = 200
+  set list lcs=tab:\>\ 
 " }}}
 " airline{{{
 set laststatus=2
@@ -138,19 +118,21 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline_powerline_fonts = 1
 let g:airline_theme='laederon'
 "}}}
-" indentLine {{{
-  let g:indentLine_char = '>'
-  let g:indentLine_color_term = 200
-  set list lcs=tab:\>\ 
+" tagbar {{{
+nmap <F8> :TagbarToggle<CR>
+let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
+autocmd VimEnter * execute 'TagbarToggle'
 " }}}
 " NERDTree {{{
-  " nnoremap <silent><C-e> :NERDTreeToggle<CR>
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+autocmd VimEnter * execute 'NERDTree'
 " }}}
-" quickrun.vim{{{
+" quickrun {{{
 nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
+autocmd BufRead,BufNewFile *_test.go set filetype=go.test
 let g:quickrun_config = {
 \   '_': {
-\     'split': '5',
+\     'split': '10',
 \     'runner': 'vimproc',
 \     'runner/vimproc/updatetime' : 10,
 \     'outputter/buffer/close_on_empty' : 1,
@@ -160,17 +142,19 @@ let g:quickrun_config = {
 \       'command' : 'stack',
 \       'exec' : '%c %o %s %a',
 \       'cmdopt' : 'runghc',
-\   }
+\   },
+\   'go.test' : {
+\       'command' : 'go',
+\       'exec' : ['%c test'],
+\   },
 \}
 set splitbelow
 " }}}
-" vim-go {{{
-let g:go_highlight_functions = 1 
-let g:go_highlight_methods = 1 
-let g:go_highlight_structs = 1 
-let g:go_highlight_operators = 1 
-let g:go_highlight_build_constraints = 1 
-let g:go_fmt_fail_silently = 1 
-let g:go_fmt_autosave = 0
+" vimproc {{{
 " }}}
-
+" go-vim {{{
+let g:go_fmt_command = "goimports"
+" cnoremap gr GoRename<space>
+" cnoremap gi GoImport<space>
+" cnoremap gd GoDoc<space>
+" }}}

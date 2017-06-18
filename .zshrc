@@ -9,26 +9,23 @@ autoload -Uz colors
 colors
 
 bindkey "^N" menu-complete
+export LC_ALL='ja_JP.UTF-8'
 
 export XDG_CONFIG_HOME=$HOME/.config
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export GOPATH=$HOME/go
 export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:$HOME/go/bin:$GOPATH/bin
-export PATH=$HOME/.pyenv/shims:$PATH
 export PATH=$HOME/.local/bin:$PATH
-export PATH=/usr/local/Cellar/go/1.8/bin:$PATH
+export PATH=$HOME/bin:$PATH
+export PATH=/usr/local/Cellar/git/2.12.2:$PATH
+export PATH=${PATH}:${GOPATH}/bin
+export ZPLUG_HOME=$HOME/.zplug
+source $ZPLUG_HOME/init.zsh
 export PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "
 
-HISTFILE=$HOME/.zsh/.zsh_histry
-HISTSIZE=1000000
-SAVEHIST=1000000
-setopt extended_history
-
-if which pyenv 2>&1 >/dev/null; then alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"; fi
-
 alias ls='ls -F'
+alias la='ls -la'
 alias rm='rm -i'
 alias emacs='emacs -nw'
 # alias ghc='stack ghc'
@@ -44,3 +41,21 @@ setopt no_beep
 setopt auto_cd
 setopt correct
 
+source ~/.zplug/init.zsh
+zplug "zsh-users/zsh-autosuggestions"
+zplug "wbinglee/zsh-wakatime"
+
+# syntax
+zplug "chrissicool/zsh-256color"
+zplug "Tarrasch/zsh-colors"
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "ascii-soup/zsh-url-highlighter"
+
+# program
+zplug "voronkovich/mysql.plugin.zsh"
+
+# tools
+zplug "marzocchi/zsh-notify"
+# zplug "oknowton/zsh-dwim"
+
+zplug load --verbose
