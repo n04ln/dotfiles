@@ -11,7 +11,6 @@ colors
 bindkey "^N" menu-complete
 export LC_ALL='ja_JP.UTF-8'
 
-export ZPLUG_HOME=~/.zplug
 export XDG_CONFIG_HOME=$HOME/.config
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export GOPATH=$HOME/go
@@ -25,17 +24,6 @@ source $ZPLUG_HOME/init.zsh
 export PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "
 
-<<<<<<< HEAD
-=======
-HISTFILE=$HOME/.zsh/.zsh_histry
-HISTSIZE=1000000
-SAVEHIST=1000000
-setopt extended_history
-
-if which pyenv 2>&1 >/dev/null; then alias brew="env PATH=${PATH//$(pyenv root)\/shims:/} brew"; fi
-
-alias g='git'
->>>>>>> 145b9e049325ff729a48eb15d8262c1fbf2ed292
 alias ls='ls -F'
 alias la='ls -la'
 alias rm='rm -i'
@@ -53,7 +41,6 @@ setopt no_beep
 setopt auto_cd
 setopt correct
 
-<<<<<<< HEAD
 source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-autosuggestions"
 zplug "wbinglee/zsh-wakatime"
@@ -72,8 +59,3 @@ zplug "marzocchi/zsh-notify"
 # zplug "oknowton/zsh-dwim"
 
 zplug load --verbose
-=======
-
-### Added by the Bluemix CLI
-source /usr/local/Bluemix/bx/zsh_autocomplete
->>>>>>> 145b9e049325ff729a48eb15d8262c1fbf2ed292
