@@ -1,5 +1,5 @@
 #!/bin/bash
-cp .zshrc ~/
-cp .vimrc ~/
-cp .tmux.conf ~/
-cp init.vim ~/.config/nvim/
+cp zsh/.zshrc ~/
+cp vim/.vimrc ~/
+cp tmux/.tmux.conf ~/
+cp nvim/init.vim ~/.config/nvim/init.vim

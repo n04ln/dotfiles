@@ -50,15 +50,15 @@ if &compatible
 endif
 
 " Required:
-set runtimepath+=/Users/reo/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
+set runtimepath+=~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim
 
 " Required:
-if dein#load_state('/Users/reo/.config/nvim/bundle')
-  call dein#begin('/Users/reo/.config/nvim/bundle')
+if dein#load_state('~/.config/nvim/bundle')
+  call dein#begin('~/.config/nvim/bundle')
 
   " Let dein manage dein
   " Required:
-  call dein#add('/Users/reo/.config/nvim/bundle/repos/github.com/Shougo/dein.vim')
+  call dein#add('~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim')
 
   " Add or remove your plugins here:
   call dein#add('neovimhaskell/haskell-vim')
@@ -83,7 +83,6 @@ if dein#load_state('/Users/reo/.config/nvim/bundle')
   call dein#add('vim-jp/vim-go-extra')
   call dein#add('mattn/emmet-vim')
   call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
-  " call dein#add('Shougo/vimshell')
   " You can specify revision/branch/tag.
   call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
@@ -97,9 +96,9 @@ filetype plugin indent on
 syntax enable
 
 " If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
+if dein#check_install()
+ call dein#install()
+endif
 " }}}
 " deoplete {{{
 let g:deoplete#enable_at_startup = 1
