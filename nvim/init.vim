@@ -2,7 +2,9 @@ language C
 syntax on
 filetype plugin indent on
 set background=dark
-colorscheme hybrid
+colorscheme tender
+" use pyenv python3
+let g:python3_host_prog = $PYENV_ROOT . '/shims/python3'
 " set clipboard=unnamed
 set number
 set hidden
@@ -44,6 +46,11 @@ nnoremap <silent><C-b>9 :b9<CR>
 tnoremap <silent> <ESC> <C-\><C-n>
 " *** Terminal
 nnoremap <silent><C-t>t :terminal<CR>
+set runtimepath+=~/git/test_plugins/castOfArrow.nvim
+" *** AutoCmd
+" autocmd VimEnter * execute 'TagbarToggle'
+" autocmd VimEnter * execute 'NERDTree'
+
 " dein{{{
 if &compatible
   set nocompatible               " Be iMproved
@@ -63,14 +70,16 @@ if dein#load_state('~/.config/nvim/bundle')
   " Add or remove your plugins here:
   call dein#add('neovimhaskell/haskell-vim')
   call dein#add('NoahOrberg/castOfArrow.vim')
+  " call dein#add('NoahOrberg/castOfArrow.nvim', { 'rev' : 'feature/satanha' })
   call dein#add('NoahOrberg/hello.nvim')
+  call dein#add('miyakogi/seiya.vim')
   call dein#add('NoahOrberg/vimtask2.vim')
   call dein#add('glidenote/memolist.vim')
   call dein#add('majutsushi/tagbar')
   call dein#add('scrooloose/nerdtree')
-  call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
   call dein#add('thinca/vim-quickrun')
+  call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/neosnippet-snippets')
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('zchee/deoplete-go', {'build': 'make'})
@@ -103,6 +112,41 @@ endif
 " deoplete {{{
 let g:deoplete#enable_at_startup = 1
 " }}}
+" snippet {{{
+" Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+imap <expr><TAB>
+\ pumvisible() ? "\<C-n>" :
+\ neosnippet#expandable_or_jumpable() ?
+\    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+" }}}
+" indentLine {{{
+  let g:indentLine_char = '>'
+  let g:indentLine_color_term = 200
+  set list lcs=tab:\>\ 
+" }}}
+" airline{{{
+set laststatus=2
+set showtabline=2
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
+let g:airline_powerline_fonts = 1
+let g:airline_theme='laederon'
+"}}}
 " indentLine {{{
   let g:indentLine_char = '>'
   let g:indentLine_color_term = 200
@@ -119,11 +163,9 @@ let g:airline_theme='laederon'
 " tagbar {{{
 nmap <F8> :TagbarToggle<CR>
 let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
-autocmd VimEnter * execute 'TagbarToggle'
 " }}}
 " NERDTree {{{
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
-autocmd VimEnter * execute 'NERDTree'
 " }}}
 " quickrun {{{
 nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
@@ -141,9 +183,16 @@ let g:quickrun_config = {
 \       'exec' : '%c %o %s %a',
 \       'cmdopt' : 'runghc',
 \   },
+\   'python' : {
+\       'command' : 'python3',
+\   },
 \   'go.test' : {
 \       'command' : 'go',
 \       'exec' : ['%c test'],
+\   },
+\   'java' : {
+\       'command' : 'javac',
+\       'exec' : ['%c -J-Duser.language=en -J-Duser.country=us %s'],
 \   },
 \}
 set splitbelow
@@ -155,4 +204,8 @@ let g:go_fmt_command = "goimports"
 " cnoremap gr GoRename<space>
 " cnoremap gi GoImport<space>
 " cnoremap gd GoDoc<space>
+noremap <F2> :GoDef<CR>
+" }}}
+" seiya.vim {{{
+let g:seiya_auto_enable=1
 " }}}
