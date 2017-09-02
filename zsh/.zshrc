@@ -9,6 +9,7 @@ autoload -Uz colors
 colors
 
 bindkey "^N" menu-complete
+bindkey -M viins 'jj' vi-cmd-mode
 export LC_ALL='ja_JP.UTF-8'
 
 source $HOME/env.zsh
