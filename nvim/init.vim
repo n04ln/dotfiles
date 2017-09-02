@@ -46,7 +46,6 @@ nnoremap <silent><C-b>9 :b9<CR>
 tnoremap <silent> <ESC> <C-\><C-n>
 " *** Terminal
 nnoremap <silent><C-t>t :terminal<CR>
-set runtimepath+=~/git/test_plugins/castOfArrow.nvim
 " *** AutoCmd
 " autocmd VimEnter * execute 'TagbarToggle'
 " autocmd VimEnter * execute 'NERDTree'
@@ -70,10 +69,12 @@ if dein#load_state('~/.config/nvim/bundle')
   " Add or remove your plugins here:
   call dein#add('neovimhaskell/haskell-vim')
   call dein#add('NoahOrberg/castOfArrow.vim')
-  " call dein#add('NoahOrberg/castOfArrow.nvim', { 'rev' : 'feature/satanha' })
   call dein#add('NoahOrberg/hello.nvim')
+  call dein#add('jacoborus/tender.vim')
   call dein#add('miyakogi/seiya.vim')
+  call dein#add('tpope/vim-fugitive')
   call dein#add('NoahOrberg/vimtask2.vim')
+  call dein#add('edkolev/tmuxline.vim')
   call dein#add('glidenote/memolist.vim')
   call dein#add('majutsushi/tagbar')
   call dein#add('scrooloose/nerdtree')
@@ -142,23 +143,11 @@ endif
 " airline{{{
 set laststatus=2
 set showtabline=2
+let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 let g:airline_powerline_fonts = 1
-let g:airline_theme='laederon'
-"}}}
-" indentLine {{{
-  let g:indentLine_char = '>'
-  let g:indentLine_color_term = 200
-  set list lcs=tab:\>\ 
-" }}}
-" airline{{{
-set laststatus=2
-set showtabline=2
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_powerline_fonts = 1
-let g:airline_theme='laederon'
+let g:airline_theme='tenderplus'
 "}}}
 " tagbar {{{
 nmap <F8> :TagbarToggle<CR>
