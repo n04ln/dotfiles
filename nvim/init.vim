@@ -29,8 +29,6 @@ inoremap <silent> jj <ESC>
 nnoremap <silent><C-w>- s-
 nnoremap <silent><C-w>+ s+
 " *** buffer control
-nnoremap <silent><C-b>p :bprevious<CR>
-nnoremap <silent><C-b>n :bnext<CR>
 nnoremap <silent>bn :bnext<CR>
 nnoremap <silent><C-b>b :b#<CR>
 " *** Terminal
@@ -178,14 +176,15 @@ set splitbelow
 " }}}
 " go-vim {{{
 let g:go_fmt_command = "goimports"
-" cnoremap gr GoRename<space>
-" cnoremap gi GoImport<space>
-" cnoremap gd GoDoc<space>
 noremap <F2> :GoDef<CR>
+noremap <F3> :GoRename<CR>
+noremap <F4> :GoImports<CR>
 " }}}
 " seiya.vim {{{
 let g:seiya_auto_enable=1
 " }}}
 " ctrlp {{{
-noremap <silent><C-b>p :CtrlPBuffer<CR>
+noremap <silent><C-b>p :CtrlP<CR>
+noremap <silent><C-b>b :CtrlPBuffer<CR>
+noremap <silent><C-b>m :CtrlPMRUFiles<CR>
 " }}}
