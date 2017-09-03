@@ -33,19 +33,9 @@ nnoremap <silent><C-b>p :bprevious<CR>
 nnoremap <silent><C-b>n :bnext<CR>
 nnoremap <silent>bn :bnext<CR>
 nnoremap <silent><C-b>b :b#<CR>
-" WANTED :: Smart Solution...
-nnoremap <silent><C-b>1 :b1<CR>
-nnoremap <silent><C-b>2 :b2<CR>
-nnoremap <silent><C-b>3 :b3<CR>
-nnoremap <silent><C-b>4 :b4<CR>
-nnoremap <silent><C-b>5 :b5<CR>
-nnoremap <silent><C-b>6 :b6<CR>
-nnoremap <silent><C-b>7 :b7<CR>
-nnoremap <silent><C-b>8 :b8<CR>
-nnoremap <silent><C-b>9 :b9<CR>
-tnoremap <silent> <ESC> <C-\><C-n>
 " *** Terminal
 nnoremap <silent><C-t>t :terminal<CR>
+tnoremap <silent> <ESC> <C-\><C-n>
 " *** AutoCmd
 " autocmd VimEnter * execute 'TagbarToggle'
 " autocmd VimEnter * execute 'NERDTree'
@@ -68,8 +58,8 @@ if dein#load_state('~/.config/nvim/bundle')
 
   " Add or remove your plugins here:
   call dein#add('neovimhaskell/haskell-vim')
+  call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('NoahOrberg/castOfArrow.vim')
-  call dein#add('NoahOrberg/hello.nvim')
   call dein#add('jacoborus/tender.vim')
   call dein#add('miyakogi/seiya.vim')
   call dein#add('tpope/vim-fugitive')
@@ -186,8 +176,6 @@ let g:quickrun_config = {
 \}
 set splitbelow
 " }}}
-" vimproc {{{
-" }}}
 " go-vim {{{
 let g:go_fmt_command = "goimports"
 " cnoremap gr GoRename<space>
@@ -197,4 +185,7 @@ noremap <F2> :GoDef<CR>
 " }}}
 " seiya.vim {{{
 let g:seiya_auto_enable=1
+" }}}
+" ctrlp {{{
+noremap <silent><C-b>p :CtrlPBuffer<CR>
 " }}}
