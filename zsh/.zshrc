@@ -31,18 +31,58 @@ zplug "voronkovich/mysql.plugin.zsh"
 # other
 zplug "zsh-users/zsh-syntax-highlighting", defer:3
 zplug "zsh-users/zsh-completions"
+zplug "mollifier/anyframe"
 zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
 zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 
 zplug load --verbose
 # }}}
 # fzf {{{
-function select-history() {
-  BUFFER=$(history -n -r 1 | fzf --no-sort --reverse --border --height=20 +m --query "$LBUFFER" --prompt="History > ")
-  CURSOR=$#BUFFER
-}
-zle -N select-history
-bindkey '^r' select-history
+fpath=($HOME/.zsh/anyframe(N-/) $fpath)
+autoload -Uz anyframe-init
+anyframe-init
+ 
+bindkey '^xb' anyframe-widget-cdr
+bindkey '^x^b' anyframe-widget-checkout-git-branch
+ 
+bindkey '^xr' anyframe-widget-execute-history
+bindkey '^x^r' anyframe-widget-execute-history
+ 
+bindkey '^xp' anyframe-widget-put-history
+bindkey '^x^p' anyframe-widget-put-history
+ 
+bindkey '^xg' anyframe-widget-cd-ghq-repository
+bindkey '^x^g' anyframe-widget-cd-ghq-repository
+ 
+bindkey '^xk' anyframe-widget-kill
+bindkey '^x^k' anyframe-widget-kill
+ 
+bindkey '^xi' anyframe-widget-insert-git-branch
+bindkey '^x^i' anyframe-widget-insert-git-branch
+ 
+bindkey '^xf' anyframe-widget-insert-filename
+bindkey '^x^f' anyframe-widget-insert-filename
+
+# function select-history() {
+#   BUFFER=$(history -n -r 1 | fzf --no-sort --reverse --border --height=20 +m --query "$LBUFFER" --prompt="History > ")
+#   CURSOR=$#BUFFER
+# }
+# zle -N select-history
+# bindkey '^r' select-history
+#
+# function git-branch-fzf() {
+#   local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | perl -pne 's{^refs/heads/}{}' | fzf --reverse --border --height=20 --query "$LBUFFER")
+#
+#   if [ -n "$selected_branch" ]; then
+#     BUFFER="git checkout ${selected_branch}"
+#     zle accept-line
+#   fi
+#
+#   zle reset-prompt
+# }
+#
+# zle -N git-branch-fzf
+# bindkey "^b" git-branch-fzf
 # }}}
 # alias {{{
 alias ls='ls -F'
@@ -83,6 +123,7 @@ export PATH=$PYENV_ROOT/shims:$PATH
 source $ZPLUG_HOME/init.zsh
 export PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "
+export FZF_DEFAULT_OPTS="--reverse --height=20"
 # }}}
 # other {{{
 setopt no_beep
