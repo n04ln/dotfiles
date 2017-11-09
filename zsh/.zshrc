@@ -42,47 +42,13 @@ fpath=($HOME/.zsh/anyframe(N-/) $fpath)
 autoload -Uz anyframe-init
 anyframe-init
  
-bindkey '^xb' anyframe-widget-cdr
-bindkey '^x^b' anyframe-widget-checkout-git-branch
- 
-bindkey '^xr' anyframe-widget-execute-history
-bindkey '^x^r' anyframe-widget-execute-history
- 
-bindkey '^xp' anyframe-widget-put-history
-bindkey '^x^p' anyframe-widget-put-history
- 
-bindkey '^xg' anyframe-widget-cd-ghq-repository
-bindkey '^x^g' anyframe-widget-cd-ghq-repository
- 
-bindkey '^xk' anyframe-widget-kill
-bindkey '^x^k' anyframe-widget-kill
- 
-bindkey '^xi' anyframe-widget-insert-git-branch
-bindkey '^x^i' anyframe-widget-insert-git-branch
- 
+bindkey '^b' anyframe-widget-checkout-git-branch
+bindkey '^r' anyframe-widget-execute-history
+bindkey '^p' anyframe-widget-put-history
+bindkey '^k' anyframe-widget-kill
+bindkey '^xb' anyframe-widget-insert-git-branch
 bindkey '^xf' anyframe-widget-insert-filename
-bindkey '^x^f' anyframe-widget-insert-filename
 
-# function select-history() {
-#   BUFFER=$(history -n -r 1 | fzf --no-sort --reverse --border --height=20 +m --query "$LBUFFER" --prompt="History > ")
-#   CURSOR=$#BUFFER
-# }
-# zle -N select-history
-# bindkey '^r' select-history
-#
-# function git-branch-fzf() {
-#   local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | perl -pne 's{^refs/heads/}{}' | fzf --reverse --border --height=20 --query "$LBUFFER")
-#
-#   if [ -n "$selected_branch" ]; then
-#     BUFFER="git checkout ${selected_branch}"
-#     zle accept-line
-#   fi
-#
-#   zle reset-prompt
-# }
-#
-# zle -N git-branch-fzf
-# bindkey "^b" git-branch-fzf
 # }}}
 # alias {{{
 alias ls='ls -F'
@@ -108,7 +74,7 @@ setopt EXTENDED_HISTORY
 export XDG_CONFIG_HOME=$HOME/.config
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export GOPATH=$HOME/go
-# export PATH=/usr/local/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:$GOPATH/bin
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -117,9 +83,12 @@ export PATH=${PATH}:${GOPATH}/bin
 export PATH=$HOME/.protoc/bin:$PATH
 export PATH=$PATH:/Users/noah/.nodebrew/current/bin
 export PATH=$PATH:$HOME/.rbenv/versions/2.4.1/bin
+export PATH=$PATH:$HOME/.bin/z3-4.5.0-x64-osx-10.11.6/bin
 export ZPLUG_HOME=$HOME/.zplug
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/shims:$PATH
+export PATH="$HOME/.exenv/bin:$PATH"
+eval "$(exenv init -)"
 source $ZPLUG_HOME/init.zsh
 export PROMPT="%{${fg[cyan]}%}[%n@%m]%{${reset_color}%} %~
 %# "

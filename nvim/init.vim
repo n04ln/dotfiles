@@ -2,14 +2,14 @@ language C
 syntax on
 filetype plugin indent on
 set background=dark
-colorscheme tender
+colorscheme iceberg 
 " use pyenv python3
 let g:python3_host_prog = $PYENV_ROOT . '/shims/python3'
 " set clipboard=unnamed
 set number
 set hidden
 set cursorline
-" set cursorcolumn
+set cursorcolumn
 set cmdheight=2
 set showmatch
 set backspace=indent,eol,start
@@ -22,6 +22,11 @@ set softtabstop=4
 set foldmethod=marker
 set noswapfile
 set shortmess+=A
+augroup fileTypeIndent
+    autocmd!
+    " autocmd BufNewFile,BufRead *.cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2
+    autocmd BufNewFile,BufRead *.h   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+augroup END
 inoremap <silent><C-j> <C-n>
 tnoremap <silent> jj <C-\><C-n>
 inoremap <silent> jj <ESC>
@@ -37,7 +42,8 @@ tnoremap <silent> <ESC> <C-\><C-n>
 " *** AutoCmd
 " autocmd VimEnter * execute 'TagbarToggle'
 " autocmd VimEnter * execute 'NERDTree'
-
+" *** for development
+au BufRead,BufNewFile *.renata set filetype=renata
 " dein{{{
 if &compatible
   set nocompatible               " Be iMproved
@@ -53,25 +59,30 @@ if dein#load_state('~/.config/nvim/bundle')
   " Let dein manage dein
   " Required:
   call dein#add('~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim')
+    
+  " made by @noah_orberg
+  call dein#add('NoahOrberg/gilbert.nvim', {'rev' : 'develop'}) " master is stable
+  call dein#add('NoahOrberg/renata.nvim')
+  call dein#add('NoahOrberg/vimtask2.vim')
+  call dein#add('NoahOrberg/castOfArrow.vim')
 
   " Add or remove your plugins here:
+  call dein#add('lambdalisue/gina.vim')
   call dein#add('neovimhaskell/haskell-vim')
   call dein#add('ctrlpvim/ctrlp.vim')
-  call dein#add('NoahOrberg/castOfArrow.vim')
   call dein#add('jacoborus/tender.vim')
   call dein#add('miyakogi/seiya.vim')
   call dein#add('tpope/vim-fugitive')
-  call dein#add('NoahOrberg/vimtask2.vim')
   call dein#add('edkolev/tmuxline.vim')
   call dein#add('glidenote/memolist.vim')
   call dein#add('majutsushi/tagbar')
   call dein#add('scrooloose/nerdtree')
-  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
   call dein#add('thinca/vim-quickrun')
   call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/neosnippet-snippets')
   call dein#add('Shougo/deoplete.nvim')
   call dein#add('zchee/deoplete-go', {'build': 'make'})
+  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('Yggdroot/indentLine')
@@ -100,6 +111,7 @@ endif
 " }}}
 " deoplete {{{
 let g:deoplete#enable_at_startup = 1
+set completeopt+=noinsert
 " }}}
 " snippet {{{
 " Plugin key-mappings.
@@ -134,7 +146,7 @@ set showtabline=2
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 let g:airline_theme='tenderplus'
 "}}}
 " tagbar {{{
@@ -184,7 +196,11 @@ noremap <F4> :GoImports<CR>
 let g:seiya_auto_enable=1
 " }}}
 " ctrlp {{{
-noremap <silent><C-b>p :CtrlP<CR>
-noremap <silent><C-b>b :CtrlPBuffer<CR>
-noremap <silent><C-b>m :CtrlPMRUFiles<CR>
+noremap <silent><C-p>p :CtrlP<CR>
+noremap <silent><C-p>b :CtrlPBuffer<CR>
+noremap <silent><C-p>m :CtrlPMRUFiles<CR>
+" }}}
+" gilbert.nvim {{{
+command Gi GiLoad https://gist.github.com/NoahOrberg/90eb0359ff3ed5e9bfae07f8b62b1675
+command GiRenata GiLoad https://gist.github.com/NoahOrberg/c97d0b5c49249477a9ab4d7aad98b382
 " }}}
