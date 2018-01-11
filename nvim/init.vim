@@ -2,10 +2,8 @@ language C
 syntax on
 filetype plugin indent on
 set background=dark
-colorscheme iceberg 
-" use pyenv python3
-let g:python3_host_prog = $PYENV_ROOT . '/shims/python3'
-" set clipboard=unnamed
+colorscheme tender 
+let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
 set number
 set hidden
 set cursorline
@@ -23,27 +21,27 @@ set foldmethod=marker
 set noswapfile
 set shortmess+=A
 augroup fileTypeIndent
-    autocmd!
-    " autocmd BufNewFile,BufRead *.cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2
-    autocmd BufNewFile,BufRead *.h   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd!
+  autocmd BufNewFile,BufRead *.h   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.js   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.vue   setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 inoremap <silent><C-j> <C-n>
 tnoremap <silent> jj <C-\><C-n>
 inoremap <silent> jj <ESC>
-" Window size
+" *** window size
 nnoremap <silent><C-w>- s-
 nnoremap <silent><C-w>+ s+
 " *** buffer control
 nnoremap <silent>bn :bnext<CR>
 nnoremap <silent><C-b>b :b#<CR>
+" *** Tabpage
+nnoremap <silent>tn :tabn<CR>
+nnoremap <silent>tp :tabp<CR>
 " *** Terminal
-nnoremap <silent><C-t>t :terminal<CR>
 tnoremap <silent> <ESC> <C-\><C-n>
-" *** AutoCmd
-" autocmd VimEnter * execute 'TagbarToggle'
-" autocmd VimEnter * execute 'NERDTree'
-" *** for development
-au BufRead,BufNewFile *.renata set filetype=renata
+command Nt sp | terminal
 " dein{{{
 if &compatible
   set nocompatible               " Be iMproved
@@ -62,13 +60,16 @@ if dein#load_state('~/.config/nvim/bundle')
     
   " made by @noah_orberg
   call dein#add('NoahOrberg/gilbert.nvim', {'rev' : 'develop'}) " master is stable
-  call dein#add('NoahOrberg/renata.nvim')
-  call dein#add('NoahOrberg/vimtask2.vim')
+  call dein#add('NoahOrberg/diesirae.nvim')
   call dein#add('NoahOrberg/castOfArrow.vim')
 
   " Add or remove your plugins here:
+  call dein#add('posva/vim-vue')
+  call dein#add('w0rp/ale')
+  call dein#add('tpope/vim-surround')
   call dein#add('lambdalisue/gina.vim')
   call dein#add('neovimhaskell/haskell-vim')
+  call dein#add('carlitux/deoplete-ternjs', { 'build': 'npm install -g tern'})
   call dein#add('ctrlpvim/ctrlp.vim')
   call dein#add('jacoborus/tender.vim')
   call dein#add('miyakogi/seiya.vim')
@@ -135,6 +136,18 @@ if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
 " }}}
+" ALE {{{
+let g:ale_statusline_format = ['E%d', 'W%d', '']
+set statusline+=%{ALEGetStatusLine()}
+let g:ale_fixers = {
+      \ 'javascript': ['eslint'],
+      \ 'python': ['autopep8', 'isort'],
+      \ 'markdown': [
+      \   {buffer, lines -> {'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t', 'read_temporary_file': 1}}
+      \   ],
+      \ }
+let g:ale_fix_on_save = 1
+" }}}
 " indentLine {{{
   let g:indentLine_char = '>'
   let g:indentLine_color_term = 200
@@ -151,9 +164,12 @@ let g:airline_theme='tenderplus'
 "}}}
 " tagbar {{{
 nmap <F8> :TagbarToggle<CR>
+nmap tt :TagbarToggle<CR>
+nmap tc :TagbarCurrentTag<CR>
 let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
 " }}}
 " NERDTree {{{
+let NERDTreeShowHidden=1
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 " }}}
 " quickrun {{{
@@ -197,10 +213,18 @@ let g:seiya_auto_enable=1
 " }}}
 " ctrlp {{{
 noremap <silent><C-p>p :CtrlP<CR>
-noremap <silent><C-p>b :CtrlPBuffer<CR>
-noremap <silent><C-p>m :CtrlPMRUFiles<CR>
+noremap <silent><C-b> :CtrlPBuffer<CR>
+noremap <silent><C-m> :CtrlPMRUFiles<CR>
 " }}}
 " gilbert.nvim {{{
-command Gi GiLoad https://gist.github.com/NoahOrberg/90eb0359ff3ed5e9bfae07f8b62b1675
-command GiRenata GiLoad https://gist.github.com/NoahOrberg/c97d0b5c49249477a9ab4d7aad98b382
+" }}}
+" tern.js {{{
+let g:deoplete#sources#ternjs#filetypes = [
+  \ 'jsx',
+  \ 'javascript.jsx',
+  \ 'vue',
+  \ ]
+" }}}
+" vim-vue {{{
+autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
 " }}}
