@@ -27,8 +27,8 @@ precmd () {
   LOADAVG=$(sysctl -n vm.loadavg | perl -anpe '$_=$F[1]')
   PROMPT='%{${fg[yellow]}%}[%n@%m] %{${fg[blue]}%} %~ ($LOADAVG) %{$reset_color%}
 %% '
+  RPROMPT='%{${fg[green]}%}${vcs_info_msg_0_}%{$reset_color%}'
 }
-RPROMPT='%{${fg[green]}%}${vcs_info_msg_0_}%{$reset_color%}'
 # }}}
 # zplug {{{
 source ~/.zplug/init.zsh
@@ -53,7 +53,8 @@ zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 zplug load --verbose
 # }}}
 # auto-suggestions {{{
-bindkey '^e' autosuggest-accept
+bindkey '^a' autosuggest-accept
+bindkey '^e' autosuggest-execute
 # }}}
 # fzf {{{
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -77,7 +78,9 @@ alias rm='rm -i'
 # git
 alias ga='git add .'
 alias gc='git commit'
+alias gs='git status'
 alias gp='git push'
+alias gd='git diff'
 
 alias emacs='emacs -nw'
 # alias ghc='stack ghc'
