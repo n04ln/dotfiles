@@ -64,7 +64,6 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('NoahOrberg/gilbert.nvim', {'rev' : 'develop'}) " master is stable
   call dein#add('NoahOrberg/diesirae.nvim', {'rev': 'develop'})
   call dein#add('NoahOrberg/castOfArrow.vim')
-  call dein#add('NoahOrberg/helloworld.nvim')
   call dein#add('NoahOrberg/vivid.vim')
   call dein#add('NoahOrberg/nimvle.nvim')
 
@@ -224,18 +223,6 @@ noremap <silent><C-p>p :CtrlP<CR>
 noremap <silent><C-b> :CtrlPBuffer<CR>
 noremap <silent><C-m> :CtrlPMRUFiles<CR>
 " }}}
-" gilbert.nvim {{{
-" }}}
-" tern.js {{{
-let g:deoplete#sources#ternjs#filetypes = [
-  \ 'jsx',
-  \ 'javascript.jsx',
-  \ 'vue',
-  \ ]
-" }}}
-" vim-vue {{{
-autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
-" }}}
 " easymotion {{{
 let g:EasyMotion_smartcase = 1
 function! s:config_easyfuzzymotion(...) abort
@@ -249,6 +236,5 @@ function! s:config_easyfuzzymotion(...) abort
 endfunction
 noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 
-map  / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
+map  <Space>/ <Plug>(easymotion-tn)
 " }}}

@@ -15,7 +15,7 @@ export LC_ALL='ja_JP.UTF-8'
 # アプリケーションの環境変数設定
 source $HOME/env.zsh
 
-# show branch name in prompt{{{
+# prompt {{{
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%{'${fg[red]}'%}[%s %b] %{'$reset_color'%}'
@@ -25,9 +25,10 @@ setopt prompt_subst
 precmd () {
   LANG=en_US.UTF-8 vcs_info
   LOADAVG=$(sysctl -n vm.loadavg | perl -anpe '$_=$F[1]')
-  PROMPT='${vcs_info_msg_0_}%{${fg[yellow]}%}%* ($LOADAVG) %%%{$reset_color%} '
+  PROMPT='%{${fg[yellow]}%}[%n@%m] %{${fg[blue]}%} %~ ($LOADAVG) %{$reset_color%}
+%% '
 }
-RPROMPT='%{${fg[green]}%}%/%{$reset_color%}'
+RPROMPT='%{${fg[green]}%}${vcs_info_msg_0_}%{$reset_color%}'
 # }}}
 # zplug {{{
 source ~/.zplug/init.zsh

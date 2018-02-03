@@ -18,4 +18,4 @@ $ chmod u+x ./install.sh
 $ ./install.sh
 ```
 
-and use `uradotfiles` (priv rrepository)
+and use [uradotfiles](https://github.com/NoahOrberg/uradotfiles) (priv repository)
