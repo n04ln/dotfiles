@@ -2,7 +2,7 @@ language C
 syntax on
 filetype plugin indent on
 set background=dark
-colorscheme tender 
+colorscheme tender
 let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
 set number
 set hidden
@@ -58,43 +58,63 @@ if dein#load_state('~/.config/nvim/bundle')
   " Required:
   call dein#add('~/.config/nvim/bundle/repos/github.com/Shougo/dein.vim')
     
+  " Add or remove your plugins here:
+
   " made by @noah_orberg
   call dein#add('NoahOrberg/gilbert.nvim', {'rev' : 'develop'}) " master is stable
-  call dein#add('NoahOrberg/diesirae.nvim')
+  call dein#add('NoahOrberg/diesirae.nvim', {'rev': 'develop'})
   call dein#add('NoahOrberg/castOfArrow.vim')
+  call dein#add('NoahOrberg/helloworld.nvim')
+  call dein#add('NoahOrberg/vivid.vim')
+  call dein#add('NoahOrberg/nimvle.nvim')
 
-  " Add or remove your plugins here:
-  call dein#add('posva/vim-vue')
-  call dein#add('w0rp/ale')
-  call dein#add('tpope/vim-surround')
+  " js and html and CSS
+  call dein#add('mattn/emmet-vim')
+
+  " golang
+  call dein#add('fatih/vim-go')
+  call dein#add('zchee/deoplete-go', {'build': 'make'})
+  call dein#add('vim-jp/vim-go-extra')
+  call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
+
+  " git
   call dein#add('lambdalisue/gina.vim')
-  call dein#add('neovimhaskell/haskell-vim')
-  call dein#add('carlitux/deoplete-ternjs', { 'build': 'npm install -g tern'})
-  call dein#add('ctrlpvim/ctrlp.vim')
-  call dein#add('jacoborus/tender.vim')
-  call dein#add('miyakogi/seiya.vim')
   call dein#add('tpope/vim-fugitive')
-  call dein#add('edkolev/tmuxline.vim')
-  call dein#add('glidenote/memolist.vim')
-  call dein#add('majutsushi/tagbar')
+
+  " haskell
+  call dein#add('neovimhaskell/haskell-vim')
+
+  " filer
   call dein#add('scrooloose/nerdtree')
-  call dein#add('thinca/vim-quickrun')
+  call dein#add('ctrlpvim/ctrlp.vim')
+
+  " looks
+  call dein#add('vim-airline/vim-airline')
+  call dein#add('vim-airline/vim-airline-themes')
+  call dein#add('jacoborus/tender.vim')
+  call dein#add('edkolev/tmuxline.vim')
+  call dein#add('miyakogi/seiya.vim')
+  call dein#add('Yggdroot/indentLine')
+
+  " high speed edit
+  call dein#add('easymotion/vim-easymotion')
+  call dein#add('haya14busa/incsearch.vim')
+  call dein#add('haya14busa/incsearch-fuzzy.vim')
+  call dein#add('haya14busa/incsearch-easymotion.vim')
   call dein#add('Shougo/neosnippet.vim')
   call dein#add('Shougo/neosnippet-snippets')
   call dein#add('Shougo/deoplete.nvim')
-  call dein#add('zchee/deoplete-go', {'build': 'make'})
   call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
-  call dein#add('vim-airline/vim-airline')
-  call dein#add('vim-airline/vim-airline-themes')
-  call dein#add('Yggdroot/indentLine')
-  call dein#add('tomtom/tcomment_vim')
+
+  "other
+  call dein#add('glidenote/memolist.vim')
   call dein#add('cohama/lexima.vim')
-  call dein#add('fatih/vim-go')
-  call dein#add('vim-jp/vim-go-extra')
-  call dein#add('mattn/emmet-vim')
-  call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
+  call dein#add('majutsushi/tagbar')
+  call dein#add('thinca/vim-quickrun')
+  call dein#add('tomtom/tcomment_vim')
+  call dein#add('vim-jp/vital.vim')
   " You can specify revision/branch/tag.
-  call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+  " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
   " Required:
   call dein#end()
@@ -135,18 +155,6 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
 if has('conceal')
   set conceallevel=2 concealcursor=niv
 endif
-" }}}
-" ALE {{{
-let g:ale_statusline_format = ['E%d', 'W%d', '']
-set statusline+=%{ALEGetStatusLine()}
-let g:ale_fixers = {
-      \ 'javascript': ['eslint'],
-      \ 'python': ['autopep8', 'isort'],
-      \ 'markdown': [
-      \   {buffer, lines -> {'command': 'textlint -c ~/.config/textlintrc -o /dev/null --fix --no-color --quiet %t', 'read_temporary_file': 1}}
-      \   ],
-      \ }
-let g:ale_fix_on_save = 1
 " }}}
 " indentLine {{{
   let g:indentLine_char = '>'
@@ -227,4 +235,20 @@ let g:deoplete#sources#ternjs#filetypes = [
 " }}}
 " vim-vue {{{
 autocmd BufRead,BufNewFile *.vue setlocal filetype=vue.html.javascript.css
+" }}}
+" easymotion {{{
+let g:EasyMotion_smartcase = 1
+function! s:config_easyfuzzymotion(...) abort
+  return extend(copy({
+  \   'converters': [incsearch#config#fuzzyword#converter()],
+  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
+  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \   'is_stay': 1
+  \ }), get(a:, 1, {}))
+endfunction
+noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
+
+map  / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
 " }}}
