@@ -56,6 +56,18 @@ zplug load --verbose
 bindkey '^a' autosuggest-accept
 bindkey '^e' autosuggest-execute
 # }}}
+# Docker fzf (customized) {{{
+dstop() {
+    selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
+    docker stop $selected
+}
+drm() {
+    selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
+    docker rm -f $selected
+}
+zle -N dstop
+zle -N drm
+# }}}
 # fzf {{{
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 fpath=($HOME/.zsh/anyframe(N-/) $fpath)
@@ -69,8 +81,77 @@ bindkey '^k' anyframe-widget-kill
 bindkey '^xb' anyframe-widget-insert-git-branch
 bindkey '^f' anyframe-widget-insert-filename
 
+bindkey '^ds' dstop
+bindkey '^dr' drm
+
+# }}}
+# for Docker {{{
+_check_to_exec_comand() {
+    read yn\?${1}
+    case "${yn}" in
+        [Yy] )
+            echo "t"
+            ;;
+        *)
+            echo "f"
+    esac
+}
+
+_drmall() {
+    if [ `echo ${1} | wc -w` -eq 0 ]; then
+        return
+    fi
+
+    echo ${1} | while read item
+    do
+        docker rm -f ${item}
+    done
+}
+drmall() {
+    ok=`_check_to_exec_comand "Do you really execute drmall? (it means docker rm -f all-containers) [Y/n]"`
+    if [ ${ok} = "f" ]; then
+        echo "abort."
+        return
+    fi
+
+    ok=`_check_to_exec_comand "All container is already stoped? [Y/n]"`
+    if [ ${ok} = "f" ]; then
+        echo "abort."
+        return
+    fi
+
+    if [ `docker ps | sed 1d | wc -l` -ne 0 ]; then
+        echo "does not stopped all containers. abort."
+        return
+    fi
+
+    all=`docker ps -a | sed 1d | awk '{print $1}'`
+    _drmall ${all}
+}
+
+_dstopall() {
+    if [ `echo ${1} | wc -w` -eq 0 ]; then
+        return
+    fi
+
+    echo ${1} | while read item
+    do
+        docker stop ${item}
+    done
+}
+dstopall() {
+    ok=`_check_to_exec_comand "Do you really execute dstopall? (it means docker stop all-active-container) [Y/n]"`
+    if [ ${ok} = "f" ]; then
+        echo "abort."
+        return
+    fi
+
+    all=`docker ps | sed 1d | awk '{print $1}'`
+    _dstopall ${all}
+}
 # }}}
 # alias {{{
+alias s='source ~/.zshrc'
 alias ls='ls -F'
 alias la='ls -la'
 alias rm='rm -i'
@@ -80,9 +161,9 @@ alias ga='git add .'
 alias gc='git commit'
 alias gs='git status'
 alias gp='git push'
+alias gP='git pull'
 alias gd='git diff'
 
-alias emacs='emacs -nw'
 # alias ghc='stack ghc'
 # alias ghci='stack ghci'
 # alias runghc='stack runghc'
@@ -112,7 +193,6 @@ export PKG_CONFIG_PATH=/usr/local/lib
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/go
-export PATH=/usr/local/bin:$PATH
 export PATH=$PATH:$GOPATH/bin
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -125,6 +205,7 @@ export PATH=$PATH:$HOME/.bin/z3-4.5.0-x64-osx-10.11.6/bin
 export PYENV_ROOT=$HOME/.pyenv
 export PATH=$PYENV_ROOT/shims:$PATH
 export PATH=$PYENV_ROOT/versions/3.6.1/bin:$PATH
+export PATH=/usr/local/bin:$PATH
 
 # fzf
 export FZF_DEFAULT_OPTS="--reverse --height=20"
