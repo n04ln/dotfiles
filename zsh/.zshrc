@@ -90,10 +90,10 @@ _check_to_exec_comand() {
     read yn\?${1}
     case "${yn}" in
         [Yy] )
-            echo "t"
+            return 1 # execute: value is false
             ;;
         *)
-            echo "f"
+            return 0 # abort: value is true
     esac
 }
 
@@ -108,14 +108,12 @@ _drmall() {
     done
 }
 drmall() {
-    ok=`_check_to_exec_comand "Do you really execute drmall? (it means docker rm -f all-containers) [Y/n]"`
-    if [ ${ok} = "f" ]; then
+    if _check_to_exec_comand "Do you really execute drmall? (it means docker rm -f all-containers) [Y/n]" ; then
         echo "abort."
         return
     fi
 
-    ok=`_check_to_exec_comand "All container is already stoped? [Y/n]"`
-    if [ ${ok} = "f" ]; then
+    if _check_to_exec_comand "All container is already stoped? [Y/n]" ; then
         echo "abort."
         return
     fi
@@ -140,8 +138,7 @@ _dstopall() {
     done
 }
 dstopall() {
-    ok=`_check_to_exec_comand "Do you really execute dstopall? (it means docker stop all-active-container) [Y/n]"`
-    if [ ${ok} = "f" ]; then
+    if _check_to_exec_comand "Do you really execute dstopall? (it means docker stop all-active-container) [Y/n]" ; then
         echo "abort."
         return
     fi
