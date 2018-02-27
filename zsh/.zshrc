@@ -59,14 +59,47 @@ bindkey '^e' autosuggest-execute
 # Docker fzf (customized) {{{
 dstop() {
     selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
+    if [ `echo ${selected} | wc -w` -eq 0 ]; then
+        return
+    fi
+
     docker stop $selected
 }
 drm() {
     selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
+    if [ `echo ${selected} | wc -w` -eq 0 ]; then
+        return
+    fi
+
     docker rm -f $selected
+}
+drmi() {
+    selected=`docker images | sed 1d | fzf -m | awk '{print $3}'`
+    if [ `echo ${selected} | wc -w` -eq 0 ]; then
+        return
+    fi
+
+    docker rmi -f $selected
+}
+dsh() {
+    selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
+    if [ `echo ${selected} | wc -w` -eq 0 ]; then
+        return
+    fi
+
+    docker exec -it $selected sh
+}
+dlogs() {
+    selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
+    if [ `echo ${selected} | wc -w` -eq 0 ]; then
+        return
+    fi
+
+    docker logs $selected
 }
 zle -N dstop
 zle -N drm
+zle -N drmi
 # }}}
 # fzf {{{
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -81,8 +114,9 @@ bindkey '^k' anyframe-widget-kill
 bindkey '^xb' anyframe-widget-insert-git-branch
 bindkey '^f' anyframe-widget-insert-filename
 
-bindkey '^ds' dstop
-bindkey '^dr' drm
+bindkey '^ws' dstop
+bindkey '^wr' drm
+bindkey '^wi' drmi
 
 # }}}
 # for Docker {{{
@@ -152,6 +186,11 @@ alias s='source ~/.zshrc'
 alias ls='ls -F'
 alias la='ls -la'
 alias rm='rm -i'
+
+# docker
+alias dps='docker ps'
+alias dpsa='docker ps -a'
+alias dim='docker images'
 
 # git
 alias ga='git add .'
