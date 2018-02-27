@@ -1,9 +1,11 @@
 language C
 syntax on
+set runtimepath+=/usr/local/share/nvim/runtime
 filetype plugin indent on
 set background=dark
 colorscheme tender
-let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
+let g:python3_host_prog = '/usr/local/bin/python3' " use pyenv python3
+" let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
 set number
 set hidden
 set cursorline
@@ -66,6 +68,7 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('NoahOrberg/castOfArrow.vim')
   call dein#add('NoahOrberg/vivid.vim')
   call dein#add('NoahOrberg/nimvle.nvim')
+  call dein#add('NoahOrberg/cc.nvim')
 
   " js and html and CSS
   call dein#add('mattn/emmet-vim')
@@ -112,6 +115,7 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('thinca/vim-quickrun')
   call dein#add('tomtom/tcomment_vim')
   call dein#add('vim-jp/vital.vim')
+  call dein#add('ryanoasis/vim-devicons')
   " You can specify revision/branch/tag.
   " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
