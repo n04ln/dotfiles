@@ -10,6 +10,7 @@ if `which brew 2>&1 > /dev/null`; then
 else
     echo "brew: installing..."
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    echo "brew: done."
 fi
 #          __  __   
 #  .-----.|__||  |_ 
@@ -21,6 +22,7 @@ if `which git 2>&1 > /dev/null`; then
 else
     echo "git: installing..."
     brew install git
+    echo "git: done."
 fi
 #                 __               
 #  .-----..-----.|  |.--.--..-----.
@@ -31,10 +33,11 @@ if `which zplug 2>&1 > /dev/null`; then
     echo "zplug: already installed"
 else
     echo "zplug: installing..."
-    export ZPLUG_HOME=$HOME/.zplug
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
-    source $ZPLUG_HOME/init.zsh
+    echo "zplug: done."
 fi
+export ZPLUG_HOME=$HOME/.zplug
+source $ZPLUG_HOME/init.zsh
 #    ___          ___ 
 #  .'  _|.-----..'  _|
 #  |   _||-- __||   _|
@@ -46,7 +49,10 @@ else
     echo "fzf: installing..."
     git clone https://github.com/junegunn/fzf.git $HOME/.fzf
     $HOME/.fzf/install
+    echo "fzf: done."
 fi
+export FZF_DEFAULT_OPTS="--reverse --height=20"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # }}}
 # keybind :vim {{{
 #          __                                    __        
@@ -171,7 +177,6 @@ zle -N drmi
 #  |   _||-- __||   _|    |  _  ||  ||     ||  _  ||______||    < |  -__||  |  |
 #  |__|  |_____||__|      |_____||__||__|__||_____|        |__|__||_____||___  |
 #                                                                        |_____|
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 fpath=($HOME/.zsh/anyframe(N-/) $fpath)
 autoload -Uz anyframe-init
 anyframe-init
@@ -323,8 +328,6 @@ export PATH=$PYENV_ROOT/shims:$PATH
 # export PATH=$HOME/.rbenv/versions/2.4.1/bin:$PATH
 # export PATH=$HOME/.bin/z3-4.5.0-x64-osx-10.11.6/bin:$PATH
 
-# fzf
-export FZF_DEFAULT_OPTS="--reverse --height=20"
 # }}}
 # other {{{
 #          __    __                 
