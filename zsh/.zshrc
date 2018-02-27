@@ -5,9 +5,10 @@ export LANG=ja_JP.UTF-8
 #  |  _  ||   _||  -__||  |  |  |
 #  |_____||__|  |_____||________|
 #                                
-if [ -n `which brew 2>&1 > /dev/null` ]; then
+if `which brew 2>&1 > /dev/null`; then
     echo "brew: already installed"
 else
+    echo "brew: installing..."
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
 #          __  __   
@@ -15,9 +16,10 @@ fi
 #  |  _  ||  ||   _|
 #  |___  ||__||____|
 #  |_____|          
-if [ -n `which git 2>&1 > /dev/null` ]; then
+if `which git 2>&1 > /dev/null`; then
     echo "git: already installed"
 else
+    echo "git: installing..."
     brew install git
 fi
 #                 __               
@@ -25,9 +27,10 @@ fi
 #  |-- __||  _  ||  ||  |  ||  _  |
 #  |_____||   __||__||_____||___  |
 #         |__|              |_____|
-if [ -n `which zplug 2>&1 > /dev/null` ]; then
+if `which zplug 2>&1 > /dev/null`; then
     echo "zplug: already installed"
 else
+    echo "zplug: installing..."
     export ZPLUG_HOME=$HOME/.zplug
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
     source $ZPLUG_HOME/init.zsh
@@ -37,9 +40,10 @@ fi
 #  |   _||-- __||   _|
 #  |__|  |_____||__|  
 #                     
-if [ -n `which fzf 2>&1 > /dev/null` ]; then
+if `which fzf 2>&1 > /dev/null`; then
     echo "fzf: already installed"
 else
+    echo "fzf: installing..."
     git clone https://github.com/junegunn/fzf.git $HOME/.fzf
     $HOME/.fzf/install
 fi
