@@ -29,6 +29,8 @@ fi
 #  |-- __||  _  ||  ||  |  ||  _  |
 #  |_____||   __||__||_____||___  |
 #         |__|              |_____|
+export ZPLUG_HOME=$HOME/.zplug
+[ -f $ZPLUG_HOME/init.zsh ] && source $ZPLUG_HOME/init.zsh
 if `which zplug 2>&1 > /dev/null`; then
     echo "zplug: already installed"
 else
@@ -36,8 +38,6 @@ else
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
     echo "zplug: done."
 fi
-export ZPLUG_HOME=$HOME/.zplug
-source $ZPLUG_HOME/init.zsh
 #    ___          ___ 
 #  .'  _|.-----..'  _|
 #  |   _||-- __||   _|
