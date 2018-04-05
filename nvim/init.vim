@@ -4,8 +4,9 @@ set runtimepath+=/usr/local/share/nvim/runtime
 filetype plugin indent on
 set background=dark
 colorscheme tender
-let g:python3_host_prog = '/usr/local/bin/python3' " use pyenv python3
-" let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
+" let g:python3_host_prog = '/usr/local/bin/python3' " use pyenv python3
+let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
+set relativenumber
 set number
 set hidden
 set cursorline
@@ -94,12 +95,12 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('jacoborus/tender.vim')
-  call dein#add('edkolev/tmuxline.vim')
-  call dein#add('miyakogi/seiya.vim')
+  " call dein#add('edkolev/tmuxline.vim')
+  " call dein#add('miyakogi/seiya.vim')
   call dein#add('Yggdroot/indentLine')
 
   " high speed edit
-  call dein#add('easymotion/vim-easymotion')
+  call dein#add('easymotion/vim-easymotion', { 'rev' : 'v3.0.1' })
   call dein#add('haya14busa/incsearch.vim')
   call dein#add('haya14busa/incsearch-fuzzy.vim')
   call dein#add('haya14busa/incsearch-easymotion.vim')
@@ -171,7 +172,7 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
 " let g:airline_powerline_fonts = 1
-let g:airline_theme='tenderplus'
+" let g:airline_theme='tenderplus'
 "}}}
 " tagbar {{{
 nmap <F8> :TagbarToggle<CR>
@@ -229,6 +230,24 @@ noremap <silent><C-m> :CtrlPMRUFiles<CR>
 " }}}
 " easymotion {{{
 let g:EasyMotion_smartcase = 1
+let g:EasyMotion_do_mapping = 0
+
+" <Leader>f{char} to move to {char}
+map  <Leader>f <Plug>(easymotion-bd-f)
+nmap <Leader>f <Plug>(easymotion-overwin-f)
+
+" s{char}{char} to move to {char}{char}
+nmap s <Plug>(easymotion-overwin-f2)
+vmap s <Plug>(easymotion-bd-f2)
+
+" Move to line
+map <Leader>L <Plug>(easymotion-bd-jk)
+nmap <Leader>L <Plug>(easymotion-overwin-line)
+
+" Move to word
+map  <Leader>w <Plug>(easymotion-bd-w)
+" nmap <Leader>w <Plug>(easymotion-overwin-w) " 使えない
+"
 function! s:config_easyfuzzymotion(...) abort
   return extend(copy({
   \   'converters': [incsearch#config#fuzzyword#converter()],
@@ -238,7 +257,6 @@ function! s:config_easyfuzzymotion(...) abort
   \   'is_stay': 1
   \ }), get(a:, 1, {}))
 endfunction
-noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 
-map  <Space>/ <Plug>(easymotion-tn)
+noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 " }}}
