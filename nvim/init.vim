@@ -1,12 +1,28 @@
-language C
-syntax on
+" path setting {{{
+"                  __  __  
+"     ____  ____ _/ /_/ /_ 
+"    / __ \/ __ `/ __/ __ \
+"   / /_/ / /_/ / /_/ / / /
+"  / .___/\__,_/\__/_/ /_/ 
+" /_/                      
 set runtimepath+=/usr/local/share/nvim/runtime
-filetype plugin indent on
-set background=dark
-colorscheme tender
 " let g:python3_host_prog = '/usr/local/bin/python3' " use pyenv python3
 let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
+" }}}
+" other {{{
+"          __  __             
+"   ____  / /_/ /_  ___  _____
+"  / __ \/ __/ __ \/ _ \/ ___/
+" / /_/ / /_/ / / /  __/ /    
+" \____/\__/_/ /_/\___/_/     
+"                             
+language C
+syntax on
+filetype plugin indent on
+" set background=dark
+colorscheme tender
 set relativenumber
+set scrolloff=3
 set number
 set hidden
 set cursorline
@@ -23,6 +39,18 @@ set softtabstop=4
 set foldmethod=marker
 set noswapfile
 set shortmess+=A
+" }}}
+" indent width {{{
+"     ____          __           __              _     ____  __                               
+"    /  _/___  ____/ /__  ____  / /_   _      __(_)___/ / /_/ /_                              
+"    / // __ \/ __  / _ \/ __ \/ __/  | | /| / / / __  / __/ __ \                             
+"  _/ // / / / /_/ /  __/ / / / /_    | |/ |/ / / /_/ / /_/ / / /                             
+" /___/_/ /_/\__,_/\_____/ /_/\__/    |__/|____/\__,_____/_/ /_/                              
+"             ____  / __/  ___  ____ ______/ /_     / /___ _____  ____ ___  ______ _____ ____ 
+"            / __ \/ /_   / _ \/ __ `/ ___/ __ \   / / __ `/ __ \/ __ `/ / / / __ `/ __ `/ _ \
+"           / /_/ / __/  /  __/ /_/ / /__/ / / /  / / /_/ / / / / /_/ / /_/ / /_/ / /_/ /  __/
+"           \____/_/     \___/\__,_/\___/_/ /_/  /_/\__,_/_/ /_/\__, /\__,_/\__,_/\__, /\___/ 
+"                                                              /____/            /____/       
 augroup fileTypeIndent
   autocmd!
   autocmd BufNewFile,BufRead *.h   setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -30,22 +58,108 @@ augroup fileTypeIndent
   autocmd BufNewFile,BufRead *.js   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.vue   setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
+" }}}
+" terminal mode {{{
+"    __                      _             __                       __   
+"   / /____  _________ ___  (_)___  ____ _/ /  ____ ___  ____  ____/ /__ 
+"  / __/ _ \/ ___/ __ `__ \/ / __ \/ __ `/ /  / __ `__ \/ __ \/ __  / _ \
+" / /_/  __/ /  / / / / / / / / / / /_/ / /  / / / / / / /_/ / /_/ /  __/
+" \__/\___/_/  /_/ /_/ /_/_/_/ /_/\__,_/_/  /_/ /_/ /_/\____/\__,_/\___/ 
+"                                                                        
 inoremap <silent><C-j> <C-n>
 tnoremap <silent> jj <C-\><C-n>
 inoremap <silent> jj <ESC>
-" *** window size
-nnoremap <silent><C-w>- s-
-nnoremap <silent><C-w>+ s+
-" *** buffer control
-nnoremap <silent>bn :bnext<CR>
-nnoremap <silent><C-b>b :b#<CR>
-" *** Tabpage
-nnoremap <silent>tn :tabn<CR>
-nnoremap <silent>tp :tabp<CR>
-" *** Terminal
 tnoremap <silent> <ESC> <C-\><C-n>
 command Nt sp | terminal
+" }}}
+" window {{{
+"            _           __             
+"  _      __(_)___  ____/ /___ _      __
+" | | /| / / / __ \/ __  / __ \ | /| / /
+" | |/ |/ / / / / / /_/ / /_/ / |/ |/ / 
+" |__/|__/_/_/ /_/\__,_/\____/|__/|__/  
+"                                       
+nnoremap <silent><C-w>- s-
+nnoremap <silent><C-w>+ s+
+" }}}
+" buffer {{{
+"     __          ________         
+"    / /_  __  __/ __/ __/__  _____
+"   / __ \/ / / / /_/ /_/ _ \/ ___/
+"  / /_/ / /_/ / __/ __/  __/ /    
+" /_.___/\__,_/_/ /_/  \___/_/     
+"                                  
+nnoremap <silent>bn :bnext<CR>
+nnoremap <silent><C-b>b :b#<CR>
+" }}}
+" tabpage {{{
+"    __        __                         
+"   / /_____ _/ /_  ____  ____ _____ ____ 
+"  / __/ __ `/ __ \/ __ \/ __ `/ __ `/ _ \
+" / /_/ /_/ / /_/ / /_/ / /_/ / /_/ /  __/
+" \__/\__,_/_.___/ .___/\__,_/\__, /\___/ 
+"               /_/          /____/       
+nnoremap <silent>tn :tabn<CR>
+nnoremap <silent>tp :tabp<CR>
+" }}}
+" key mapping {{{
+"     __                                             _            
+"    / /_____  __  __   ____ ___  ____ _____  ____  (_)___  ____ _
+"   / //_/ _ \/ / / /  / __ `__ \/ __ `/ __ \/ __ \/ / __ \/ __ `/
+"  / ,< /  __/ /_/ /  / / / / / / /_/ / /_/ / /_/ / / / / / /_/ / 
+" /_/|_|\___/\__, /  /_/ /_/ /_/\__,_/ .___/ .___/_/_/ /_/\__, /  
+"           /____/                  /_/   /_/            /____/   
+"
+"  trash operate (not in any register)
+nnoremap D "_d
+
+"  put current filename
+nnoremap FF "%p
+
+"  paste text in clip board
+nnoremap <C-c>p "*p
+
+"  copy text to clip board (in only visual mode)
+vnoremap <C-c>c "*y
+
+"  encode base64
+function! g:Encode_base64() 
+    " NOTE: b レジスタを使用
+    " TODO: `base64` コマンドがないときに備える
+    silent normal gv"by
+    try
+        let @b = system("echo '" . @b . "' | base64")
+    catch
+        echomsg 'g:Encode_base64(): ' . v:exception
+    endtry
+    silent normal "bp
+endfunction
+"  put encoded-base64 text bellow
+vnoremap <silent><C-b>e :call g:Encode_base64()<CR>
+
+"  decode base64
+function! g:Decode_base64() 
+    " NOTE: b レジスタを使用
+    " TODO: `base64` コマンドがないときに備える
+    silent normal gv"by
+    try
+        let @b = system("echo '" . @b . "' | base64 --decode")
+    catch
+        echomsg 'g:Decode_base64(): ' . v:exception
+    endtry
+    silent normal "bp
+endfunction
+"  put decoded-base64 text bellow
+vnoremap <silent><C-b>d :call g:Decode_base64()<CR>
+" }}}
+" // each plugin setting
 " dein{{{
+"        __     _             _         
+"   ____/ /__  (_)___  _   __(_)___ ___ 
+"  / __  / _ \/ / __ \| | / / / __ `__ \
+" / /_/ /  __/ / / / /| |/ / / / / / / /
+" \__,_/\___/_/_/ /_(_)___/_/_/ /_/ /_/ 
+"                                       
 if &compatible
   set nocompatible               " Be iMproved
 endif
@@ -135,10 +249,22 @@ if dein#check_install()
 endif
 " }}}
 " deoplete {{{
+"        __                 __     __                    _         
+"   ____/ /__  ____  ____  / /__  / /____    ____ _   __(_)___ ___ 
+"  / __  / _ \/ __ \/ __ \/ / _ \/ __/ _ \  / __ \ | / / / __ `__ \
+" / /_/ /  __/ /_/ / /_/ / /  __/ /_/  __/ / / / / |/ / / / / / / /
+" \__,_/\___/\____/ .___/_/\___/\__/\___(_)_/ /_/|___/_/_/ /_/ /_/ 
+"                /_/                                               
 let g:deoplete#enable_at_startup = 1
 set completeopt+=noinsert
 " }}}
 " snippet {{{
+"                                 _                  __        _         
+"    ____  ___  ____  _________  (_)___  ____  ___  / /__   __(_)___ ___ 
+"   / __ \/ _ \/ __ \/ ___/ __ \/ / __ \/ __ \/ _ \/ __/ | / / / __ `__ \
+"  / / / /  __/ /_/ (__  ) / / / / /_/ / /_/ /  __/ /__| |/ / / / / / / /
+" /_/ /_/\___/\____/____/_/ /_/_/ .___/ .___/\___/\__(_)___/_/_/ /_/ /_/ 
+"                              /_/   /_/                                 
 " Plugin key-mappings.
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 imap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -161,11 +287,23 @@ if has('conceal')
 endif
 " }}}
 " indentLine {{{
-  let g:indentLine_char = '>'
-  let g:indentLine_color_term = 200
-  set list lcs=tab:\>\ 
+"     _           __           __  __    _          
+"    (_)___  ____/ /__  ____  / /_/ /   (_)___  ___ 
+"   / / __ \/ __  / _ \/ __ \/ __/ /   / / __ \/ _ \
+"  / / / / / /_/ /  __/ / / / /_/ /___/ / / / /  __/
+" /_/_/ /_/\__,_/\___/_/ /_/\__/_____/_/_/ /_/\___/ 
+"                                                   
+let g:indentLine_char = '>'
+let g:indentLine_color_term = 200
+set list lcs=tab:\>\ 
 " }}}
-" airline{{{
+" airline {{{
+"         _                       _      ___          
+"  _   __(_)___ ___        ____ _(_)____/ (_)___  ___ 
+" | | / / / __ `__ \______/ __ `/ / ___/ / / __ \/ _ \
+" | |/ / / / / / / /_____/ /_/ / / /  / / / / / /  __/
+" |___/_/_/ /_/ /_/      \__,_/_/_/  /_/_/_/ /_/\___/ 
+"                                                     
 set laststatus=2
 set showtabline=2
 let g:airline#extensions#branch#enabled = 1
@@ -175,16 +313,34 @@ let g:airline#extensions#tabline#buffer_idx_mode = 1
 " let g:airline_theme='tenderplus'
 "}}}
 " tagbar {{{
+"    __              __              
+"   / /_____ _____ _/ /_  ____ ______
+"  / __/ __ `/ __ `/ __ \/ __ `/ ___/
+" / /_/ /_/ / /_/ / /_/ / /_/ / /    
+" \__/\__,_/\__, /_.___/\__,_/_/     
+"          /____/                    
 nmap <F8> :TagbarToggle<CR>
 nmap tt :TagbarToggle<CR>
 nmap tc :TagbarCurrentTag<CR>
 let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
 " }}}
 " NERDTree {{{
+"     _   ____________  ____  ______             
+"    / | / / ____/ __ \/ __ \/_  __/_______  ___ 
+"   /  |/ / __/ / /_/ / / / / / / / ___/ _ \/ _ \
+"  / /|  / /___/ _, _/ /_/ / / / / /  /  __/  __/
+" /_/ |_/_____/_/ |_/_____/ /_/ /_/   \___/\___/ 
+"                                                
 let NERDTreeShowHidden=1
 nnoremap <silent><C-e> :NERDTreeToggle<CR>
 " }}}
 " quickrun {{{
+"         _                             _      __                  
+"  _   __(_)___ ___        ____ ___  __(_)____/ /_________  ______ 
+" | | / / / __ `__ \______/ __ `/ / / / / ___/ //_/ ___/ / / / __ \
+" | |/ / / / / / / /_____/ /_/ / /_/ / / /__/ ,< / /  / /_/ / / / /
+" |___/_/_/ /_/ /_/      \__, /\__,_/_/\___/_/|_/_/   \__,_/_/ /_/ 
+"                          /_/                                     
 nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
 autocmd BufRead,BufNewFile *_test.go set filetype=go.test
 let g:quickrun_config = {
@@ -214,21 +370,45 @@ let g:quickrun_config = {
 \}
 set splitbelow
 " }}}
-" go-vim {{{
+" vim-go {{{
+"         _                           
+"  _   __(_)___ ___        ____ _____ 
+" | | / / / __ `__ \______/ __ `/ __ \
+" | |/ / / / / / / /_____/ /_/ / /_/ /
+" |___/_/_/ /_/ /_/      \__, /\____/ 
+"                       /____/        
 let g:go_fmt_command = "goimports"
 noremap <F2> :GoDef<CR>
 noremap <F3> :GoRename<CR>
 noremap <F4> :GoImports<CR>
 " }}}
 " seiya.vim {{{
-let g:seiya_auto_enable=1
+"               _                   _         
+"    ________  (_)_  ______ __   __(_)___ ___ 
+"   / ___/ _ \/ / / / / __ `/ | / / / __ `__ \
+"  (__  )  __/ / /_/ / /_/ /| |/ / / / / / / /
+" /____/\___/_/\__, /\__,_(_)___/_/_/ /_/ /_/ 
+"             /____/                          
+" let g:seiya_auto_enable=1
 " }}}
 " ctrlp {{{
+"         __       __    
+"   _____/ /______/ /___ 
+"  / ___/ __/ ___/ / __ \
+" / /__/ /_/ /  / / /_/ /
+" \___/\__/_/  /_/ .___/ 
+"               /_/      
 noremap <silent><C-p>p :CtrlP<CR>
-noremap <silent><C-b> :CtrlPBuffer<CR>
-noremap <silent><C-m> :CtrlPMRUFiles<CR>
+noremap <silent><C-p>b :CtrlPBuffer<CR>
+noremap <silent><C-p>m :CtrlPMRUFiles<CR>
 " }}}
 " easymotion {{{
+"         _                                                       __  _           
+"  _   __(_)___ ___        ___  ____ ________  ______ ___  ____  / /_(_)___  ____ 
+" | | / / / __ `__ \______/ _ \/ __ `/ ___/ / / / __ `__ \/ __ \/ __/ / __ \/ __ \
+" | |/ / / / / / / /_____/  __/ /_/ (__  ) /_/ / / / / / / /_/ / /_/ / /_/ / / / /
+" |___/_/_/ /_/ /_/      \___/\__,_/____/\__, /_/ /_/ /_/\____/\__/_/\____/_/ /_/ 
+"                                       /____/                                    
 let g:EasyMotion_smartcase = 1
 let g:EasyMotion_do_mapping = 0
 
