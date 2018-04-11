@@ -263,3 +263,9 @@ bind C-g send-prefix
 
 # move status line to top
 set -g status-position top
+
+# resize pane
+bind -r C-h resize-pane -L 3
+bind -r C-j resize-pane -D 3
+bind -r C-k resize-pane -U 3
+bind -r C-l resize-pane -R 3
