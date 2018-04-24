@@ -21,7 +21,6 @@ syntax on
 filetype plugin indent on
 " set background=dark
 colorscheme tender
-set relativenumber
 set scrolloff=3
 set number
 set hidden
@@ -121,38 +120,9 @@ nnoremap <C-c>p "*p
 
 "  copy text to clip board (in only visual mode)
 vnoremap <C-c>c "*y
-
-"  encode base64
-function! g:Encode_base64() 
-    " NOTE: b レジスタを使用
-    " TODO: `base64` コマンドがないときに備える
-    silent normal gv"by
-    try
-        let @b = system("echo '" . @b . "' | base64")
-    catch
-        echomsg 'g:Encode_base64(): ' . v:exception
-    endtry
-    silent normal "bp
-endfunction
-"  put encoded-base64 text bellow
-vnoremap <silent><C-b>e :call g:Encode_base64()<CR>
-
-"  decode base64
-function! g:Decode_base64() 
-    " NOTE: b レジスタを使用
-    " TODO: `base64` コマンドがないときに備える
-    silent normal gv"by
-    try
-        let @b = system("echo '" . @b . "' | base64 --decode")
-    catch
-        echomsg 'g:Decode_base64(): ' . v:exception
-    endtry
-    silent normal "bp
-endfunction
-"  put decoded-base64 text bellow
-vnoremap <silent><C-b>d :call g:Decode_base64()<CR>
 " }}}
-" // each plugin setting
+" each plugin setting 
+"  http://patorjk.com/software/taag/#p=display&f=Slant&t=awesome
 " dein{{{
 "        __     _             _         
 "   ____/ /__  (_)___  _   __(_)___ ___ 
@@ -178,28 +148,30 @@ if dein#load_state('~/.config/nvim/bundle')
   " Add or remove your plugins here:
 
   " made by @noah_orberg
-  call dein#add('NoahOrberg/gilbert.nvim', {'rev' : 'develop'}) " master is stable
-  call dein#add('NoahOrberg/diesirae.nvim', {'rev': 'develop'})
-  call dein#add('NoahOrberg/castOfArrow.vim')
-  call dein#add('NoahOrberg/vivid.vim')
-  call dein#add('NoahOrberg/nimvle.nvim')
-  call dein#add('NoahOrberg/cc.nvim')
+  " call dein#add('NoahOrberg/gilbert.nvim', {'rev': 'develop'}) " master is stable
+  " call dein#add('NoahOrberg/diesirae.nvim', {'rev': 'develop'})
+  " call dein#add('NoahOrberg/castOfArrow.vim')
+  " call dein#add('NoahOrberg/vivid.vim')
+  " call dein#add('NoahOrberg/nimvle.nvim')
+  " call dein#add('NoahOrberg/cc.nvim')
+  " call dein#add('NoahOrberg/AYUNiS.nvim', {'rev': 'master'})
 
   " js and html and CSS
-  call dein#add('mattn/emmet-vim')
+  call dein#add('mattn/emmet-vim', {'on_ft': ['html']})
 
   " golang
   call dein#add('fatih/vim-go')
   call dein#add('zchee/deoplete-go', {'build': 'make'})
   call dein#add('vim-jp/vim-go-extra')
-  call dein#add('nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
+  call dein#add('nsf/gocode', {'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh'})
 
   " git
   call dein#add('lambdalisue/gina.vim')
   call dein#add('tpope/vim-fugitive')
 
   " haskell
-  call dein#add('neovimhaskell/haskell-vim')
+  call dein#add('neovimhaskell/haskell-vim', {'on_ft': ['haskell']})
+  call dein#add('itchyny/vim-haskell-indent', {'on_ft': ['haskell']})
 
   " filer
   call dein#add('scrooloose/nerdtree')
@@ -214,7 +186,7 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('Yggdroot/indentLine')
 
   " high speed edit
-  call dein#add('easymotion/vim-easymotion', { 'rev' : 'v3.0.1' })
+  call dein#add('easymotion/vim-easymotion', { 'rev': 'v3.0.1'})
   call dein#add('haya14busa/incsearch.vim')
   call dein#add('haya14busa/incsearch-fuzzy.vim')
   call dein#add('haya14busa/incsearch-easymotion.vim')
@@ -231,6 +203,7 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('tomtom/tcomment_vim')
   call dein#add('vim-jp/vital.vim')
   call dein#add('ryanoasis/vim-devicons')
+  call dein#add('takac/vim-spotifysearch')
   " You can specify revision/branch/tag.
   " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
@@ -309,6 +282,7 @@ set showtabline=2
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_idx_mode = 1
+" let g:airline_section_x = airline#section#create(['%{AYUNiSGetNowPlaying()}'])
 " let g:airline_powerline_fonts = 1
 " let g:airline_theme='tenderplus'
 "}}}
@@ -439,4 +413,13 @@ function! s:config_easyfuzzymotion(...) abort
 endfunction
 
 noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
+" }}}
+" AYUNiS.nvim {{{
+"     _____  ____  ___   ___ _____              _         
+"    /   \ \/ / / / / | / (_) ___/  ____ _   __(_)___ ___ 
+"   / /| |\  / / / /  |/ / /\__ \  / __ \ | / / / __ `__ \
+"  / ___ |/ / /_/ / /|  / /___/ / / / / / |/ / / / / / / /
+" /_/  |_/_/\____/_/ |_/_//____(_)_/ /_/|___/_/_/ /_/ /_/ 
+"
+" let g:airline_section_x = airline#section#create(['%{AYUNiSGetNowPlaying()}'])
 " }}}

@@ -1,4 +1,11 @@
 export LANG=ja_JP.UTF-8
+# tmux {{{
+if `which tmux 2>&1 > /dev/null`; then 
+    if [ $SHLVL = 1 ]; then
+        tmux
+    fi
+fi
+# }}}
 # CLI tool install {{{
 #   __                           
 #  |  |--..----..-----..--.--.--.
@@ -43,6 +50,7 @@ fi
 #  |   _||-- __||   _|
 #  |__|  |_____||__|  
 #                     
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if `which fzf 2>&1 > /dev/null`; then
     echo "fzf: already installed"
 else
@@ -52,7 +60,6 @@ else
     echo "fzf: done."
 fi
 export FZF_DEFAULT_OPTS="--reverse --height=20"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # }}}
 # keybind :vim {{{
 #          __                                    __        
@@ -122,10 +129,10 @@ bindkey '^a' autosuggest-accept
 bindkey '^e' autosuggest-execute
 # }}}
 # Docker fzf (customized) {{{
-#   _____                __                       ___                    ___          ___ 
-#  |     \ .-----..----.|  |--..-----..----.    .'  _|.-----..----.    .'  _|.-----..'  _|
-#  |  --  ||  _  ||  __||    < |  -__||   _|    |   _||  _  ||   _|    |   _||-- __||   _|
-#  |_____/ |_____||____||__|__||_____||__|      |__|  |_____||__|      |__|  |_____||__|  
+#   _____                __                       ___          ___ 
+#  |     \ .-----..----.|  |--..-----..----.    .'  _|.-----..'  _|
+#  |  --  ||  _  ||  __||    < |  -__||   _|    |   _||-- __||   _|
+#  |_____/ |_____||____||__|__||_____||__|      |__|  |_____||__|  
 #                                                                                         
 dstop() {
     selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
@@ -349,4 +356,9 @@ colors
 setopt no_beep
 setopt auto_cd
 setopt correct
+
+dir() {
+    mkdir $1 && cd $_
+}
+
 # }}}
