@@ -15,11 +15,11 @@ export LANG=en_US.UTF-8
 if `which brew > /dev/null 2>&1`; then
     echo "brew: already installed"
 else
-    if [ `uname` = 'Darwin' ]; then
+    if [ `uname` = "Darwin" ]; then
         echo "brew: installing..."
         /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         echo "brew: done."
-    elif [ `uname` = 'Linux' ]; then
+    elif [ `uname` = "Linux" ]; then
         echo "brew: unnecessary install"
     else
         echo "cannot detect OS"
@@ -33,11 +33,11 @@ fi
 if `which git > /dev/null 2>&1`; then
     echo "git: already installed"
 else
-    if [ `uname` = 'Darwin' ]; then
+    if [ `uname` = "Darwin" ]; then
         echo "git: installing..."
         brew install git
         echo "git: done."
-    elif [ `uname` = 'Linux' ]; then
+    elif [ `uname` = "Linux" ]; then
         echo "git: installing..."
         apt-get install git
         echo "git: done."
