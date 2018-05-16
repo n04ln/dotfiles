@@ -387,4 +387,33 @@ dir() {
     mkdir $1 && cd $_
 }
 
+# 画面の明かるさ調節 (ubuntuのみ)
+if [ `uname` = "Linux" ]; then
+    br=0.5
+    dtarget=`xrandr | grep " connected" | awk 'BEGIN{FS=" "}{print $1}'`
+    xrandr --output ${dtarget} --brightness ${br}
+    echo "${dtarget}: brightness is ${br}"
+
+    brdown() {
+        if [ `echo "${br} > 0.1" | bc` = 1 ]; then
+            br=`echo "${br} - 0.1" | bc`
+        fi
+        brightness
+    }
+    brup() {
+        if [ `echo "${br} < 1.0" | bc` = 1 ]; then
+            br=`echo "${br} + 0.1" | bc`
+        fi
+        brightness
+    }
+    brightness() {
+        xrandr --output ${dtarget} --brightness ${br}
+    }
+
+    zle -N brdown
+    zle -N brup
+
+    bindkey '^hx' brdown
+    bindkey '^ha' brup
+fi
 # }}}
