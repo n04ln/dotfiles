@@ -1,23 +1,29 @@
-export LANG=ja_JP.UTF-8
-# tmux {{{
-if `which tmux 2>&1 > /dev/null`; then 
-    if [ $SHLVL = 1 ]; then
-        tmux
-    fi
-fi
-# }}}
+export LANG=en_US.UTF-8
+# # tmux {{{
+# # if `which tmux 2>&1 > /dev/null`; then 
+# #     if [ $SHLVL = 1 ]; then
+# #         tmux
+# #     fi
+# # fi
+# # }}}
 # CLI tool install {{{
 #   __                           
 #  |  |--..----..-----..--.--.--.
 #  |  _  ||   _||  -__||  |  |  |
 #  |_____||__|  |_____||________|
-#                                
+#
 if `which brew 2>&1 > /dev/null`; then
     echo "brew: already installed"
 else
-    echo "brew: installing..."
-    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-    echo "brew: done."
+    if [ `uname` = 'Darwin' ]; then
+        echo "brew: installing..."
+        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        echo "brew: done."
+    elif [ `uname` = 'Linux' ]; then
+        echo "brew: unnecessary install"
+    else
+        echo "cannot detect OS"
+    fi
 fi
 #          __  __   
 #  .-----.|__||  |_ 
@@ -27,9 +33,17 @@ fi
 if `which git 2>&1 > /dev/null`; then
     echo "git: already installed"
 else
-    echo "git: installing..."
-    brew install git
-    echo "git: done."
+    if [ `uname` = 'Darwin' ]; then
+        echo "git: installing..."
+        brew install git
+        echo "git: done."
+    elif [ `uname` = 'Linux' ]; then
+        echo "git: installing..."
+        apt-get install git
+        echo "git: done."
+    else
+        echo "cannot detect OS"
+    fi
 fi
 #                 __               
 #  .-----..-----.|  |.--.--..-----.
@@ -70,7 +84,7 @@ export FZF_DEFAULT_OPTS="--reverse --height=20"
 bindkey -v
 bindkey "^N" menu-complete
 bindkey -M viins 'jj' vi-cmd-mode
-export LC_ALL='ja_JP.UTF-8'
+export LC_ALL='en_US.UTF-8'
 # }}}
 # prompt {{{
 #                                        __   
@@ -86,8 +100,7 @@ setopt prompt_subst
 # promptを表示する直前に実行されるのhook関数
 precmd () {
   LANG=en_US.UTF-8 vcs_info
-  LOADAVG=$(sysctl -n vm.loadavg | perl -anpe '$_=$F[1]')
-  PROMPT='%{${fg[yellow]}%}[%n@%m] %{${fg[blue]}%} %~ ($LOADAVG) %{$reset_color%}
+  PROMPT='%{${fg[yellow]}%}[%n@%m] %{${fg[blue]}%} %~ %{$reset_color%}
 %% '
   RPROMPT='%{${fg[green]}%}${vcs_info_msg_0_}%{$reset_color%}'
 }
@@ -187,7 +200,7 @@ zle -N drmi
 fpath=($HOME/.zsh/anyframe(N-/) $fpath)
 autoload -Uz anyframe-init
 anyframe-init
- 
+
 bindkey '^b' anyframe-widget-checkout-git-branch
 bindkey '^p' anyframe-widget-put-history
 bindkey '^k' anyframe-widget-kill

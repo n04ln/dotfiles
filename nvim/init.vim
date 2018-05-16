@@ -182,11 +182,11 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('vim-airline/vim-airline-themes')
   call dein#add('jacoborus/tender.vim')
   " call dein#add('edkolev/tmuxline.vim')
-  " call dein#add('miyakogi/seiya.vim')
+  call dein#add('miyakogi/seiya.vim')
   call dein#add('Yggdroot/indentLine')
 
   " high speed edit
-  call dein#add('easymotion/vim-easymotion', { 'rev': 'v3.0.1'})
+  call dein#add('easymotion/vim-easymotion', { 'rev': 'v3.0.0'})
   call dein#add('haya14busa/incsearch.vim')
   call dein#add('haya14busa/incsearch-fuzzy.vim')
   call dein#add('haya14busa/incsearch-easymotion.vim')
@@ -202,8 +202,8 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('thinca/vim-quickrun')
   call dein#add('tomtom/tcomment_vim')
   call dein#add('vim-jp/vital.vim')
-  call dein#add('ryanoasis/vim-devicons')
-  call dein#add('takac/vim-spotifysearch')
+  " call dein#add('ryanoasis/vim-devicons')
+  " call dein#add('takac/vim-spotifysearch')
   " You can specify revision/branch/tag.
   " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
 
@@ -363,7 +363,7 @@ noremap <F4> :GoImports<CR>
 "  (__  )  __/ / /_/ / /_/ /| |/ / / / / / / /
 " /____/\___/_/\__, /\__,_(_)___/_/_/ /_/ /_/ 
 "             /____/                          
-" let g:seiya_auto_enable=1
+let g:seiya_auto_enable=1
 " }}}
 " ctrlp {{{
 "         __       __    
