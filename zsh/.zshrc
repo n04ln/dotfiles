@@ -201,7 +201,7 @@ fpath=($HOME/.zsh/anyframe(N-/) $fpath)
 autoload -Uz anyframe-init
 anyframe-init
 
-bindkey '^b' anyframe-widget-checkout-git-branch
+bindkey '^b' gcheckout
 bindkey '^p' anyframe-widget-put-history
 bindkey '^k' anyframe-widget-kill
 
@@ -278,6 +278,19 @@ dstopall() {
     all=`docker ps | sed 1d | awk '{print $1}'`
     _dstopall ${all}
 }
+# }}}
+# git fzf {{{
+gcheckout() {
+    if [ ! -d .git/ ]; then
+        echo "gcheckout: No such .git/ in current dir"
+        return
+    fi
+
+    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    git checkout ${selected}
+}
+
+zle -N gcheckout
 # }}}
 # alias {{{
 #          __  __               
