@@ -323,7 +323,11 @@ alias gd='git diff'
 
 # global alias
 alias -g B='|bash' 
-alias -g C='|pbcopy'
+if [ `uname` = "Darwin" ]; then
+    alias -g C='|pbcopy'
+elif [ `uname` = "Linux" ]; then
+    alias -g C='|xsel --clipboard --input'
+fi
 alias -g G='|grep -e'
 alias -g L='|less'
 alias -g W='|wc'
@@ -389,25 +393,29 @@ dir() {
 
 # 画面の明かるさ調節 (ubuntuのみ)
 if [ `uname` = "Linux" ]; then
-    br=0.5
+    [ br = "" ] && br=0.5
     dtarget=`xrandr | grep " connected" | awk 'BEGIN{FS=" "}{print $1}'`
     xrandr --output ${dtarget} --brightness ${br}
     echo "${dtarget}: brightness is ${br}"
 
     brdown() {
         if [ `echo "${br} > 0.1" | bc` = 1 ]; then
-            br=`echo "${br} - 0.1" | bc`
+            br=`echo "${br} - 0.05" | bc`
         fi
-        brightness
+        _brightness
     }
     brup() {
         if [ `echo "${br} < 1.0" | bc` = 1 ]; then
-            br=`echo "${br} + 0.1" | bc`
+            br=`echo "${br} + 0.05" | bc`
         fi
-        brightness
+        _brightness
     }
-    brightness() {
+    _brightness() {
         xrandr --output ${dtarget} --brightness ${br}
+        # brstatus
+    }
+    brstatus() {
+        echo "${dtarget}: brightness is ${br}"
     }
 
     zle -N brdown
@@ -415,5 +423,7 @@ if [ `uname` = "Linux" ]; then
 
     bindkey '^hx' brdown
     bindkey '^ha' brup
+else
+    echo "unnecessary brightness control functions"
 fi
 # }}}
