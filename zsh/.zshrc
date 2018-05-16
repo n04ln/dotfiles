@@ -1,6 +1,6 @@
 export LANG=en_US.UTF-8
 # # tmux {{{
-# # if `which tmux 2>&1 > /dev/null`; then 
+# # if `which tmux > /dev/null 2>&1`; then 
 # #     if [ $SHLVL = 1 ]; then
 # #         tmux
 # #     fi
@@ -12,7 +12,7 @@ export LANG=en_US.UTF-8
 #  |  _  ||   _||  -__||  |  |  |
 #  |_____||__|  |_____||________|
 #
-if `which brew 2>&1 > /dev/null`; then
+if `which brew > /dev/null 2>&1`; then
     echo "brew: already installed"
 else
     if [ `uname` = 'Darwin' ]; then
@@ -30,7 +30,7 @@ fi
 #  |  _  ||  ||   _|
 #  |___  ||__||____|
 #  |_____|          
-if `which git 2>&1 > /dev/null`; then
+if `which git > /dev/null 2>&1`; then
     echo "git: already installed"
 else
     if [ `uname` = 'Darwin' ]; then
@@ -52,7 +52,7 @@ fi
 #         |__|              |_____|
 export ZPLUG_HOME=$HOME/.zplug
 [ -f $ZPLUG_HOME/init.zsh ] && source $ZPLUG_HOME/init.zsh
-if `which zplug 2>&1 > /dev/null`; then
+if `which zplug > /dev/null 2>&1`; then
     echo "zplug: already installed"
 else
     echo "zplug: installing..."
@@ -65,7 +65,7 @@ fi
 #  |__|  |_____||__|  
 #                     
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if `which fzf 2>&1 > /dev/null`; then
+if `which fzf > /dev/null 2>&1`; then
     echo "fzf: already installed"
 else
     echo "fzf: installing..."
