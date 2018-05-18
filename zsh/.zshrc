@@ -1,11 +1,11 @@
 export LANG=en_US.UTF-8
-# # tmux {{{
+# tmux {{{
 # # if `which tmux > /dev/null 2>&1`; then 
 # #     if [ $SHLVL = 1 ]; then
 # #         tmux
 # #     fi
 # # fi
-# # }}}
+# }}}
 # CLI tool install {{{
 #   __                           
 #  |  |--..----..-----..--.--.--.
@@ -393,7 +393,7 @@ dir() {
 
 # 画面の明かるさ調節 (ubuntuのみ)
 if [ `uname` = "Linux" ]; then
-    [ br = "" ] && br=0.5
+    [ ${br:-default} = "default" ] && br=1.0
     dtarget=`xrandr | grep " connected" | awk 'BEGIN{FS=" "}{print $1}'`
     xrandr --output ${dtarget} --brightness ${br}
     echo "${dtarget}: brightness is ${br}"
@@ -425,5 +425,36 @@ if [ `uname` = "Linux" ]; then
     bindkey '^ha' brup
 else
     echo "unnecessary brightness control functions"
+fi
+# }}}
+# for Thinkpad X230 Tips {{{
+# To reverse touchpad scrolling
+#   $ xinput -list
+#     SynPS/2 Synaptics TouchPad id=11 [slave pointer (2)]
+#   $ xinput list-props 11 | grep "Scrolling Distance"
+#     Synaptics Scrolling Distance (285): 125, 125
+#   $ xinput set-prop 11 285 -125 -125
+# To set Wi-Fi
+#   Show SSIDs
+#     $ nmcli device wifi list
+#   Connect Wi-Fi
+#     $ nmcli device wifi connect 'SSID' password 'password' ifname wlan0
+#   Status
+#     $ nmcli device status
+#   Disconnect
+#     $ nmcli dev disconnect wlan0
+# For sounds control
+#   Initialization
+#     alsactl init # initialization for sound device
+#   Up
+#     amixer sset Master 1%+
+#     amixer sset Master 1db+
+#   Down
+#     amixer sset Master 1%-
+#     amixer sset Master 1db-
+# Only Ubuntu
+if [ `uname` = "Linux" ]; then
+    alias chrome=chromium-browser
+    export PATH=$HOME/.bin/DevDocs-0.6.9/:$PATH
 fi
 # }}}

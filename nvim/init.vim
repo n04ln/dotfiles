@@ -38,6 +38,7 @@ set softtabstop=4
 set foldmethod=marker
 set noswapfile
 set shortmess+=A
+" set clipboard=unnamedplus
 " }}}
 " indent width {{{
 "     ____          __           __              _     ____  __                               
