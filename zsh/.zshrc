@@ -6,7 +6,41 @@ export LANG=en_US.UTF-8
 # #     fi
 # # fi
 # }}}
-# CLI tool install {{{
+# export {{{
+#   __     __         __                       
+#  |  |--.|__|.-----.|  |_ .-----..----..--.--.
+#  |     ||  ||__ --||   _||  _  ||   _||  |  |
+#  |__|__||__||_____||____||_____||__|  |___  |
+#                                       |_____|
+export HISTFILE=$HOME/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=100000
+setopt hist_ignore_dups
+setopt EXTENDED_HISTORY
+#                                               
+#  .-----..-----..--.--.    .--.--..---.-..----.
+#  |  -__||     ||  |  |    |  |  ||  _  ||   _|
+#  |_____||__|__| \___/      \___/ |___._||__|  
+#                                               
+export PYENV_ROOT=$HOME/.pyenv
+export PKG_CONFIG_PATH=/usr/local/lib
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
+export XDG_CONFIG_HOME=$HOME/.config
+export GOPATH=$HOME/go
+export PATH=/usr/local/bin:$PATH
+export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/bin:$PATH
+export PATH=$GOPATH/bin:$PATH
+export PATH=$PYENV_ROOT/shims:$PATH
+# export PATH=/usr/local/Cellar/git/2.12.2:$PATH
+# export PATH=$PYENV_ROOT/versions/3.6.1/bin:$PATH
+# export PATH=$HOME/.protoc/bin:$PATH
+# export PATH=$HOME/.nodebrew/current/bin:$PATH
+# export PATH=$HOME/.rbenv/versions/2.4.1/bin:$PATH
+# export PATH=$HOME/.bin/z3-4.5.0-x64-osx-10.11.6/bin:$PATH
+
+# }}}
+# CLI tool and some plugin install {{{
 #   __                           
 #  |  |--..----..-----..--.--.--.
 #  |  _  ||   _||  -__||  |  |  |
@@ -75,7 +109,7 @@ else
 fi
 export FZF_DEFAULT_OPTS="--reverse --height=20"
 # }}}
-# keybind :vim {{{
+# keybind: vim {{{
 #          __                                    __        
 #  .--.--.|__|.--------.    .--------..-----..--|  |.-----.
 #  |  |  ||  ||        |    |        ||  _  ||  _  ||  -__|
@@ -97,12 +131,35 @@ zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%{'${fg[red]}'%}[%s %b] %{'$reset_color'%}'
 setopt prompt_subst
 
+# mode表示
+function zle-line-init zle-keymap-select {
+    case $KEYMAP in
+        vicmd)
+            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[yellow]}%}[NORMAL]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
+%% '
+            ;;
+        main|viins|opp)
+            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[cyan]}${bg[blue]}%}[INSERT]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
+%% '
+            ;;
+        vivis)
+            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[magenta]}%}[VISUAL]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
+%% '
+            ;;
+        *)
+            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[green]}%}[${KEYMAP}]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
+%% '
+            ;;
+    esac
+    zle reset-prompt
+}
+zle -N zle-line-init
+zle -N zle-keymap-select
+
 # promptを表示する直前に実行されるのhook関数
 precmd () {
-  LANG=en_US.UTF-8 vcs_info
-  PROMPT='%{${fg[yellow]}%}[%n@%m] %{${fg[blue]}%} %~ %{$reset_color%}
-%% '
-  RPROMPT='%{${fg[green]}%}${vcs_info_msg_0_}%{$reset_color%}'
+    LANG=en_US.UTF-8 vcs_info
+    RPROMPT='%{${fg[green]}%}${vcs_info_msg_0_}%{$reset_color%}'
 }
 # }}}
 # zplug {{{
@@ -124,7 +181,9 @@ zplug "ascii-soup/zsh-url-highlighter"
 zplug "voronkovich/mysql.plugin.zsh"
 
 # other
-zplug "zsh-users/zsh-syntax-highlighting", defer:3
+zplug "b4b4r07/zsh-vimode-visual", defer:3
+zplug "hchbaw/opp.zsh"
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 zplug "zsh-users/zsh-completions"
 zplug "mollifier/anyframe"
 zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
@@ -152,44 +211,56 @@ dstop() {
     if [ `echo ${selected} | wc -w` -eq 0 ]; then
         return
     fi
-
     docker stop $selected
+
+    zle reset-prompt
+    zle -R -c
 }
 drm() {
     selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
     if [ `echo ${selected} | wc -w` -eq 0 ]; then
         return
     fi
-
     docker rm -f $selected
+
+    zle reset-prompt
+    zle -R -c
 }
 drmi() {
     selected=`docker images | sed 1d | fzf -m | awk '{print $3}'`
     if [ `echo ${selected} | wc -w` -eq 0 ]; then
         return
     fi
-
     docker rmi -f $selected
+
+    zle reset-prompt
+    zle -R -c
 }
 dsh() {
     selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
     if [ `echo ${selected} | wc -w` -eq 0 ]; then
         return
     fi
-
     docker exec -it $selected sh
+
+    zle reset-prompt
+    zle -R -c
 }
 dlogs() {
     selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
     if [ `echo ${selected} | wc -w` -eq 0 ]; then
         return
     fi
-
     docker logs $selected
+
+    zle reset-prompt
+    zle -R -c
 }
 zle -N dstop
 zle -N drm
 zle -N drmi
+zle -N dsh
+zle -N dlogs
 # }}}
 # fzf {{{
 #    ___          ___      __     __            __          __                  
@@ -202,6 +273,7 @@ autoload -Uz anyframe-init
 anyframe-init
 
 bindkey '^b' gcheckout
+bindkey '^v' gbranch
 bindkey '^p' anyframe-widget-put-history
 bindkey '^k' anyframe-widget-kill
 
@@ -281,16 +353,21 @@ dstopall() {
 # }}}
 # git fzf {{{
 gcheckout() {
-    if [ ! -d .git/ ]; then
-        echo "gcheckout: No such .git/ in current dir"
-        return
-    fi
-
     selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
     git checkout ${selected}
+    zle reset-prompt
+    zle -R -c
+}
+gbranch() {
+    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    LBUFFER+=${selected}
+    CURSOR=$#LBUFFER
+    zle reset-prompt
+    zle -R -c
 }
 
 zle -N gcheckout
+zle -N gbranch
 # }}}
 # alias {{{
 #          __  __               
@@ -316,6 +393,9 @@ alias gp='git push'
 alias gP='git pull'
 alias gd='git diff'
 
+# ghq
+alias cdg='cd ~/.ghq/github.com/$_'
+
 # stack
 # alias ghc='stack ghc'
 # alias ghci='stack ghci'
@@ -331,40 +411,6 @@ fi
 alias -g G='|grep -e'
 alias -g L='|less'
 alias -g W='|wc'
-# }}}
-# export {{{
-#   __     __         __                       
-#  |  |--.|__|.-----.|  |_ .-----..----..--.--.
-#  |     ||  ||__ --||   _||  _  ||   _||  |  |
-#  |__|__||__||_____||____||_____||__|  |___  |
-#                                       |_____|
-export HISTFILE=$HOME/.zsh_history
-export HISTSIZE=1000
-export SAVEHIST=100000
-setopt hist_ignore_dups
-setopt EXTENDED_HISTORY
-#                                               
-#  .-----..-----..--.--.    .--.--..---.-..----.
-#  |  -__||     ||  |  |    |  |  ||  _  ||   _|
-#  |_____||__|__| \___/      \___/ |___._||__|  
-#                                               
-export PYENV_ROOT=$HOME/.pyenv
-export PKG_CONFIG_PATH=/usr/local/lib
-export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
-export XDG_CONFIG_HOME=$HOME/.config
-export GOPATH=$HOME/go
-export PATH=/usr/local/bin:$PATH
-export PATH=$HOME/.local/bin:$PATH
-export PATH=$HOME/bin:$PATH
-export PATH=$GOPATH/bin:$PATH
-export PATH=$PYENV_ROOT/shims:$PATH
-# export PATH=/usr/local/Cellar/git/2.12.2:$PATH
-# export PATH=$PYENV_ROOT/versions/3.6.1/bin:$PATH
-# export PATH=$HOME/.protoc/bin:$PATH
-# export PATH=$HOME/.nodebrew/current/bin:$PATH
-# export PATH=$HOME/.rbenv/versions/2.4.1/bin:$PATH
-# export PATH=$HOME/.bin/z3-4.5.0-x64-osx-10.11.6/bin:$PATH
-
 # }}}
 # other {{{
 #          __    __                 
@@ -428,6 +474,7 @@ else
 fi
 # }}}
 # for Thinkpad X230 Tips {{{
+# NOTE:
 # To reverse touchpad scrolling
 #   $ xinput -list
 #     SynPS/2 Synaptics TouchPad id=11 [slave pointer (2)]
@@ -457,4 +504,7 @@ if [ `uname` = "Linux" ]; then
     alias chrome=chromium-browser
     export PATH=$HOME/.bin/DevDocs-0.6.9/:$PATH
 fi
+# }}}
+# COMPLETE! {{{
+echo "complete!"
 # }}}

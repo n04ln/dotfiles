@@ -149,10 +149,10 @@ if dein#load_state('~/.config/nvim/bundle')
   " Add or remove your plugins here:
 
   " made by @noah_orberg
-  " call dein#add('NoahOrberg/gilbert.nvim', {'rev': 'develop'}) " master is stable
-  " call dein#add('NoahOrberg/diesirae.nvim', {'rev': 'develop'})
-  " call dein#add('NoahOrberg/castOfArrow.vim')
-  " call dein#add('NoahOrberg/vivid.vim')
+  call dein#add('NoahOrberg/gilbert.nvim', {'rev': 'develop'}) " master is stable
+  call dein#add('NoahOrberg/diesirae.nvim')
+  call dein#add('NoahOrberg/castOfArrow.vim')
+  call dein#add('NoahOrberg/vivid.vim')
   " call dein#add('NoahOrberg/nimvle.nvim')
   " call dein#add('NoahOrberg/cc.nvim')
   " call dein#add('NoahOrberg/AYUNiS.nvim', {'rev': 'master'})
@@ -203,10 +203,15 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('thinca/vim-quickrun')
   call dein#add('tomtom/tcomment_vim')
   call dein#add('vim-jp/vital.vim')
-  " call dein#add('ryanoasis/vim-devicons')
+  call dein#add('gyim/vim-boxdraw')
+  call dein#add('mopp/layoutplugin.vim')
   " call dein#add('takac/vim-spotifysearch')
   " You can specify revision/branch/tag.
   " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+
+  " for vue
+  call dein#add('posva/vim-vue')
+  call dein#add('w0rp/ale', {'ft': ['vue', 'javascript', 'html']})
 
   " Required:
   call dein#end()
@@ -423,4 +428,20 @@ noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 " /_/  |_/_/\____/_/ |_/_//____(_)_/ /_/|___/_/_/ /_/ /_/ 
 "
 " let g:airline_section_x = airline#section#create(['%{AYUNiSGetNowPlaying()}'])
+" }}}
+" ALE {{{
+let g:ale_linters = {
+\ 'html': [],
+\ 'css': ['stylelint'],
+\ 'javascript': ['eslint'],
+\ 'vue': ['eslint']
+\ }
+let g:ale_fixers = {
+\ 'javascript': ['eslint']
+\ }
+let g:ale_fix_on_save = 1
+let g:ale_linter_aliases = {'vue': 'css'}
+" }}}
+" yoshinani.vim {{{
+let g:yoshinani_template_path = $HOME . '/.config/yoshinani'
 " }}}
