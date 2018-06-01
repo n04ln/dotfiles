@@ -5,17 +5,11 @@ This repo is my dotfiles.
 
 ## My dotfiles
 ```
-~/.config/nvim/init.vim  
-~/.vimrc  
-~/.zshrc  
-~/.tmux.conf
-```
-
-## Using this repo
-**!!! Be careful: Your dotfiles will be overwritten**
-``` bash
-$ chmod u+x ./install.sh
-$ ./install.sh
+nvim/init.vim         => ~/.config/nvim/init.vim  
+vim/.vimrc            => ~/.vimrc  
+zsh/.zshrc            => ~/.zshrc  
+tmux/.tmux.conf       => ~/.tmux.conf
+tmux/.tmux.conf.local => ~/.tmux.conf.local
 ```
 
 and use [uradotfiles](https://github.com/NoahOrberg/uradotfiles) (priv repository)
