@@ -1,32 +1,41 @@
 export LANG=en_US.UTF-8
 # tmux {{{
-# # if `which tmux > /dev/null 2>&1`; then 
-# #     if [ $SHLVL = 1 ]; then
-# #         tmux
-# #     fi
-# # fi
+#    __                      
+#   / /_____ ___  __  ___  __
+#  / __/ __ `__ \/ / / / |/_/
+# / /_/ / / / / / /_/ />  <  
+# \__/_/ /_/ /_/\__,_/_/|_|  
+#                            
+# if `which tmux > /dev/null 2>&1`; then 
+#     if [ $SHLVL = 1 ]; then
+#         tmux
+#     fi
+# fi
 # }}}
 # export {{{
-#   __     __         __                       
-#  |  |--.|__|.-----.|  |_ .-----..----..--.--.
-#  |     ||  ||__ --||   _||  _  ||   _||  |  |
-#  |__|__||__||_____||____||_____||__|  |___  |
-#                                       |_____|
+#     __    _      __                  
+#    / /_  (_)____/ /_____  _______  __
+#   / __ \/ / ___/ __/ __ \/ ___/ / / /
+#  / / / / (__  ) /_/ /_/ / /  / /_/ / 
+# /_/ /_/_/____/\__/\____/_/   \__, /  
+#                             /____/   
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=1000
 export SAVEHIST=100000
 setopt hist_ignore_dups
 setopt EXTENDED_HISTORY
-#                                               
-#  .-----..-----..--.--.    .--.--..---.-..----.
-#  |  -__||     ||  |  |    |  |  ||  _  ||   _|
-#  |_____||__|__| \___/      \___/ |___._||__|  
-#                                               
+#     _______   ___    __   _    _____    ____ 
+#    / ____/ | / / |  / /  | |  / /   |  / __ \
+#   / __/ /  |/ /| | / /   | | / / /| | / /_/ /
+#  / /___/ /|  / | |/ /    | |/ / ___ |/ _, _/ 
+# /_____/_/ |_/  |___/     |___/_/  |_/_/ |_|  
+#                                              
 export PYENV_ROOT=$HOME/.pyenv
 export PKG_CONFIG_PATH=/usr/local/lib
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/go
+export GOSAND=$GOPATH/src/github.com/NoahOrberg/sandbox
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -41,11 +50,12 @@ export PATH=$PYENV_ROOT/shims:$PATH
 
 # }}}
 # CLI tool and some plugin install {{{
-#   __                           
-#  |  |--..----..-----..--.--.--.
-#  |  _  ||   _||  -__||  |  |  |
-#  |_____||__|  |_____||________|
-#
+#     __                     
+#    / /_  ________ _      __
+#   / __ \/ ___/ _ \ | /| / /
+#  / /_/ / /  /  __/ |/ |/ / 
+# /_.___/_/   \___/|__/|__/  
+#                            
 if `which brew > /dev/null 2>&1`; then
     echo "brew: already installed"
 else
@@ -59,11 +69,12 @@ else
         echo "cannot detect OS"
     fi
 fi
-#          __  __   
-#  .-----.|__||  |_ 
-#  |  _  ||  ||   _|
-#  |___  ||__||____|
-#  |_____|          
+#           _ __ 
+#    ____ _(_) /_
+#   / __ `/ / __/
+#  / /_/ / / /_  
+#  \__, /_/\__/  
+# /____/         
 if `which git > /dev/null 2>&1`; then
     echo "git: already installed"
 else
@@ -79,11 +90,12 @@ else
         echo "cannot detect OS"
     fi
 fi
-#                 __               
-#  .-----..-----.|  |.--.--..-----.
-#  |-- __||  _  ||  ||  |  ||  _  |
-#  |_____||   __||__||_____||___  |
-#         |__|              |_____|
+#               __           
+#  ____  ____  / /_  ______ _
+# /_  / / __ \/ / / / / __ `/
+#  / /_/ /_/ / / /_/ / /_/ / 
+# /___/ .___/_/\__,_/\__, /  
+#    /_/            /____/   
 export ZPLUG_HOME=$HOME/.zplug
 [ -f $ZPLUG_HOME/init.zsh ] && source $ZPLUG_HOME/init.zsh
 if `which zplug > /dev/null 2>&1`; then
@@ -93,11 +105,12 @@ else
     git clone https://github.com/zplug/zplug $ZPLUG_HOME
     echo "zplug: done."
 fi
-#    ___          ___ 
-#  .'  _|.-----..'  _|
-#  |   _||-- __||   _|
-#  |__|  |_____||__|  
-#                     
+#     ____      ____
+#    / __/___  / __/
+#   / /_/_  / / /_  
+#  / __/ / /_/ __/  
+# /_/   /___/_/     
+#                   
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 if `which fzf > /dev/null 2>&1`; then
     echo "fzf: already installed"
@@ -110,22 +123,24 @@ fi
 export FZF_DEFAULT_OPTS="--reverse --height=20"
 # }}}
 # keybind: vim {{{
-#          __                                    __        
-#  .--.--.|__|.--------.    .--------..-----..--|  |.-----.
-#  |  |  ||  ||        |    |        ||  _  ||  _  ||  -__|
-#   \___/ |__||__|__|__|    |__|__|__||_____||_____||_____|
-#                                                          
+#         _                                  __   
+#  _   __(_)___ ___     ____ ___  ____  ____/ /__ 
+# | | / / / __ `__ \   / __ `__ \/ __ \/ __  / _ \
+# | |/ / / / / / / /  / / / / / / /_/ / /_/ /  __/
+# |___/_/_/ /_/ /_/  /_/ /_/ /_/\____/\__,_/\___/ 
+#                                                 
 bindkey -v
 bindkey "^N" menu-complete
 bindkey -M viins 'jj' vi-cmd-mode
 export LC_ALL='en_US.UTF-8'
 # }}}
 # prompt {{{
-#                                        __   
-#  .-----..----..-----..--------..-----.|  |_ 
-#  |  _  ||   _||  _  ||        ||  _  ||   _|
-#  |   __||__|  |_____||__|__|__||   __||____|
-#  |__|                          |__|         
+#                                       __ 
+#     ____  _________  ____ ___  ____  / /_
+#    / __ \/ ___/ __ \/ __ `__ \/ __ \/ __/
+#   / /_/ / /  / /_/ / / / / / / /_/ / /_  
+#  / .___/_/   \____/_/ /_/ /_/ .___/\__/  
+# /_/                        /_/           
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%{'${fg[red]}'%}[%s %b] %{'$reset_color'%}'
@@ -151,23 +166,22 @@ function zle-line-init zle-keymap-select {
 %% '
             ;;
     esac
-    zle reset-prompt
-}
-zle -N zle-line-init
-zle -N zle-keymap-select
-
-# promptを表示する直前に実行されるのhook関数
-precmd () {
     LANG=en_US.UTF-8 vcs_info
     RPROMPT='%{${fg[green]}%}${vcs_info_msg_0_}%{$reset_color%}'
+    zle reset-prompt
+    zle -R -c
 }
+
+zle -N zle-line-init
+zle -N zle-keymap-select
 # }}}
 # zplug {{{
-#                 __                                  __    __    __               
-#  .-----..-----.|  |.--.--..-----.    .-----..-----.|  |_ |  |_ |__|.-----..-----.
-#  |-- __||  _  ||  ||  |  ||  _  |    |__ --||  -__||   _||   _||  ||     ||  _  |
-#  |_____||   __||__||_____||___  |    |_____||_____||____||____||__||__|__||___  |
-#         |__|              |_____|                                         |_____|
+#               __           
+#  ____  ____  / /_  ______ _
+# /_  / / __ \/ / / / / __ `/
+#  / /_/ /_/ / / /_/ / /_/ / 
+# /___/ .___/_/\__,_/\__, /  
+#    /_/            /____/   
 source ~/.zplug/init.zsh
 zplug "zsh-users/zsh-autosuggestions"
 zplug "wbinglee/zsh-wakatime"
@@ -196,16 +210,24 @@ fi
 
 zplug load --verbose
 # }}}
-# auto-suggestions {{{
-bindkey '^a' autosuggest-accept
-bindkey '^e' autosuggest-execute
+# initialize anyframe {{{
+#     ____      _ __                       ____                        
+#    /  _/___  (_) /_   ____ _____  __  __/ __/________ _____ ___  ___ 
+#    / // __ \/ / __/  / __ `/ __ \/ / / / /_/ ___/ __ `/ __ `__ \/ _ \
+#  _/ // / / / / /_   / /_/ / / / / /_/ / __/ /  / /_/ / / / / / /  __/
+# /___/_/ /_/_/\__/   \__,_/_/ /_/\__, /_/ /_/   \__,_/_/ /_/ /_/\___/ 
+#                                /____/                                
+fpath=($HOME/.zsh/anyframe(N-/) $fpath)
+autoload -Uz anyframe-init
+anyframe-init
 # }}}
-# Docker fzf (customized) {{{
-#   _____                __                       ___          ___ 
-#  |     \ .-----..----.|  |--..-----..----.    .'  _|.-----..'  _|
-#  |  --  ||  _  ||  __||    < |  -__||   _|    |   _||-- __||   _|
-#  |_____/ |_____||____||__|__||_____||__|      |__|  |_____||__|  
-#                                                                                         
+# fzf (customized) {{{
+#     ____      ____
+#    / __/___  / __/
+#   / /_/_  / / /_  
+#  / __/ / /_/ __/  
+# /_/   /___/_/     
+#                   
 dstop() {
     selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
     if [ `echo ${selected} | wc -w` -eq 0 ]; then
@@ -256,40 +278,53 @@ dlogs() {
     zle reset-prompt
     zle -R -c
 }
+gcheckout() {
+    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    git checkout ${selected} > /dev/null 2>&1
+
+    zle reset-prompt
+    zle -R -c
+}
+gbranch() {
+    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    LBUFFER+=${selected}
+    CURSOR=$#LBUFFER
+
+    zle reset-prompt
+    zle -R -c
+}
+gopathfzf() {
+    selected=`for dir in $(ls $GOPATH/src/github.com);do for dir2 in $(ls $GOPATH/src/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    cd $GOPATH/src/github.com/${selected}
+
+    zle reset-prompt
+    zle -R -c
+}
+ghqfzf() {
+    selected=`for dir in $(ls $HOME/.ghq/github.com);do for dir2 in $(ls $HOME/.ghq/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    cd $HOME/.ghq/github.com/${selected}
+
+    zle reset-prompt
+    zle -R -c
+}
+
 zle -N dstop
 zle -N drm
 zle -N drmi
 zle -N dsh
 zle -N dlogs
-# }}}
-# fzf {{{
-#    ___          ___      __     __            __          __                  
-#  .'  _|.-----..'  _|    |  |--.|__|.-----..--|  | ______ |  |--..-----..--.--.
-#  |   _||-- __||   _|    |  _  ||  ||     ||  _  ||______||    < |  -__||  |  |
-#  |__|  |_____||__|      |_____||__||__|__||_____|        |__|__||_____||___  |
-#                                                                        |_____|
-fpath=($HOME/.zsh/anyframe(N-/) $fpath)
-autoload -Uz anyframe-init
-anyframe-init
-
-bindkey '^b' gcheckout
-bindkey '^v' gbranch
-bindkey '^p' anyframe-widget-put-history
-bindkey '^k' anyframe-widget-kill
-
-bindkey '^xb' anyframe-widget-insert-git-branch
-bindkey '^f' anyframe-widget-insert-filename
-
-bindkey '^ws' dstop
-bindkey '^wr' drm
-bindkey '^wi' drmi
+zle -N gcheckout
+zle -N gbranch
+zle -N gopathfzf
+zle -N ghqfzf
 # }}}
 # for Docker {{{
-#    ___                   _____                __                 
-#  .'  _|.-----..----.    |     \ .-----..----.|  |--..-----..----.
-#  |   _||  _  ||   _|    |  --  ||  _  ||  __||    < |  -__||   _|
-#  |__|  |_____||__|      |_____/ |_____||____||__|__||_____||__|  
-#                                                                  
+#     ____              ____             __            
+#    / __/___  _____   / __ \____  _____/ /_____  _____
+#   / /_/ __ \/ ___/  / / / / __ \/ ___/ //_/ _ \/ ___/
+#  / __/ /_/ / /     / /_/ / /_/ / /__/ ,< /  __/ /    
+# /_/  \____/_/     /_____/\____/\___/_/|_|\___/_/     
+#                                                      
 _check_to_exec_comand() {
     read yn\?${1}
     case "${yn}" in
@@ -351,30 +386,13 @@ dstopall() {
     _dstopall ${all}
 }
 # }}}
-# git fzf {{{
-gcheckout() {
-    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
-    git checkout ${selected}
-    zle reset-prompt
-    zle -R -c
-}
-gbranch() {
-    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
-    LBUFFER+=${selected}
-    CURSOR=$#LBUFFER
-    zle reset-prompt
-    zle -R -c
-}
-
-zle -N gcheckout
-zle -N gbranch
-# }}}
 # alias {{{
-#          __  __               
-#  .---.-.|  ||__|.---.-..-----.
-#  |  _  ||  ||  ||  _  ||__ --|
-#  |___._||__||__||___._||_____|
-#                               
+#     ___    ___           
+#    /   |  / (_)___ ______
+#   / /| | / / / __ `/ ___/
+#  / ___ |/ / / /_/ (__  ) 
+# /_/  |_/_/_/\__,_/____/  
+#                          
 alias s='source ~/.zshrc'
 alias ls='ls -F'
 alias la='ls -la'
@@ -397,9 +415,9 @@ alias gd='git diff'
 alias cdg='cd ~/.ghq/github.com/$_'
 
 # stack
-# alias ghc='stack ghc'
-# alias ghci='stack ghci'
-# alias runghc='stack runghc'
+alias ghc='stack ghc'
+alias ghci='stack ghci'
+alias runghc='stack runghc'
 
 # global alias
 alias -g B='|bash' 
@@ -413,12 +431,12 @@ alias -g L='|less'
 alias -g W='|wc'
 # }}}
 # other {{{
-#          __    __                 
-#  .-----.|  |_ |  |--..-----..----.
-#  |  _  ||   _||     ||  -__||   _|
-#  |_____||____||__|__||_____||__|  
-#                                   
-
+#    ____  __  __             
+#   / __ \/ /_/ /_  ___  _____
+#  / / / / __/ __ \/ _ \/ ___/
+# / /_/ / /_/ / / /  __/ /    
+# \____/\__/_/ /_/\___/_/     
+#                             
 # アプリケーションの環境変数設定
 source $HOME/env.zsh
 
@@ -466,14 +484,41 @@ if [ `uname` = "Linux" ]; then
 
     zle -N brdown
     zle -N brup
-
-    bindkey '^hx' brdown
-    bindkey '^ha' brup
 else
     echo "unnecessary brightness control functions"
 fi
 # }}}
+# bind widgets {{{
+#     ____  _           __   _       ___     __           __      
+#    / __ )(_)___  ____/ /  | |     / (_)___/ /___ ____  / /______
+#   / __  / / __ \/ __  /   | | /| / / / __  / __ `/ _ \/ __/ ___/
+#  / /_/ / / / / / /_/ /    | |/ |/ / / /_/ / /_/ /  __/ /_(__  ) 
+# /_____/_/_/ /_/\__,_/     |__/|__/_/\__,_/\__, /\___/\__/____/  
+#                                          /____/                 
+bindkey '^a' autosuggest-accept
+bindkey '^e' autosuggest-execute
+bindkey '^b' gcheckout
+bindkey '^v' gbranch
+bindkey '^h' ghqfzf
+bindkey '^j' gopathfzf
+bindkey '^p' anyframe-widget-put-history
+bindkey '^k' anyframe-widget-kill
+bindkey '^xb' anyframe-widget-insert-git-branch
+bindkey '^f' anyframe-widget-insert-filename
+bindkey '^ws' dstop
+bindkey '^wr' drm
+bindkey '^wi' drmi
+
+bindkey '^hx' brdown
+bindkey '^ha' brup
+# }}}
 # for Thinkpad X230 Tips {{{
+#   ________    _       __                   __   __  _           
+#  /_  __/ /_  (_)___  / /______  ____ _____/ /  / /_(_)___  _____
+#   / / / __ \/ / __ \/ //_/ __ \/ __ `/ __  /  / __/ / __ \/ ___/
+#  / / / / / / / / / / ,< / /_/ / /_/ / /_/ /  / /_/ / /_/ (__  ) 
+# /_/ /_/ /_/_/_/ /_/_/|_/ .___/\__,_/\__,_/   \__/_/ .___/____/  
+#                       /_/                        /_/            
 # NOTE:
 # To reverse touchpad scrolling
 #   $ xinput -list
