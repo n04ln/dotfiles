@@ -6,7 +6,7 @@ export LANG=en_US.UTF-8
 # / /_/ / / / / / /_/ />  <  
 # \__/_/ /_/ /_/\__,_/_/|_|  
 #                            
-# if `which tmux > /dev/null 2>&1`; then 
+# if `which tmux > /dev/null 2>&1`; then
 #     if [ $SHLVL = 1 ]; then
 #         tmux
 #     fi
@@ -36,6 +36,8 @@ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/go
 export GOSAND=$GOPATH/src/github.com/NoahOrberg/sandbox
+export GHQPATH=$HOME/.ghq/github.com
+export PATH=/Users/noah/.goenv/shims:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -221,7 +223,7 @@ fpath=($HOME/.zsh/anyframe(N-/) $fpath)
 autoload -Uz anyframe-init
 anyframe-init
 # }}}
-# fzf (customized) {{{
+# for fzf (customized) {{{
 #     ____      ____
 #    / __/___  / __/
 #   / /_/_  / / /_  
@@ -230,9 +232,7 @@ anyframe-init
 #                   
 dstop() {
     selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
-    if [ `echo ${selected} | wc -w` -eq 0 ]; then
-        return
-    fi
+    [ `echo ${selected} | wc -w` -eq 0 ] && return
     docker stop $selected
 
     zle reset-prompt
@@ -240,9 +240,7 @@ dstop() {
 }
 drm() {
     selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
-    if [ `echo ${selected} | wc -w` -eq 0 ]; then
-        return
-    fi
+    [ `echo ${selected} | wc -w` -eq 0 ] && return
     docker rm -f $selected
 
     zle reset-prompt
@@ -250,9 +248,7 @@ drm() {
 }
 drmi() {
     selected=`docker images | sed 1d | fzf -m | awk '{print $3}'`
-    if [ `echo ${selected} | wc -w` -eq 0 ]; then
-        return
-    fi
+    [ `echo ${selected} | wc -w` -eq 0 ] && return
     docker rmi -f $selected
 
     zle reset-prompt
@@ -260,9 +256,7 @@ drmi() {
 }
 dsh() {
     selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
-    if [ `echo ${selected} | wc -w` -eq 0 ]; then
-        return
-    fi
+    [ `echo ${selected} | wc -w` -eq 0 ] && return
     docker exec -it $selected sh
 
     zle reset-prompt
@@ -270,53 +264,85 @@ dsh() {
 }
 dlogs() {
     selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
-    if [ `echo ${selected} | wc -w` -eq 0 ]; then
-        return
-    fi
+    [ `echo ${selected} | wc -w` -eq 0 ] && return
     docker logs $selected
 
     zle reset-prompt
     zle -R -c
 }
-gcheckout() {
+checkout_gbranch() {
     selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
-    git checkout ${selected} > /dev/null 2>&1
+    [ "${selected}" = "" ] && return 0
+    git checkout ${selected}
 
     zle reset-prompt
     zle -R -c
 }
-gbranch() {
+put_gbranch() {
     selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    [ "${selected}" = "" ] && return 0
     LBUFFER+=${selected}
     CURSOR=$#LBUFFER
 
     zle reset-prompt
     zle -R -c
 }
-gopathfzf() {
+cd_gopath() {
     selected=`for dir in $(ls $GOPATH/src/github.com);do for dir2 in $(ls $GOPATH/src/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    [ "${selected}" = "" ] && return 0
     cd $GOPATH/src/github.com/${selected}
 
     zle reset-prompt
     zle -R -c
 }
-ghqfzf() {
+cd_ghq() {
     selected=`for dir in $(ls $HOME/.ghq/github.com);do for dir2 in $(ls $HOME/.ghq/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    [ "${selected}" = "" ] && return 0
     cd $HOME/.ghq/github.com/${selected}
 
     zle reset-prompt
     zle -R -c
 }
+put_gopath() {
+    selected=`for dir in $(ls $GOPATH/src/github.com);do for dir2 in $(ls $GOPATH/src/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    [ "${selected}" = "" ] && return 0
+    echo $selected
+    LBUFFER+=$GOPATH/src/github.com/${selected}
+    CURSOR=$#LBUFFER
+
+    zle reset-prompt
+    zle -R -c
+}
+put_ghq() {
+    selected=`for dir in $(ls $HOME/.ghq/github.com);do for dir2 in $(ls $HOME/.ghq/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    [ "${selected}" = "" ] && return 0
+    LBUFFER+=$GHQPATH/${selected}
+    CURSOR=$#LBUFFER
+
+    zle reset-prompt
+    zle -R -c
+}
+cd_dirhist() {
+    selected=`dirs -pl | sort | uniq | awk 'BEGIN{FS=" "}{print $1}' | fzf`
+    cd ${selected} > /dev/null 2>&1
+
+    zle reset-prompt
+    zle -R -c
+}
+
 
 zle -N dstop
 zle -N drm
 zle -N drmi
 zle -N dsh
 zle -N dlogs
-zle -N gcheckout
-zle -N gbranch
-zle -N gopathfzf
-zle -N ghqfzf
+zle -N checkout_gbranch
+zle -N put_gbranch
+zle -N cd_gopath
+zle -N cd_ghq
+zle -N put_gopath
+zle -N put_ghq
+zle -N cd_dirhist
 # }}}
 # for Docker {{{
 #     ____              ____             __            
@@ -386,6 +412,8 @@ dstopall() {
     _dstopall ${all}
 }
 # }}}
+# support widgets {{{
+# }}}
 # alias {{{
 #     ___    ___           
 #    /   |  / (_)___ ______
@@ -393,10 +421,11 @@ dstopall() {
 #  / ___ |/ / / /_/ (__  ) 
 # /_/  |_/_/_/\__,_/____/  
 #                          
-alias s='source ~/.zshrc'
+alias s='exec $SHELL -l'
 alias ls='ls -F'
 alias la='ls -la'
 alias rm='rm -i'
+alias emacs='emacs -nw'
 
 # docker
 alias dps='docker ps'
@@ -420,7 +449,7 @@ alias ghci='stack ghci'
 alias runghc='stack runghc'
 
 # global alias
-alias -g B='|bash' 
+alias -g B='|bash'
 if [ `uname` = "Darwin" ]; then
     alias -g C='|pbcopy'
 elif [ `uname` = "Linux" ]; then
@@ -443,13 +472,16 @@ source $HOME/env.zsh
 # 補完、色つけなど
 fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U compinit
-compinit 
+compinit
 autoload -Uz colors
 colors
 
 setopt no_beep
 setopt auto_cd
 setopt correct
+
+# `cd` behave `pushd`
+setopt auto_pushd
 
 dir() {
     mkdir $1 && cd $_
@@ -497,20 +529,27 @@ fi
 #                                          /____/                 
 bindkey '^a' autosuggest-accept
 bindkey '^e' autosuggest-execute
-bindkey '^b' gcheckout
-bindkey '^v' gbranch
-bindkey '^h' ghqfzf
-bindkey '^j' gopathfzf
+
+bindkey '^b' checkout_gbranch
+bindkey '^h' cd_ghq
+bindkey '^j' cd_gopath
+bindkey '^[B' put_gbranch # alt-shift-b
+bindkey '^[H' put_ghq # alt-shift-h
+bindkey '^[J' put_gopath # alt-shift-j
+
+bindkey '^x' cd_dirhist
+
 bindkey '^p' anyframe-widget-put-history
 bindkey '^k' anyframe-widget-kill
-bindkey '^xb' anyframe-widget-insert-git-branch
-bindkey '^f' anyframe-widget-insert-filename
+
 bindkey '^ws' dstop
 bindkey '^wr' drm
 bindkey '^wi' drmi
 
-bindkey '^hx' brdown
-bindkey '^ha' brup
+# for Linux
+bindkey '^rx' brdown
+bindkey '^ra' brup
+
 # }}}
 # for Thinkpad X230 Tips {{{
 #   ________    _       __                   __   __  _           
