@@ -271,6 +271,7 @@ dlogs() {
     zle -R -c
 }
 checkout_gbranch() {
+    [ ! -d .git ] && return 0
     selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
     [ "${selected}" = "" ] && return 0
     git checkout ${selected}
@@ -279,6 +280,7 @@ checkout_gbranch() {
     zle -R -c
 }
 put_gbranch() {
+    [ ! -d .git ] && return 0
     selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
     [ "${selected}" = "" ] && return 0
     LBUFFER+=${selected}
@@ -519,6 +521,9 @@ if [ `uname` = "Linux" ]; then
 else
     echo "unnecessary brightness control functions"
 fi
+
+# coloring error output
+# exec 2> >( read e; [ "${e}" != "" ] && $(echo ${e} | sed "s/^/${fg_bold[magenta]}/;s/$/${reset_color}/") )
 # }}}
 # bind widgets {{{
 #     ____  _           __   _       ___     __           __      
@@ -592,3 +597,4 @@ fi
 # COMPLETE! {{{
 echo "complete!"
 # }}}
+

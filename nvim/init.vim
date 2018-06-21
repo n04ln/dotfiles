@@ -1,3 +1,4 @@
+"  http://patorjk.com/software/taag/#p=display&f=Slant&t=awesome
 " path setting {{{
 "                  __  __  
 "     ____  ____ _/ /_/ /_ 
@@ -6,6 +7,8 @@
 "  / .___/\__,_/\__/_/ /_/ 
 " /_/                      
 set runtimepath+=/usr/local/share/nvim/runtime
+set runtimepath+=~/.ghq/github.com/NoahOrberg/yoshinani.vim
+set runtimepath+=~/.ghq/github.com/NoahOrberg/schoolyard.nvim
 " let g:python3_host_prog = '/usr/local/bin/python3' " use pyenv python3
 let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
 " }}}
@@ -112,18 +115,32 @@ nnoremap <silent>tp :tabp<CR>
 "
 "  trash operate (not in any register)
 nnoremap D "_d
-
+"  to clipboard
+nnoremap Y "+y
 "  put current filename
 nnoremap FF "%p
-
 "  paste text in clip board
 nnoremap <C-c>p "*p
-
 "  copy text to clip board (in only visual mode)
 vnoremap <C-c>c "*y
+
+nnoremap <Space> <Nop>
+nnoremap Q <Nop>
+nnoremap q: :q<CR>
+nnoremap <SPACE>Q :<C-u>Q<CR>
+nnoremap <SPACE>q :<C-u>q<CR>
+nnoremap <SPACE>w :<C-u>w<CR>
+nnoremap <SPACE>e :<C-u>e 
+nnoremap <SPACE>a :<C-u>ALEToggle<CR> :<C-u>echo g:ale_enabled<CR>
+inoremap {<CR> {<CR>}<Esc>O
+inoremap {, {<CR>},<Esc>O
+" }}}
+" custom command {{{
+command! Date :r! date
+command! CurrentAllDirs :r! ls -alF | grep -e '^d.*$' | awk 'BEGIN{FS=" "}{printf $9 " "}'
+command! CurrentDirs :r! ls -lF | grep -e '^d.*$' | awk 'BEGIN{FS=" "}{printf $9 " "}'
 " }}}
 " each plugin setting 
-"  http://patorjk.com/software/taag/#p=display&f=Slant&t=awesome
 " dein{{{
 "        __     _             _         
 "   ____/ /__  (_)___  _   __(_)___ ___ 
@@ -153,9 +170,7 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('NoahOrberg/diesirae.nvim')
   call dein#add('NoahOrberg/castOfArrow.vim')
   call dein#add('NoahOrberg/vivid.vim')
-  " call dein#add('NoahOrberg/nimvle.nvim')
-  " call dein#add('NoahOrberg/cc.nvim')
-  " call dein#add('NoahOrberg/AYUNiS.nvim', {'rev': 'master'})
+  call dein#add('NoahOrberg/AYUNiS.nvim', {'rev': 'master'})
 
   " js and html and CSS
   call dein#add('mattn/emmet-vim', {'on_ft': ['html']})
@@ -186,8 +201,12 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('miyakogi/seiya.vim')
   call dein#add('Yggdroot/indentLine')
 
+  " elixir
+  call dein#add('elixir-editors/vim-elixir')
+  call dein#add('mattreduce/vim-mix')
+
   " high speed edit
-  call dein#add('easymotion/vim-easymotion', { 'rev': 'v3.0.0'})
+  call dein#add('easymotion/vim-easymotion', {'rev': 'v3.0.1'})
   call dein#add('haya14busa/incsearch.vim')
   call dein#add('haya14busa/incsearch-fuzzy.vim')
   call dein#add('haya14busa/incsearch-easymotion.vim')
@@ -204,6 +223,7 @@ if dein#load_state('~/.config/nvim/bundle')
   call dein#add('tomtom/tcomment_vim')
   call dein#add('vim-jp/vital.vim')
   call dein#add('gyim/vim-boxdraw')
+  call dein#add('reedes/vim-colors-pencil')
   call dein#add('mopp/layoutplugin.vim')
   " call dein#add('takac/vim-spotifysearch')
   " You can specify revision/branch/tag.
@@ -211,7 +231,7 @@ if dein#load_state('~/.config/nvim/bundle')
 
   " for vue
   call dein#add('posva/vim-vue')
-  call dein#add('w0rp/ale', {'ft': ['vue', 'javascript', 'html']})
+  call dein#add('w0rp/ale')
 
   " Required:
   call dein#end()
@@ -321,7 +341,7 @@ nnoremap <silent><C-e> :NERDTreeToggle<CR>
 " | |/ / / / / / / /_____/ /_/ / /_/ / / /__/ ,< / /  / /_/ / / / /
 " |___/_/_/ /_/ /_/      \__, /\__,_/_/\___/_/|_/_/   \__,_/_/ /_/ 
 "                          /_/                                     
-nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
+" nnoremap <Leader>q :<C-u>bw! \[quickrun\ output\]<CR>
 autocmd BufRead,BufNewFile *_test.go set filetype=go.test
 let g:quickrun_config = {
 \   '_': {
