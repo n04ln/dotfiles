@@ -1,8 +1,9 @@
 language C
 syntax on
-filetype plugin indent on
-" set background=dark
+set background=dark
 colorscheme tender
+filetype plugin indent on
+" Setting options {{{
 set scrolloff=3
 set number
 set relativenumber
@@ -24,47 +25,52 @@ set shortmess+=A
 set undofile
 set undodir=~/.vim/undo
 set splitbelow
+set wildmode=longest:full,full
 " set clipboard=unnamedplus
-
-" set runtimepath+=/usr/local/share/nvim/runtime
 let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
-
+" }}}
+" Indent {{{
 augroup fileTypeIndent
   autocmd!
   autocmd BufNewFile,BufRead *.vim   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.h   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.java setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.js   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.vue   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.yaml   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.yml   setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
+" }}}
+" KEYBINDS {{{
 
-" KEYBINDS{{{
+" Terminal
 inoremap <silent><C-j> <C-n>
 tnoremap <silent> jj <C-\><C-n>
 inoremap <silent> jj <ESC>
 tnoremap <silent> <ESC> <C-\><C-n>
 command Nt sp | terminal
 
+" Buffer
 nnoremap <silent>Bn :bnext<CR>
 nnoremap <silent>Bb :b#<CR>
 
+" Tab
 nnoremap <silent>tn :tabn<CR>
 nnoremap <silent>tp :tabp<CR>
 
-"  trash operate (not in any register)
+" trash operate (not in any register)
 nnoremap D "_d
-"  to clipboard
+" to clipboard
 nnoremap Y "+y
-"  put current filename
+" put current filename
 nnoremap FF "%p
-"  put now
+" put now
 nnoremap <silent> DD :Date<CR>
-"  paste text in clip board
-nnoremap <C-c>p "*p
-"  copy text to clip board (in only visual mode)
+" copy text to clip board (in only visual mode)
 vnoremap <C-c>c "*y
+" paste text in clip board
+nnoremap <C-c>p "*p
 
 " useful
 nnoremap <Space> <Nop>
@@ -105,8 +111,30 @@ vnoremap <silent><SPACE>; :<C-u>'<,'>s/\n/; /g<CR>
 " oneline -> multiple lines
 vnoremap <silent><SPACE>! :<C-u>'<,'>s/,/,\r/g<CR>
 
-" Ex mode
-noremap <C-x><SPACE> :
+" resize window 
+nmap <C-w>+ <C-w>+<SID>ws
+nmap <C-w>- <C-w>-<SID>ws
+nmap <C-w><C-l> <C-w>><SID>ws
+nmap <C-w><C-h> <C-w><<SID>ws
+nnoremap <silent> <script> <SID>ws+ <C-w>+<SID>ws
+nnoremap <silent> <script> <SID>ws- <C-w>-<SID>ws
+nnoremap <silent> <script> <SID>ws<C-l> <C-w>><SID>ws
+nnoremap <silent> <script> <SID>ws<C-h> <C-w><<SID>ws
+nmap <SID>ws <SID>
+
+" Enter Ex-mode
+noremap <SPACE>x :
+
+" Ex-mode (many keybinds LIKE Emacs
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-d> <Del>
+cnoremap <C-e> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
+cnoremap <C-B> <S-Left>
+cnoremap <C-F> <S-Right>
 " }}}
 " Plug {{{
 " NOTE: INSTALL Plug Command (https://github.com/junegunn/vim-plug#neovim)
@@ -127,6 +155,7 @@ Plug 'tomtom/tcomment_vim'
 Plug 'thinca/vim-quickrun'
 Plug 'majutsushi/tagbar'
 Plug 'glidenote/memolist.vim'
+Plug 'majutsushi/tagbar'
 
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
@@ -134,9 +163,14 @@ Plug 'Shougo/deoplete.nvim'
 
 Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'fatih/vim-go'
+Plug 'w0rp/ale'
+Plug 'dyng/ctrlsf.vim'
+
+Plug 'NoahOrberg/AYUNiS.nvim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'jdkanani/vim-material-theme'
 call plug#end()
 " }}}
 " NERDTree {{{
@@ -179,10 +213,14 @@ let g:lightline = {
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
       \ },
       \ 'component_function': {
-      \   'gitbranch': 'fugitive#head'
+      \   'gitbranch': 'fugitive#head',
+      \   'ayunis': 'AYUNiSGetNowPlaying'
       \ },
       \ }
-let g:lightline.tabline          = {'left': [['buffers']], 'right': [['close']]}
+let g:lightline.tabline          = {
+      \ 'left': [['ayunis', 'buffers']],
+      \ 'right': [['close']]
+      \ }
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
 let g:lightline.component_type   = {'buffers': 'tabsel'}
 autocmd BufWritePost,TextChanged,TextChangedI * call lightline#update()
@@ -198,4 +236,25 @@ noremap <silent><C-m> :CtrlPMRUFiles<CR>
 " }}}
 " vim-go {{{
 let g:go_fmt_command = "goimports"
+nnoremap gt :GoTestFunc<CR>
+nnoremap gT :GoTest<CR>
+" }}}
+" tagbar {{{
+nmap <F8> :TagbarToggle<CR>
+nmap tt :TagbarToggle<CR>
+nmap tc :TagbarCurrentTag<CR>
+let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
+" }}}
+" AYUNiS.nvim {{{
+let g:ayunis_rtp = $HOME . '/.vim/plugged/AYUNiS.nvim'
+" Next
+nnoremap <silent><SPACE>sl :call AYUNiSNext()<CR>
+" Prev
+nnoremap <silent><SPACE>sh :call AYUNiSPrev()<CR>
+" Toggle(playpause)
+nnoremap <silent><SPACE>st :call AYUNiSToggle()<CR>
+" Volume up
+nnoremap <silent><SPACE>s+ :call AYUNiSVolumeUp()<CR>
+" Volume down
+nnoremap <silent><SPACE>s- :call AYUNiSVolumeDown()<CR>
 " }}}
