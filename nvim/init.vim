@@ -3,6 +3,13 @@ syntax on
 set background=dark
 colorscheme tender
 filetype plugin indent on
+" typo {{{
+iabbrev TOOD TODO
+iabbrev srting string
+iabbrev strign string
+iabbrev nit int
+iabbrev pubric public
+" }}}
 " Setting options {{{
 set scrolloff=3
 set number
@@ -166,7 +173,7 @@ Plug 'fatih/vim-go'
 Plug 'w0rp/ale'
 Plug 'dyng/ctrlsf.vim'
 
-Plug 'NoahOrberg/AYUNiS.nvim'
+" Plug 'NoahOrberg/AYUNiS.nvim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -174,6 +181,7 @@ Plug 'jdkanani/vim-material-theme'
 call plug#end()
 " }}}
 " NERDTree {{{
+let g:NERDTreeShowHidden = 1
 noremap <silent> <C-e> :NERDTreeToggle<CR>
 " }}}
 " deoplete {{{
@@ -230,7 +238,6 @@ let g:indentLine_char = '¦'
 set list lcs=tab:\¦\ 
 " }}}
 " ctrlp {{{
-noremap <silent><C-P> :CtrlP<CR>
 noremap <silent><C-b> :CtrlPBuffer<CR>
 noremap <silent><C-m> :CtrlPMRUFiles<CR>
 " }}}
@@ -246,15 +253,15 @@ nmap tc :TagbarCurrentTag<CR>
 let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
 " }}}
 " AYUNiS.nvim {{{
-let g:ayunis_rtp = $HOME . '/.vim/plugged/AYUNiS.nvim'
-" Next
-nnoremap <silent><SPACE>sl :call AYUNiSNext()<CR>
-" Prev
-nnoremap <silent><SPACE>sh :call AYUNiSPrev()<CR>
-" Toggle(playpause)
-nnoremap <silent><SPACE>st :call AYUNiSToggle()<CR>
-" Volume up
-nnoremap <silent><SPACE>s+ :call AYUNiSVolumeUp()<CR>
-" Volume down
-nnoremap <silent><SPACE>s- :call AYUNiSVolumeDown()<CR>
+" let g:ayunis_rtp = $HOME . '/.vim/plugged/AYUNiS.nvim'
+" " Next
+" nnoremap <silent><SPACE>sl :call AYUNiSNext()<CR>
+" " Prev
+" nnoremap <silent><SPACE>sh :call AYUNiSPrev()<CR>
+" " Toggle(playpause)
+" nnoremap <silent><SPACE>st :call AYUNiSToggle()<CR>
+" " Volume up
+" nnoremap <silent><SPACE>s+ :call AYUNiSVolumeUp()<CR>
+" " Volume down
+" nnoremap <silent><SPACE>s- :call AYUNiSVolumeDown()<CR>
 " }}}

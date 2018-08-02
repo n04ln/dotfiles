@@ -36,7 +36,8 @@ export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
 export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/go
 export GOSAND=$GOPATH/src/github.com/NoahOrberg/sandbox
-export GHQPATH=$HOME/.ghq/github.com
+export GHQPATH=$GOPATH/src
+export PATH="/usr/local/opt/gettext/bin:$PATH"
 export PATH=/Users/noah/.goenv/shims:$PATH
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
@@ -289,36 +290,18 @@ put_gbranch() {
     zle reset-prompt
     zle -R -c
 }
-cd_gopath() {
-    selected=`for dir in $(ls $GOPATH/src/github.com);do for dir2 in $(ls $GOPATH/src/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
-    [ "${selected}" = "" ] && return 0
-    cd $GOPATH/src/github.com/${selected}
-
-    zle reset-prompt
-    zle -R -c
-}
 cd_ghq() {
-    selected=`for dir in $(ls $HOME/.ghq/github.com);do for dir2 in $(ls $HOME/.ghq/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    selected=`for dir in $(ls $GHQPATH/github.com);do for dir2 in $(ls $GHQPATH/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
     [ "${selected}" = "" ] && return 0
-    cd $HOME/.ghq/github.com/${selected}
-
-    zle reset-prompt
-    zle -R -c
-}
-put_gopath() {
-    selected=`for dir in $(ls $GOPATH/src/github.com);do for dir2 in $(ls $GOPATH/src/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
-    [ "${selected}" = "" ] && return 0
-    echo $selected
-    LBUFFER+=$GOPATH/src/github.com/${selected}
-    CURSOR=$#LBUFFER
+    cd $GHQPATH/github.com/${selected}
 
     zle reset-prompt
     zle -R -c
 }
 put_ghq() {
-    selected=`for dir in $(ls $HOME/.ghq/github.com);do for dir2 in $(ls $HOME/.ghq/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    selected=`for dir in $(ls $GHQPATH/github.com);do for dir2 in $(ls $GHQPATH/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
     [ "${selected}" = "" ] && return 0
-    LBUFFER+=$GHQPATH/${selected}
+    LBUFFER+=$GHQPATH/github.com/${selected}
     CURSOR=$#LBUFFER
 
     zle reset-prompt
@@ -436,14 +419,15 @@ alias dim='docker images'
 
 # git
 alias ga='git add .'
-alias gc='git commit'
+alias gC='git commit'
+alias gc='git checkout -b'
 alias gs='git status'
 alias gp='git push'
 alias gP='git pull'
 alias gd='git diff'
 
 # ghq
-alias cdg='cd ~/.ghq/github.com/$_'
+alias cdg='cd $GHQPATH/github.com/$_'
 
 # stack
 alias ghc='stack ghc'
@@ -536,11 +520,9 @@ bindkey '^a' autosuggest-accept
 bindkey '^e' autosuggest-execute
 
 bindkey '^b' checkout_gbranch
-bindkey '^h' cd_ghq
-bindkey '^j' cd_gopath
+bindkey '^j' cd_ghq
 bindkey '^[B' put_gbranch # alt-shift-b
-bindkey '^[H' put_ghq # alt-shift-h
-bindkey '^[J' put_gopath # alt-shift-j
+bindkey '^[J' put_ghq # alt-shift-j
 
 bindkey '^x' cd_dirhist
 
@@ -595,6 +577,8 @@ if [ `uname` = "Linux" ]; then
 fi
 # }}}
 # COMPLETE! {{{
+# LDFLAGS:  -L/usr/local/opt/gettext/lib
+# CPPFLAGS: -I/usr/local/opt/gettext/include
 echo "complete!"
 # }}}
 
