@@ -7,8 +7,12 @@ filetype plugin indent on
 iabbrev TOOD TODO
 iabbrev srting string
 iabbrev strign string
+iabbrev strnig string
 iabbrev nit int
 iabbrev pubric public
+iabbrev Pritln Println
+iabbrev Prit Print
+iabbrev pritn print
 " }}}
 " Setting options {{{
 set scrolloff=3
@@ -33,20 +37,21 @@ set undofile
 set undodir=~/.vim/undo
 set splitbelow
 set wildmode=longest:full,full
-" set clipboard=unnamedplus
+set clipboard=unnamed
+set clipboard+=unnamedplus
 let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
 " }}}
 " Indent {{{
 augroup fileTypeIndent
   autocmd!
-  autocmd BufNewFile,BufRead *.vim   setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.h   setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.cpp setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.vim  setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.h    setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.cpp  setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.java setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.js   setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.vue   setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.yaml   setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.yml   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.vue  setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.yml  setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 " }}}
 " KEYBINDS {{{
@@ -74,8 +79,8 @@ nnoremap Y "+y
 nnoremap FF "%p
 " put now
 nnoremap <silent> DD :Date<CR>
-" copy text to clip board (in only visual mode)
-vnoremap <C-c>c "*y
+" copy text to clip board
+noremap <C-c>y "*y
 " paste text in clip board
 nnoremap <C-c>p "*p
 
@@ -95,39 +100,33 @@ nnoremap <SPACE>R :<C-u>%s//g<LEFT><LEFT>
 vnoremap <SPACE>r :s//g<LEFT><LEFT>
 
 " CtrlSF
-nnoremap <SPACE>ss :<C-u>CtrlSF<CR>
-function! InteractiveCtrlSFCmd() abort
-  let s = input("plz input word: ")
-  if (s != "") 
-    execute ":CtrlSF " . s
-  endif
-endfunction
-nnoremap <SPACE>sf :<C-u>call InteractiveCtrlSFCmd()<CR>
-
-" vimgrep
-function! VimGrep() abort
-  let str = input("grep word: ")
-  execute(":vim " . str . " `git ls-files` | cw")
-endfunction
-nnoremap <SPACE>gc :call VimGrep()<CR>
+nnoremap <SPACE>sf :<C-u>CtrlSF 
 
 " multiple lines -> oneline
+"  nothing separator
 vnoremap <silent><SPACE>1 :<C-u>'<,'>s/\n//g<CR>
+"  separator is ';'
 vnoremap <silent><SPACE>; :<C-u>'<,'>s/\n/; /g<CR>
 
 " oneline -> multiple lines
 vnoremap <silent><SPACE>! :<C-u>'<,'>s/,/,\r/g<CR>
 
 " resize window 
-nmap <C-w>+ <C-w>+<SID>ws
-nmap <C-w>- <C-w>-<SID>ws
+nmap <C-w><C-j> <C-w>+<SID>ws
+nmap <C-w><C-k> <C-w>-<SID>ws
 nmap <C-w><C-l> <C-w>><SID>ws
 nmap <C-w><C-h> <C-w><<SID>ws
-nnoremap <silent> <script> <SID>ws+ <C-w>+<SID>ws
-nnoremap <silent> <script> <SID>ws- <C-w>-<SID>ws
+nnoremap <silent> <script> <SID>ws<C-j> <C-w>+<SID>ws
+nnoremap <silent> <script> <SID>ws<C-k> <C-w>-<SID>ws
 nnoremap <silent> <script> <SID>ws<C-l> <C-w>><SID>ws
 nnoremap <silent> <script> <SID>ws<C-h> <C-w><<SID>ws
 nmap <SID>ws <SID>
+
+" move window
+nnoremap <C-h> <C-w>h
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-l> <C-w>l
 
 " Enter Ex-mode
 noremap <SPACE>x :
@@ -142,14 +141,20 @@ cnoremap <C-n> <Down>
 cnoremap <C-p> <Up>
 cnoremap <C-B> <S-Left>
 cnoremap <C-F> <S-Right>
+
+" C-h is back space
+inoremap <C-h> <BACKSPACE>
 " }}}
 " Plug {{{
 " NOTE: INSTALL Plug Command (https://github.com/junegunn/vim-plug#neovim)
 "   $ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin('~/.vim/plugged')
+Plug 'jparise/vim-graphql'
+
 Plug 'itchyny/lightline.vim'
 Plug 'mgee/lightline-bufferline'
 Plug 'jacoborus/tender.vim'
+Plug 'leafgarland/typescript-vim'
 
 Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
@@ -174,6 +179,7 @@ Plug 'w0rp/ale'
 Plug 'dyng/ctrlsf.vim'
 
 " Plug 'NoahOrberg/AYUNiS.nvim'
+Plug 'NoahOrberg/diesirae.nvim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -264,4 +270,18 @@ let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
 " nnoremap <silent><SPACE>s+ :call AYUNiSVolumeUp()<CR>
 " " Volume down
 " nnoremap <silent><SPACE>s- :call AYUNiSVolumeDown()<CR>
+" }}}
+" diesirae.nvim {{{
+let g:diesirae_config = {
+      \  'commands': {
+      \    'py': {
+      \      'build_command': [], 
+      \      'exec_command': ['python3', '*source*']
+      \    },
+      \    'go': {
+      \      'build_command': ['go', 'build', '-o', '*bin*', '*source*'], 
+      \      'exec_command': ['*bin*']
+      \    }
+      \  }
+      \}
 " }}}
