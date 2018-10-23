@@ -5,7 +5,8 @@ This repo is my dotfiles.
 
 ## My dotfiles
 ```
-nvim/init.vim         => ~/.config/nvim/init.vim  
+.config/nvim/         => ~/.config/nvim/
+.config/karabiner/    => ~/.config/karabiner/
 vim/.vimrc            => ~/.vimrc  
 zsh/.zshrc            => ~/.zshrc  
 tmux/.tmux.conf       => ~/.tmux.conf

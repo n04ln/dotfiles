@@ -3,6 +3,10 @@ syntax on
 set background=dark
 colorscheme tender
 filetype plugin indent on
+" Open config file (~/.config/nvim/init.vim)
+command! Cn :e ~/.config/nvim/init.vim
+" Open config file (~/.zshrc)
+command! Cz :e ~/.zshrc
 " typo {{{
 iabbrev TOOD TODO
 iabbrev srting string
@@ -13,6 +17,8 @@ iabbrev pubric public
 iabbrev Pritln Println
 iabbrev Prit Print
 iabbrev pritn print
+iabbrev singup signup
+iabbrev singin signin
 " }}}
 " Setting options {{{
 set scrolloff=3
@@ -37,9 +43,10 @@ set undofile
 set undodir=~/.vim/undo
 set splitbelow
 set wildmode=longest:full,full
-set clipboard=unnamed
-set clipboard+=unnamedplus
-let g:python3_host_prog = $PYENV_ROOT . '/shims/python3' " use pyenv python3
+" set clipboard=unnamed
+" set clipboard+=unnamedplus
+let g:python3_host_prog = $PYENV_ROOT . '/versions/3.6.6/bin/python3' " use pyenv python3
+let g:python_host_prog = $PYENV_ROOT . '/versions/2.7.15/bin/python2' " use pyenv python2
 " }}}
 " Indent {{{
 augroup fileTypeIndent
@@ -75,6 +82,8 @@ nnoremap <silent>tp :tabp<CR>
 nnoremap D "_d
 " to clipboard
 nnoremap Y "+y
+" to clipboard
+vnoremap Y "+y
 " put current filename
 nnoremap FF "%p
 " put now
@@ -150,6 +159,7 @@ inoremap <C-h> <BACKSPACE>
 "   $ curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin('~/.vim/plugged')
 Plug 'jparise/vim-graphql'
+" Plug 'ensime/ensime-vim', { 'do': ':UpdateRemotePlugins' }
 
 Plug 'itchyny/lightline.vim'
 Plug 'mgee/lightline-bufferline'
@@ -165,7 +175,6 @@ Plug 'cohama/lexima.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'tomtom/tcomment_vim'
 Plug 'thinca/vim-quickrun'
-Plug 'majutsushi/tagbar'
 Plug 'glidenote/memolist.vim'
 Plug 'majutsushi/tagbar'
 
@@ -178,7 +187,7 @@ Plug 'fatih/vim-go'
 Plug 'w0rp/ale'
 Plug 'dyng/ctrlsf.vim'
 
-" Plug 'NoahOrberg/AYUNiS.nvim'
+Plug 'NoahOrberg/AYUNiS.nvim'
 Plug 'NoahOrberg/diesirae.nvim'
 
 Plug 'ctrlpvim/ctrlp.vim'
@@ -193,6 +202,7 @@ noremap <silent> <C-e> :NERDTreeToggle<CR>
 " deoplete {{{
 let g:deoplete#enable_at_startup = 1
 set completeopt+=noinsert
+let g:deoplete#omni_patterns = {}
 " }}}
 " snippet {{{
 " Plugin key-mappings.
@@ -246,6 +256,10 @@ set list lcs=tab:\¦\
 " ctrlp {{{
 noremap <silent><C-b> :CtrlPBuffer<CR>
 noremap <silent><C-m> :CtrlPMRUFiles<CR>
+noremap <silent><C-l> :CtrlPLine<CR>
+" }}}
+" memolist.vim {{{
+let g:memolist_path = $HOME . "/Documents"
 " }}}
 " vim-go {{{
 let g:go_fmt_command = "goimports"
@@ -259,17 +273,17 @@ nmap tc :TagbarCurrentTag<CR>
 let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
 " }}}
 " AYUNiS.nvim {{{
-" let g:ayunis_rtp = $HOME . '/.vim/plugged/AYUNiS.nvim'
-" " Next
-" nnoremap <silent><SPACE>sl :call AYUNiSNext()<CR>
-" " Prev
-" nnoremap <silent><SPACE>sh :call AYUNiSPrev()<CR>
-" " Toggle(playpause)
-" nnoremap <silent><SPACE>st :call AYUNiSToggle()<CR>
-" " Volume up
-" nnoremap <silent><SPACE>s+ :call AYUNiSVolumeUp()<CR>
-" " Volume down
-" nnoremap <silent><SPACE>s- :call AYUNiSVolumeDown()<CR>
+let g:ayunis_rtp = $HOME . '/.vim/plugged/AYUNiS.nvim'
+" Next
+nnoremap <silent><SPACE>sl :call AYUNiSNext()<CR>
+" Prev
+nnoremap <silent><SPACE>sh :call AYUNiSPrev()<CR>
+" Toggle(playpause)
+nnoremap <silent><SPACE>st :call AYUNiSToggle()<CR>
+" Volume up
+nnoremap <silent><SPACE>s+ :call AYUNiSVolumeUp()<CR>
+" Volume down
+nnoremap <silent><SPACE>s- :call AYUNiSVolumeDown()<CR>
 " }}}
 " diesirae.nvim {{{
 let g:diesirae_config = {

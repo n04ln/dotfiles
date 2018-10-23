@@ -44,13 +44,15 @@ export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/bin:$PATH
 export PATH=$GOPATH/bin:$PATH
 export PATH=$PYENV_ROOT/shims:$PATH
+export PATH="/usr/local/opt/openssl/bin:$PATH"
 # export PATH=/usr/local/Cellar/git/2.12.2:$PATH
 # export PATH=$PYENV_ROOT/versions/3.6.1/bin:$PATH
 # export PATH=$HOME/.protoc/bin:$PATH
 # export PATH=$HOME/.nodebrew/current/bin:$PATH
 # export PATH=$HOME/.rbenv/versions/2.4.1/bin:$PATH
 # export PATH=$HOME/.bin/z3-4.5.0-x64-osx-10.11.6/bin:$PATH
-
+# use Java 1.8
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 # }}}
 # CLI tool and some plugin install {{{
 #     __                     
@@ -153,20 +155,16 @@ setopt prompt_subst
 function zle-line-init zle-keymap-select {
     case $KEYMAP in
         vicmd)
-            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[yellow]}%}[NORMAL]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
-%% '
+            PROMPT=$'%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[yellow]}%}[NORMAL]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}\n%% '
             ;;
         main|viins|opp)
-            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[cyan]}${bg[blue]}%}[INSERT]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
-%% '
+            PROMPT=$'%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[cyan]}${bg[blue]}%}[INSERT]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}\n%% '
             ;;
         vivis)
-            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[magenta]}%}[VISUAL]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
-%% '
+            PROMPT=$'%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[magenta]}%}[VISUAL]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}\n%% '
             ;;
         *)
-            PROMPT='%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[green]}%}[${KEYMAP}]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}
-%% '
+            PROMPT=$'%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[green]}%}[${KEYMAP}]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}\n%% '
             ;;
     esac
     LANG=en_US.UTF-8 vcs_info
@@ -272,8 +270,23 @@ dlogs() {
     zle -R -c
 }
 checkout_gbranch() {
-    [ ! -d .git ] && return 0
-    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    # NOTE: サブディレクトリからでもcheckout可能にする
+    #       プロジェクトルートにcdする制限付き（存在しないディレクトリに入ったりしないために
+    tmpdir=`pwd`; branches=""
+    while true ; do # NOTE: `$ git branch -a` を、cdしなくてもいい方法があればそちらのほうが良い
+        if [ `pwd` = "/" ]; then;
+            cd ${tmpdir} && return 0
+        fi
+
+        if [ -d .git ]; then;
+            branches=`git branch -a`
+            break
+        else cd ../; fi
+    done
+    selected=`echo ${branches} | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    # NOTE: プロジェクトルートからしかできない安定版は以下(上がぶっ壊れたらつかう)
+    # [ ! -d .git ] && return 0
+    # selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
     [ "${selected}" = "" ] && return 0
     git checkout ${selected}
 
@@ -281,11 +294,23 @@ checkout_gbranch() {
     zle -R -c
 }
 put_gbranch() {
-    [ ! -d .git ] && return 0
-    selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    # NOTE: checkout_gbranchと基本的に同じ問題を抱えてる
+    tmpdir=`pwd`; branches=""
+    while true ; do
+        if [ `pwd` = "/" ]; then;
+            cd ${tmpdir} && return 0
+        fi
+
+        if [ -d .git ]; then;
+            branches=`git branch -a`
+            break
+        else cd ../; fi
+    done
+    selected=`echo ${branches} | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
     [ "${selected}" = "" ] && return 0
     LBUFFER+=${selected}
     CURSOR=$#LBUFFER
+    cd ${tmpdir}
 
     zle reset-prompt
     zle -R -c
@@ -397,6 +422,24 @@ dstopall() {
     _dstopall ${all}
 }
 # }}}
+# for k8s {{{
+# TODO
+# }}}
+# some custom commands {{{
+dusk() {
+    # calc file and dir size in the current dir
+    ls -al | sed 1d | awk '{for(i=9;i<NF;i++){printf("%s\ ", $i)};print($NF)}' | while read i; do du -sk $i; done | sort -n
+}
+
+cdg() {
+    # NOTE:
+    #   $ ghq get git@github.com/<USER_ID>/<REPOSITORY_NAME> # for ssh
+    #   or
+    #   $ ghq get <USER_ID>/<REPOSITORY_NAME>
+    #   before execute this command
+    p=$(history | sort -n -r | awk '{ if($2=="ghq"){for(i=2;i<NF;i++){print $NF}} }' | head -n 1) && if [ `echo $p | grep git@` ]; then cd $GHQPATH/github.com/$(echo $p | perl -pe 's/git\@github\.com:(.*?)\.git/$1/'); else cd $GHQPATH/github.com/$p; fi; unset p
+}
+# }}}
 # support widgets {{{
 # }}}
 # alias {{{
@@ -406,11 +449,12 @@ dstopall() {
 #  / ___ |/ / / /_/ (__  ) 
 # /_/  |_/_/_/\__,_/____/  
 #                          
-alias s='exec $SHELL -l'
+alias sss='exec $SHELL -l'
 alias ls='ls -F'
 alias la='ls -la'
 alias rm='rm -i'
 alias emacs='emacs -nw'
+alias k="kubectl"
 
 # docker
 alias dps='docker ps'
@@ -422,12 +466,9 @@ alias ga='git add .'
 alias gC='git commit'
 alias gc='git checkout -b'
 alias gs='git status'
-alias gp='git push'
-alias gP='git pull'
+alias gP='git push'
+alias gp='git pull'
 alias gd='git diff'
-
-# ghq
-alias cdg='cd $GHQPATH/github.com/$_'
 
 # stack
 alias ghc='stack ghc'
@@ -576,9 +617,17 @@ if [ `uname` = "Linux" ]; then
     export PATH=$HOME/.bin/DevDocs-0.6.9/:$PATH
 fi
 # }}}
+# gcloud {{{
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then source "$HOME/google-cloud-sdk/path.zsh.inc"; fi
+# The next line enables shell command completion for gcloud.
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then source "$HOME/Users/noahorberg/google-cloud-sdk/completion.zsh.inc"; fi
+# }}}
+# init env {{{
+eval "$(pyenv init -)"
+eval "$(rbenv init -)"
+eval "$(ndenv init -)"
+# }}}
 # COMPLETE! {{{
-# LDFLAGS:  -L/usr/local/opt/gettext/lib
-# CPPFLAGS: -I/usr/local/opt/gettext/include
 echo "complete!"
 # }}}
-

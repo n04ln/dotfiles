@@ -1,0 +1,24 @@
+{
+  "title": " Thinkpad keyboard",
+  "rules": [
+    {
+      "description": "middle button for thinkpad keyboard",
+      "manipulators": [
+        { "type": "basic",
+          "from": {
+            "pointing_button": "button3"
+          }
+        },
+        { "type": "basic",
+          "from": {
+            "pointing_button": "button3",
+            "modifiers": { "mandatory": [ "command" ] }
+          },
+          "to": [
+            { "pointing_button": "button3" }
+          ]
+        }
+      ]
+    }
+  ]
+}
