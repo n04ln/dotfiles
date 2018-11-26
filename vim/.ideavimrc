@@ -1,0 +1,91 @@
+language C
+syntax on
+set background=dark
+filetype plugin indent on
+" Open config file (~/.ideavimrc)
+command! Cj :e ~/.ideavimrc
+iabbrev TOOD TODO
+iabbrev srting string
+iabbrev strign string
+iabbrev strnig string
+iabbrev nit int
+iabbrev pubric public
+iabbrev Pritln Println
+iabbrev Prit Print
+iabbrev pritn print
+iabbrev singup signup
+iabbrev singin signin
+set scrolloff=3
+set number
+set relativenumber
+set showmatch
+set backspace=indent,eol,start
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set foldmethod=marker
+set shortmess+=A
+set splitbelow
+set wildmode=longest:full,full
+" Terminal
+inoremap <silent><C-j> <C-n>
+tnoremap <silent> jj <C-\><C-n>
+inoremap <silent> jj <ESC>
+tnoremap <silent> <ESC> <C-\><C-n>
+command Nt sp | terminal
+" Buffer
+nnoremap <silent>Bn :bnext<CR>
+nnoremap <silent>Bb :b#<CR>
+" Tab
+nnoremap <silent>tn :tabn<CR>
+nnoremap <silent>tp :tabp<CR>
+" trash operate (not in any register)
+nnoremap D "_d
+" to clipboard
+nnoremap Y "+y
+" to clipboard
+vnoremap Y "+y
+" put current filename
+nnoremap FF "%p
+" put now
+nnoremap <silent> DD :Date<CR>
+" copy text to clip board
+noremap <C-c>y "*y
+" paste text in clip board
+nnoremap <C-c>p "*p
+" useful
+nnoremap <Space> <Nop>
+nnoremap Q <Nop>
+nnoremap q: :q<CR>
+nnoremap <SPACE>Q :<C-u>q!<CR>
+nnoremap <SPACE>q :<C-u>q<CR>
+nnoremap <SPACE>w :<C-u>w<CR>
+nnoremap <SPACE>e :<C-u>e 
+" replace
+nnoremap <SPACE>r :<C-u>s//g<LEFT><LEFT>
+nnoremap <SPACE>R :<C-u>%s//g<LEFT><LEFT>
+vnoremap <SPACE>r :s//g<LEFT><LEFT>
+" CtrlSF
+nnoremap <SPACE>sf :<C-u>CtrlSF 
+" multiple lines -> oneline
+"  nothing separator
+vnoremap <silent><SPACE>1 :<C-u>'<,'>s/\n//g<CR>
+"  separator is ';'
+vnoremap <silent><SPACE>; :<C-u>'<,'>s/\n/; /g<CR>
+" oneline -> multiple lines
+vnoremap <silent><SPACE>! :<C-u>'<,'>s/,/,\r/g<CR>
+" Enter Ex-mode
+noremap <SPACE>x :
+" Ex-mode (many keybinds LIKE Emacs
+cnoremap <C-a> <Home>
+cnoremap <C-b> <Left>
+cnoremap <C-d> <Del>
+cnoremap <C-e> <End>
+cnoremap <C-f> <Right>
+cnoremap <C-n> <Down>
+cnoremap <C-p> <Up>
+cnoremap <C-B> <S-Left>
+cnoremap <C-F> <S-Right>
+" C-h is back space
+inoremap <C-h> <BACKSPACE>
