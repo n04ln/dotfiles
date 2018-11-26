@@ -43,6 +43,11 @@ set undofile
 set undodir=~/.vim/undo
 set splitbelow
 set wildmode=longest:full,full
+set ignorecase
+set smartcase
+set wrapscan
+set incsearch
+set inccommand=split
 " set clipboard=unnamed
 " set clipboard+=unnamedplus
 let g:python3_host_prog = $PYENV_ROOT . '/versions/3.6.6/bin/python3' " use pyenv python3
