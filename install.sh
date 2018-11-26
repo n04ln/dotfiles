@@ -5,11 +5,11 @@ _mv_config_file() {
     #   $1: the config file name
     #   $2: the path of the src file
     #   $3: the path of the dst file
-    #   $4: force replace flag (`-f`)
+    #   $4: -f replace flag (`-f`)
     _check() {
         # NOTE:
         #   $1: string
-        #   $2: force replace flag (`-f`)
+        #   $2: -f replace flag (`-f`)
         if [ "${2}" == "-f" ]; then return 1; fi
         /bin/echo -n ${1}
         read yn
@@ -48,13 +48,14 @@ _mv_config_file() {
 }
 
 # MOVE CONFIG FILES
+# NOTE: ${1}: force flag. `-f` means force
 # .vimrc
-_mv_config_file .vimrc vim/.vimrc $HOME/.vimrc force
-# .ideavimrc force
-_mv_config_file .ideavimrc vim/.ideavimrc $HOME/.ideavimrc force
-# .tmux.conf_bk force
-_mv_config_file .tmux_conf tmux/.tmux.conf $HOME/.tmux.conf force
-# .config/nvim force
-_mv_config_file .config/nvim .config/nvim $HOME/.config/nvim force
-# .config/karabiner force
-_mv_config_file .config/karabiner .config/karabiner $HOME/.config/karabiner force
+_mv_config_file .vimrc vim/.vimrc $HOME/.vimrc ${1}
+# .ideavimrc 
+_mv_config_file .ideavimrc vim/.ideavimrc $HOME/.ideavimrc ${1}
+# .tmux.conf_bk 
+_mv_config_file .tmux_conf tmux/.tmux.conf $HOME/.tmux.conf ${1}
+# .config/nvim 
+_mv_config_file .config/nvim .config/nvim $HOME/.config/nvim ${1}
+# .config/karabiner 
+_mv_config_file .config/karabiner .config/karabiner $HOME/.config/karabiner ${1}

@@ -11,13 +11,18 @@ vim/.vimrc            => ~/.vimrc
 vim/.ideavimrc        => ~/.ideavimrc  
 zsh/.zshrc            => ~/.zshrc  
 tmux/.tmux.conf       => ~/.tmux.conf
-tmux/.tmux.conf.local => ~/.tmux.conf.local
 ```
 
 ## How2setup
+### Quick Start
 ``` sh
 $ chmod +x ./install.sh
 $ ./install.sh
 ```
 
-and `.tmux.conf_bk` use [uradotfiles](https://github.com/NoahOrberg/uradotfiles) (priv repository)
+if dotfiles exists and u wanna force replace them, plz run with `-f` option.
+
+``` sh
+$ ./install.sh -f
+```
+
