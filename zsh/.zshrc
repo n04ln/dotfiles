@@ -153,6 +153,12 @@ setopt prompt_subst
 
 # mode表示
 function zle-line-init zle-keymap-select {
+	if [[ "${KEYMAP}" == "vicmd" ]]; then
+		echo -ne "\e[4 q"					# '\e[4 q' sets cursor to _
+	elif [[ "${KEYMAP}" == "main" ]]; then  # main keymap is viins (INSERT mode)
+        echo -ne "\e[2 q"					# '\e[2 q' sets cursor to | (bold)
+	fi
+
     case $KEYMAP in
         vicmd)
             PROMPT=$'%{${fg[yellow]}%}[%n@%m]%{$reset_color%}%{${fg[white]}${bg[yellow]}%}[NORMAL]%{$reset_color%} %{${fg[blue]}%} %~ %{$reset_color%}\n%% '
@@ -173,8 +179,8 @@ function zle-line-init zle-keymap-select {
     zle -R -c
 }
 
-zle -N zle-line-init
 zle -N zle-keymap-select
+zle -N zle-line-init
 # }}}
 # zplug {{{
 #               __           
@@ -433,11 +439,23 @@ dusk() {
 
 cdg() {
     # NOTE:
-    #   $ ghq get git@github.com/<USER_ID>/<REPOSITORY_NAME> # for ssh
+    #   $ ghq get git@github.com/<USER_ID>/<REPOSITORY_NAME>.git      # using ssh (should NOT forget `.git`)
     #   or
-    #   $ ghq get <USER_ID>/<REPOSITORY_NAME>
-    #   before execute this command
-    p=$(history | sort -n -r | awk '{ if($2=="ghq"){for(i=2;i<NF;i++){print $NF}} }' | head -n 1) && if [ `echo $p | grep git@` ]; then cd $GHQPATH/github.com/$(echo $p | perl -pe 's/git\@github\.com:(.*?)\.git/$1/'); else cd $GHQPATH/github.com/$p; fi; unset p
+    #   $ ghq get <USER_ID>/<REPOSITORY_NAME>                         # using https
+    #
+    #   should do this command after executed ghq command
+    p=$(history | sort -n -r | awk '{ if($2=="ghq"){for(i=2;i<NF;i++){print $NF}} }' | head -n 1) && if [ `echo $p | grep git@` ]; then cd $GHQPATH/github.com/$(echo $p | perl -pe 's/git\@github\.com:(.*?)\.git/$1/' | perl -pe 's/git\@github\.com:(.*?)/$1/'); else cd $GHQPATH/github.com/$p; fi; unset p
+}
+
+dir() {
+    mkdir $1 && cd $_
+}
+
+gg() {
+    # NOTE: NEEDs chrome-cli
+    #       $ brew install chrome-cli
+    ghq get $(chrome-cli info | sed -n 's/Url: https:\/\/github.com\/\(.*\)/git@github.com:\1/p')
+    cd $GHQPATH/$(echo $_ | sed -e 's/git\@github.com:\(.*\)/github.com\/\1/')
 }
 # }}}
 # support widgets {{{
@@ -462,6 +480,7 @@ alias dpsa='docker ps -a'
 alias dim='docker images'
 
 # git
+alias g='git'
 alias ga='git add .'
 alias gC='git commit'
 alias gc='git checkout -b'
@@ -474,6 +493,10 @@ alias gd='git diff'
 alias ghc='stack ghc'
 alias ghci='stack ghci'
 alias runghc='stack runghc'
+
+# go
+alias gocov='go test -cover'
+alias gocovw='go test -coverprofile=cover.out && go tool cover -html=cover.out -o cover.html && open cover.html'
 
 # global alias
 alias -g B='|bash'
@@ -509,10 +532,6 @@ setopt correct
 
 # `cd` behave `pushd`
 setopt auto_pushd
-
-dir() {
-    mkdir $1 && cd $_
-}
 
 # 画面の明かるさ調節 (ubuntuのみ)
 if [ `uname` = "Linux" ]; then
@@ -621,13 +640,15 @@ fi
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then source "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 # The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then source "$HOME/Users/noahorberg/google-cloud-sdk/completion.zsh.inc"; fi
+if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then source "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
 # }}}
 # init env {{{
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
 eval "$(ndenv init -)"
+eval "$(goenv init -)"
 # }}}
 # COMPLETE! {{{
 echo "complete!"
 # }}}
+# /usr/local/share/zsh/site-functions
