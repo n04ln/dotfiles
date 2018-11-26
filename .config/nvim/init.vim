@@ -1,8 +1,13 @@
 language C
 syntax on
-set background=dark
-colorscheme tender
 filetype plugin indent on
+" from https://github.com/colepeters/spacemacs-theme.vim
+" NOTE: and install spacemacs-theme.vim manually
+if (has("termguicolors"))
+  set termguicolors
+endif
+set background=dark
+colorscheme spacemacs-theme
 " Open config file (~/.config/nvim/init.vim)
 command! Cn :e ~/.config/nvim/init.vim
 " Open config file (~/.zshrc)
@@ -168,7 +173,6 @@ Plug 'jparise/vim-graphql'
 
 Plug 'itchyny/lightline.vim'
 Plug 'mgee/lightline-bufferline'
-Plug 'jacoborus/tender.vim'
 Plug 'leafgarland/typescript-vim'
 
 Plug 'lambdalisue/gina.vim'
@@ -236,7 +240,7 @@ set laststatus=2
 set showtabline=2
 set noshowmode
 let g:lightline = {
-      \ 'colorscheme': 'tender',
+      \ 'colorscheme': 'jellybeans',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
