@@ -20,7 +20,7 @@ $ chmod +x ./install.sh
 $ ./install.sh
 ```
 
-if dotfiles exists and u wanna force replace them, plz run with `-f` option.
+if dotfiles already exists and u wanna force replace them, plz run with `-f` option.
 
 ``` sh
 $ ./install.sh -f
