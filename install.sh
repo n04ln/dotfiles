@@ -49,6 +49,8 @@ _mv_config_file() {
 
 # MOVE CONFIG FILES
 # NOTE: ${1}: force flag. `-f` means force
+# .zshrc
+_mv_config_file .zshrc zsh/.zshrc $HOME/.zshrc ${1}
 # .vimrc
 _mv_config_file .vimrc vim/.vimrc $HOME/.vimrc ${1}
 # .ideavimrc 
