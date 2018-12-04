@@ -1,13 +1,6 @@
 language C
 syntax on
 filetype plugin indent on
-" from https://github.com/colepeters/spacemacs-theme.vim
-" NOTE: and install spacemacs-theme.vim manually
-if (has("termguicolors"))
-  set termguicolors
-endif
-set background=dark
-colorscheme spacemacs-theme
 " Open config file (~/.config/nvim/init.vim)
 command! Cn :e ~/.config/nvim/init.vim
 " Open config file (~/.zshrc)
@@ -198,6 +191,7 @@ Plug 'dyng/ctrlsf.vim'
 
 Plug 'NoahOrberg/AYUNiS.nvim'
 Plug 'NoahOrberg/diesirae.nvim'
+Plug 'NoahOrberg/spacemacs-theme.vim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'terryma/vim-multiple-cursors'
@@ -307,4 +301,13 @@ let g:diesirae_config = {
       \    }
       \  }
       \}
+" }}}
+" colorscheme {{{
+" original is https://github.com/colepeters/spacemacs-theme.vim
+" but i use https://github.com/NoahOrberg/spacemacs-theme.vim
+if (has("termguicolors"))
+  set termguicolors
+endif
+set background=dark
+colorscheme spacemacs-theme
 " }}}
