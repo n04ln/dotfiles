@@ -51,7 +51,7 @@ set inccommand=split
 let g:python3_host_prog = $PYENV_ROOT . '/versions/3.6.6/bin/python3' " use pyenv python3
 let g:python_host_prog = $PYENV_ROOT . '/versions/2.7.15/bin/python2' " use pyenv python2
 " }}}
-" Indent {{{
+" AutoCmd {{{
 augroup fileTypeIndent
   autocmd!
   autocmd BufNewFile,BufRead *.vim  setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -63,8 +63,13 @@ augroup fileTypeIndent
   autocmd BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.yml  setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
+augroup fileTypeOpt
+  autocmd FileType gitcommit setlocal spell
+augroup END
 " }}}
 " KEYBINDS {{{
+" noh
+nnoremap <silent><esc><esc> :nohlsearch<CR>
 
 " Terminal
 inoremap <silent><C-j> <C-n>
