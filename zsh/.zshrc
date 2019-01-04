@@ -45,6 +45,7 @@ export PATH=$HOME/bin:$PATH
 export PATH=$GOPATH/bin:$PATH
 export PATH=$PYENV_ROOT/shims:$PATH
 export PATH="/usr/local/opt/openssl/bin:$PATH"
+export PATH=$HOME/.protoc/bin:$PATH
 # export PATH=/usr/local/Cellar/git/2.12.2:$PATH
 # export PATH=$PYENV_ROOT/versions/3.6.1/bin:$PATH
 # export PATH=$HOME/.protoc/bin:$PATH
@@ -472,6 +473,7 @@ alias ls='ls -F'
 alias la='ls -la'
 alias rm='rm -i'
 alias emacs='emacs -nw'
+alias e='nvim'
 alias k="kubectl"
 
 # docker
@@ -508,6 +510,18 @@ fi
 alias -g G='|grep -e'
 alias -g L='|less'
 alias -g W='|wc'
+
+j() {
+    javac $1 && java $(echo $_ | sed -e "s/\.java//g")
+}
+# }}}
+# like vim {{{
+:e() {
+    nvim $1
+}
+:q() {
+    exit
+}
 # }}}
 # other {{{
 #    ____  __  __             
@@ -562,12 +576,20 @@ if [ `uname` = "Linux" ]; then
 
     zle -N brdown
     zle -N brup
+
+    # bindkey for Linux
+    bindkey '^rx' brdown
+    bindkey '^ra' brup
 else
     echo "unnecessary brightness control functions"
 fi
 
 # coloring error output
 # exec 2> >( read e; [ "${e}" != "" ] && $(echo ${e} | sed "s/^/${fg_bold[magenta]}/;s/$/${reset_color}/") )
+
+# coloring for test
+alias colorit="sed 's/PASS/${fg[green]}PASS${reset_color}/' | sed 's/FAIL/${fg[red]}FAIL${reset_color}/'"
+alias -g CL="| colorit"
 # }}}
 # bind widgets {{{
 #     ____  _           __   _       ___     __           __      
@@ -592,10 +614,6 @@ bindkey '^k' anyframe-widget-kill
 bindkey '^ws' dstop
 bindkey '^wr' drm
 bindkey '^wi' drmi
-
-# for Linux
-bindkey '^rx' brdown
-bindkey '^ra' brup
 
 # }}}
 # for Thinkpad X230 Tips {{{
@@ -651,4 +669,3 @@ eval "$(goenv init -)"
 # COMPLETE! {{{
 echo "complete!"
 # }}}
-# /usr/local/share/zsh/site-functions

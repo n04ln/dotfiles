@@ -71,6 +71,8 @@ _show_help() {
 [[ -n "${opts[(i)-h]}" ]] && _show_help
 
 # MOVE CONFIG FILES
+# .zshrc
+_mv_config_file .zshrc zsh/.zshrc $HOME/.zshrc
 # .vimrc
 _mv_config_file .vimrc vim/.vimrc $HOME/.vimrc
 # .ideavimrc
