@@ -16,13 +16,12 @@ tmux/.tmux.conf       => ~/.tmux.conf
 ## How2setup
 ### Quick Start
 ``` sh
-$ chmod +x ./install.sh
-$ ./install.sh
+$ zsh setup.zsh
 ```
 
 if dotfiles already exists and u wanna force replace them, plz run with `-f` option.
 
 ``` sh
-$ ./install.sh -f
+$ zsh setup.zsh -f
 ```
 
