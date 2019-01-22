@@ -46,22 +46,23 @@ set smartcase
 set wrapscan
 set incsearch
 set inccommand=split
-" set clipboard=unnamed
-" set clipboard+=unnamedplus
+set clipboard=unnamed
+set clipboard+=unnamedplus
 let g:python3_host_prog = $PYENV_ROOT . '/versions/3.6.6/bin/python3' " use pyenv python3
 let g:python_host_prog = $PYENV_ROOT . '/versions/2.7.15/bin/python2' " use pyenv python2
 " }}}
 " AutoCmd {{{
 augroup fileTypeIndent
   autocmd!
-  autocmd BufNewFile,BufRead *.vim  setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.h    setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.cpp  setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.java setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.js   setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.vue  setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.yaml setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.yml  setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.vim   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.h     setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.cpp   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.java  setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.js    setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.vue   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.yaml  setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.yml   setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.dart  setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 augroup fileTypeOpt
   autocmd FileType gitcommit setlocal spell
@@ -161,6 +162,11 @@ cnoremap <C-F> <S-Right>
 
 " C-h is back space
 inoremap <C-h> <BACKSPACE>
+
+" To open a new terminal window
+nnoremap <leader>t <Cmd>rightbelow 10new<CR><Cmd>terminal<CR>
+" To open a new empty buffer
+nnoremap <leader>n :enew<cr>
 " }}}
 " Plug {{{
 " NOTE: INSTALL Plug Command (https://github.com/junegunn/vim-plug#neovim)
@@ -172,6 +178,7 @@ Plug 'jparise/vim-graphql'
 Plug 'itchyny/lightline.vim'
 Plug 'mgee/lightline-bufferline'
 Plug 'leafgarland/typescript-vim'
+Plug 'dart-lang/dart-vim-plugin'
 
 Plug 'lambdalisue/gina.vim'
 Plug 'tpope/vim-fugitive'
@@ -185,14 +192,20 @@ Plug 'thinca/vim-quickrun'
 Plug 'glidenote/memolist.vim'
 Plug 'majutsushi/tagbar'
 
+" Plug 'prabirshrestha/async.vim'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'prabirshrestha/asyncomplete.vim'
+" Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 Plug 'Shougo/deoplete.nvim'
-
 Plug 'zchee/deoplete-go', {'do': 'make'}
 Plug 'fatih/vim-go'
+
 Plug 'w0rp/ale'
 Plug 'dyng/ctrlsf.vim'
+Plug '$HOME/.fzf'
+Plug 'junegunn/fzf.vim'
 
 Plug 'NoahOrberg/AYUNiS.nvim'
 Plug 'NoahOrberg/diesirae.nvim'
@@ -316,3 +329,21 @@ endif
 set background=dark
 colorscheme spacemacs-theme
 " }}}
+" " LSP {{{
+" if executable('go-langserver')
+"     au User lsp_setup call lsp#register_server({
+"         \ 'name': 'go-langserver',
+"         \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio']},
+"         \ 'whitelist': ['go'],
+"         \ })
+" endif
+"
+" nmap <silent> gd :vsplit \| :LspDefinition <CR>
+" " }}}
+" dart-vim-plugin {{{
+let dart_format_on_save = 1
+" }}}
+" fzf.vim {{{
+nnoremap <C-f> :Files<CR>
+" }}}
+source $HOME/.vim/after/syntax/go.vim
