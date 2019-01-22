@@ -54,6 +54,10 @@ export PATH=$HOME/.protoc/bin:$PATH
 # export PATH=$HOME/.bin/z3-4.5.0-x64-osx-10.11.6/bin:$PATH
 # use Java 1.8
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+# for flutter
+export PATH=$HOME/flutter/bin:$PATH
+export PATH=$HOME/flutter/bin/cache/dart-sdk/bin:$PATH # what's cache dir?
+export PATH=$HOME/.pub-cache/bin:$PATH
 # }}}
 # CLI tool and some plugin install {{{
 #     __                     
