@@ -37,6 +37,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/go
 export GOSAND=$GOPATH/src/github.com/NoahOrberg/sandbox
 export GHQPATH=$GOPATH/src
+export PATH=$PATH:$HOME/.bin
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 export PATH=/Users/noah/.goenv/shims:$PATH
 export PATH=/usr/local/bin:$PATH
@@ -434,7 +435,52 @@ dstopall() {
 }
 # }}}
 # for k8s {{{
-# TODO
+# change namespace
+kchns() {
+    set -eu
+
+    [ "${1}" = "" ] && echo "[ERROR] namespace is not specified" && return 1
+    kubectl config set-context $(kubectl config current-context) --namespace=${1}
+}
+# for Pods
+_selectpo() {
+    # if exit status is 0, return podname
+    # or else, return err msg
+    selected=$(kubectl get pod | fzf)
+    [ "${selected}" = "" ] && echo "[ERROR] pod is not specified or press ESC" && return 1
+    echo $(echo ${selected} | awk 'BEGIN{FS=" "}{print $1}END{}')
+}
+ksh() {
+    res=$(_selectpo)
+    [ $? != 0 ] && echo ${res} && return 1
+    echo "k exec -it " ${res} "sh"
+    kubectl exec -it ${res} sh
+}
+kdesc() {
+    res=$(_selectpo)
+    [ $? != 0 ] && echo ${res} && return 1
+    echo "k describe " ${res}
+    kubectl describe pod ${res}
+}
+kpf() {
+    res=$(_selectpo)
+    [ $? != 0 ] && echo ${res} && return 1
+    echo "k port-forward " ${res} ${1}
+    kubectl port-forward ${res} ${1}
+}
+klogs() {
+    res=$(_selectpo)
+    [ $? != 0 ] && echo ${res} && return 1
+    echo "k logs " ${res} ${1}
+    kubectl logs ${res} ${1}
+}
+kpoll() {
+    for i in $(seq 1 1000); do echo "[" $(date) "]"; kubectl get pod; sleep 1; done
+}
+krefresh() {
+    kubectl delete -f ${1} && kubectl apply -f ${1}
+}
+# TODO: more and more...
 # }}}
 # some custom commands {{{
 dusk() {
@@ -478,7 +524,8 @@ alias la='ls -la'
 alias rm='rm -i'
 alias emacs='emacs -nw'
 alias e='nvim'
-alias k="kubectl"
+alias k='kubectl'
+alias t='terraform'
 
 # docker
 alias dps='docker ps'
@@ -659,10 +706,10 @@ if [ `uname` = "Linux" ]; then
 fi
 # }}}
 # gcloud {{{
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then source "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 # The next line enables shell command completion for gcloud.
 if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then source "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
 # }}}
 # init env {{{
 eval "$(pyenv init -)"
@@ -673,3 +720,4 @@ eval "$(goenv init -)"
 # COMPLETE! {{{
 echo "complete!"
 # }}}
+
