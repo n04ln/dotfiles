@@ -132,6 +132,7 @@ else
     echo "fzf: done."
 fi
 export FZF_DEFAULT_OPTS="--reverse --height=20"
+# TODO: pt, jo, httpie, chrome-cli, and so on
 # }}}
 # keybind: vim {{{
 #         _                                  __   
@@ -495,7 +496,13 @@ cdg() {
     #   $ ghq get <USER_ID>/<REPOSITORY_NAME>                         # using https
     #
     #   should do this command after executed ghq command
-    p=$(history | sort -n -r | awk '{ if($2=="ghq"){for(i=2;i<NF;i++){print $NF}} }' | head -n 1) && if [ `echo $p | grep git@` ]; then cd $GHQPATH/github.com/$(echo $p | perl -pe 's/git\@github\.com:(.*?)\.git/$1/' | perl -pe 's/git\@github\.com:(.*?)/$1/'); else cd $GHQPATH/github.com/$p; fi; unset p
+    p=$(history | sort -n -r | awk '{ if($2=="ghq"){for(i=2;i<NF;i++){print $NF}} }' | head -n 1) \
+        && if [ `echo $p | grep git@` ]; then
+            cd $GHQPATH/github.com/$(echo $p | perl -pe 's/git\@github\.com:(.*?)\.git/$1/' | perl -pe 's/git\@github\.com:(.*?)/$1/')
+        else
+            cd $GHQPATH/github.com/$p
+        fi
+        unset p
 }
 
 dir() {
@@ -562,17 +569,24 @@ alias -g G='|grep -e'
 alias -g L='|less'
 alias -g W='|wc'
 
+# util
+joc() {
+    curl -v -d "$(jo -p ${@})" 34.95.99.245/say
+}
+
 j() {
     javac $1 && java $(echo $_ | sed -e "s/\.java//g")
 }
 # }}}
 # like vim {{{
 :e() {
-    nvim $1
+    nvim $@
 }
 :q() {
     exit
 }
+alias e=":e"
+alias q=":q"
 # }}}
 # other {{{
 #    ____  __  __             
