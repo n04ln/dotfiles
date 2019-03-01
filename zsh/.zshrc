@@ -437,11 +437,19 @@ dstopall() {
 # }}}
 # for k8s {{{
 # change namespace
+# for namespace
+_selectns() {
+    # if exit status is 0, return podname
+    # or else, return err msg
+    selected=$(kubectl get ns | fzf)
+    [ "${selected}" = "" ] && echo "[ERROR] pod is not specified or press ESC" && return 1
+    echo $(echo ${selected} | awk 'BEGIN{FS=" "}{print $1}END{}')
+}
 kchns() {
-    set -eu
-
-    [ "${1}" = "" ] && echo "[ERROR] namespace is not specified" && return 1
-    kubectl config set-context $(kubectl config current-context) --namespace=${1}
+    ns=$(_selectns)
+    [ "${ns}" = "" ] && echo "[ERROR] namespace is not specified" && return 1
+    echo "kubectl config set-context \$(kubectl config current-context) --namespace=${ns}"
+    kubectl config set-context $(kubectl config current-context) --namespace=${ns}
 }
 # for Pods
 _selectpo() {
@@ -568,11 +576,6 @@ fi
 alias -g G='|grep -e'
 alias -g L='|less'
 alias -g W='|wc'
-
-# util
-joc() {
-    curl -v -d "$(jo -p ${@})" 34.95.99.245/say
-}
 
 j() {
     javac $1 && java $(echo $_ | sed -e "s/\.java//g")
