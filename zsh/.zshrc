@@ -61,47 +61,56 @@ export PATH=$HOME/flutter/bin/cache/dart-sdk/bin:$PATH # what's cache dir?
 export PATH=$HOME/.pub-cache/bin:$PATH
 # }}}
 # CLI tool and some plugin install {{{
+install_tool() {
+    # Usage:
+    #   install_tool <COMMAND-NAME> \
+    #     <INSTALL_COMMAND_FOR_MACOS> \
+    #     <INSTALL_COMMAND_FOR_LINUX>
+    #
+    # Args:
+    #     ${1} COMMAND-NAME
+    #       ... The command name
+    #           (e.g, git)
+    #     ${2} INSTALL_COMMAND_FOR_MACOS
+    #       ... The install command for Macintosh.
+    #           This is string.
+    #           (e.g, "brew install git"})
+    #     ${3} INSTALL_COMMAND_FOR_LINUX
+    #       ... The install command for Linux.
+    #           This is string.
+    #           (e.g, "apt-get install git")
+    if `which ${1} > /dev/null 2>&1`; then
+        echo "${1}: already installed"
+    else
+        if [ `uname` = "Darwin" ]; then
+            echo "${1}: installing..."
+            eval "${2}"
+            echo "${1}: installation done."
+        elif [ `uname` = "Linux" ]; then
+            echo "${1}: installing..."
+            [ "${3}" != "" ] && eval "${3}" || eval "${2}"
+            echo "${1}: installation done."
+        else
+            echo "Cannot detect OS"
+        fi
+    fi
+}
 #     __                     
 #    / /_  ________ _      __
 #   / __ \/ ___/ _ \ | /| / /
 #  / /_/ / /  /  __/ |/ |/ / 
 # /_.___/_/   \___/|__/|__/  
-#                            
-if `which brew > /dev/null 2>&1`; then
-    echo "brew: already installed"
-else
-    if [ `uname` = "Darwin" ]; then
-        echo "brew: installing..."
-        /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-        echo "brew: done."
-    elif [ `uname` = "Linux" ]; then
-        echo "brew: unnecessary install"
-    else
-        echo "cannot detect OS"
-    fi
-fi
+install_tool brew \
+    '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew update' \
+    'echo unnecessary it'
 #           _ __ 
 #    ____ _(_) /_
 #   / __ `/ / __/
 #  / /_/ / / /_  
 #  \__, /_/\__/  
 # /____/         
-if `which git > /dev/null 2>&1`; then
-    echo "git: already installed"
-else
-    if [ `uname` = "Darwin" ]; then
-        echo "git: installing..."
-        brew install git
-        echo "git: done."
-    elif [ `uname` = "Linux" ]; then
-        echo "git: installing..."
-        apt-get install git
-        echo "git: done."
-    else
-        echo "cannot detect OS"
-    fi
-fi
-#               __           
+install_tool git \
+    'brew install git' 'apt-get install git'
 #  ____  ____  / /_  ______ _
 # /_  / / __ \/ / / / / __ `/
 #  / /_/ /_/ / / /_/ / /_/ / 
@@ -109,30 +118,104 @@ fi
 #    /_/            /____/   
 export ZPLUG_HOME=$HOME/.zplug
 [ -f $ZPLUG_HOME/init.zsh ] && source $ZPLUG_HOME/init.zsh
-if `which zplug > /dev/null 2>&1`; then
-    echo "zplug: already installed"
-else
-    echo "zplug: installing..."
-    git clone https://github.com/zplug/zplug $ZPLUG_HOME
-    echo "zplug: done."
-fi
+install_tool zplug \
+    'git clone https://github.com/zplug/zplug $ZPLUG_HOME'
 #     ____      ____
 #    / __/___  / __/
 #   / /_/_  / / /_  
 #  / __/ / /_/ __/  
 # /_/   /___/_/     
-#                   
+install_tool fzf \
+    'git clone https://github.com/junegunn/fzf.git $HOME/.fzf'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-if `which fzf > /dev/null 2>&1`; then
-    echo "fzf: already installed"
-else
-    echo "fzf: installing..."
-    git clone https://github.com/junegunn/fzf.git $HOME/.fzf
-    $HOME/.fzf/install
-    echo "fzf: done."
-fi
 export FZF_DEFAULT_OPTS="--reverse --height=20"
-# TODO: pt, jo, httpie, chrome-cli, and so on
+# NOTE:
+#   INSTALLATION SCRIPT for go, pt, jo, httpie, chrome-cli, ghq, neovim
+#    ______    
+#   / ____/___ 
+#  / / __/ __ \
+# / /_/ / /_/ /
+# \____/\____/ 
+install_tool go \
+    "brew install go" "apt-get install go"
+#            __ 
+#     ____  / /_
+#    / __ \/ __/
+#   / /_/ / /_  
+#  / .___/\__/  
+# /_/ 
+install_tool pt \
+    "go get -u github.com/monochromegane/the_platinum_searcher/..."
+#        _     
+#       (_)___ 
+#      / / __ \
+#     / / /_/ /
+#  __/ /\____/ 
+# /___/        
+install_tool jo \
+    "brew install jo" \
+    "apt-add-repository ppa:duggan/jo --yes; apt-get update -q; apt-get install jo"
+#      __    __  __        _         
+#    / /_  / /_/ /_____  (_)__      
+#   / __ \/ __/ __/ __ \/ / _ \     
+#  / / / / /_/ /_/ /_/ / /  __/     
+# /_/ /_/\__/\__/ .___/_/\___/      
+#              /_/                  
+install_tool http \
+    "brew install httpie" \
+    "apt-get install httpie"
+#          __                                         __    _ 
+#   _____/ /_  _________  ____ ___  ___        _____/ /_  (_)
+#  / ___/ __ \/ ___/ __ \/ __ `__ \/ _ \______/ ___/ __ \/ / 
+# / /__/ / / / /  / /_/ / / / / / /  __/_____/ /__/ / / / /  
+# \___/_/ /_/_/   \____/_/ /_/ /_/\___/      \___/_/ /_/_/   
+install_tool chrome-cli \
+    "brew install chrome-cli" \
+    "echo cannnot install chrome-cli"
+#           __         
+#    ____ _/ /_  ____ _
+#   / __ `/ __ \/ __ `/
+#  / /_/ / / / / /_/ / 
+#  \__, /_/ /_/\__, /  
+# /____/         /_/   
+install_tool ghq \
+    "go get github.com/motemen/ghq"
+#     _   __         _    ___         
+#    / | / /__  ____| |  / (_)___ ___ 
+#   /  |/ / _ \/ __ \ | / / / __ `__ \
+#  / /|  /  __/ /_/ / |/ / / / / / / /
+# /_/ |_/\___/\____/|___/_/_/ /_/ /_/ 
+install_tool nvim \
+    "brew install neovim" \
+    "apt-get install neovim"
+#     ____  __  _____  ____ _   __
+#    / __ \/ / / / _ \/ __ \ | / /
+#   / /_/ / /_/ /  __/ / / / |/ / 
+#  / .___/\__, /\___/_/ /_/|___/  
+# /_/    /____/                   
+export NVIM_PYTHON_VERSION=3.6.6
+install_tool pyenv \
+    "brew install pyenv" \
+    "git clone https://github.com/pyenv/pyenv.git ${HOME}/.pyenv"
+eval "$(pyenv init -)"
+# NOTE: initialize pyenv for NeoVim
+[ "pyenv version 2>/dev/null | grep ${NVIM_PYTHON_VERSION}" = "" ] && \
+    pyenv install ${NVIM_PYTHON_VERSION}
+[ "pip list 2>/dev/null | grep neovim" = "" ] && \
+    $(echo "${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3") \
+        install neovim # NOTE: for neovim plugin
+#         _                       __           
+#  _   __(_)___ ___        ____  / /_  ______ _
+# | | / / / __ `__ \______/ __ \/ / / / / __ `/
+# | |/ / / / / / / /_____/ /_/ / / /_/ / /_/ / 
+# |___/_/_/ /_/ /_/     / .___/_/\__,_/\__, /  
+#                      /_/            /____/   
+[ -f $/.local/share/nvim/site/autoload/plug.vim ] && \
+    echo "Plug: installing..." && \
+    curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
+    echo "Plug: installation done." || \
+    echo "Plug: already installed"
 # }}}
 # keybind: vim {{{
 #         _                                  __   
@@ -658,6 +741,11 @@ fi
 # coloring for test
 alias colorit="sed 's/PASS/${fg[green]}PASS${reset_color}/' | sed 's/FAIL/${fg[red]}FAIL${reset_color}/'"
 alias -g CL="| colorit"
+
+# jo
+jp() {
+    jo -p "${@}"
+}
 # }}}
 # bind widgets {{{
 #     ____  _           __   _       ___     __           __      
@@ -737,4 +825,3 @@ eval "$(goenv init -)"
 # COMPLETE! {{{
 echo "complete!"
 # }}}
-
