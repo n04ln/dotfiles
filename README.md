@@ -16,6 +16,8 @@ tmux/.tmux.conf       => ~/.tmux.conf
 ## How2setup
 ### Quick Start
 ``` sh
+$ git clone -b master https://github.com/NoahOrberg/dotfiles
+$ cd dotfiles
 $ zsh setup.zsh
 ```
 
