@@ -210,7 +210,7 @@ eval "$(pyenv init -)"
 # | |/ / / / / / / /_____/ /_/ / / /_/ / /_/ / 
 # |___/_/_/ /_/ /_/     / .___/_/\__,_/\__, /  
 #                      /_/            /____/   
-[ -f $/.local/share/nvim/site/autoload/plug.vim ] && \
+[ ! -e ${HOME}/.local/share/nvim/site/autoload/plug.vim ] && \
     echo "Plug: installing..." && \
     curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
