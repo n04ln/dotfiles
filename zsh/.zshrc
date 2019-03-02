@@ -79,14 +79,14 @@ install_tool() {
     #       ... The install command for Linux.
     #           This is string.
     #           (e.g, "apt-get install git")
-    if `which ${1} > /dev/null 2>&1`; then
+    if $(which ${1} > /dev/null 2>&1); then
         echo "${1}: already installed"
     else
-        if [ `uname` = "Darwin" ]; then
+        if [ $(uname) = "Darwin" ]; then
             echo "${1}: installing..."
             eval "${2}"
             echo "${1}: installation done."
-        elif [ `uname` = "Linux" ]; then
+        elif [ $(uname) = "Linux" ]; then
             echo "${1}: installing..."
             [ "${3}" != "" ] && eval "${3}" || eval "${2}"
             echo "${1}: installation done."
@@ -197,11 +197,11 @@ export NVIM_PYTHON_VERSION=3.6.6
 install_tool pyenv \
     "brew install pyenv" \
     "git clone https://github.com/pyenv/pyenv.git ${HOME}/.pyenv"
-eval "$(pyenv init -)"
 # NOTE: initialize pyenv for NeoVim
-[ "pyenv version 2>/dev/null | grep ${NVIM_PYTHON_VERSION}" = "" ] && \
+eval "$(pyenv init -)"
+[ "$(pyenv versions 2>/dev/null | grep ${NVIM_PYTHON_VERSION})" = "" ] && \
     pyenv install ${NVIM_PYTHON_VERSION}
-[ "pip list 2>/dev/null | grep neovim" = "" ] && \
+[ "$(pip list 2>/dev/null | grep neovim)" = "" ] && \
     $(echo "${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3") \
         install neovim # NOTE: for neovim plugin
 #         _                       __           
@@ -326,40 +326,40 @@ anyframe-init
 # /_/   /___/_/     
 #                   
 dstop() {
-    selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
-    [ `echo ${selected} | wc -w` -eq 0 ] && return
+    selected=$(docker ps | sed 1d | fzf -m | awk '{print $1}')
+    [ $(echo ${selected} | wc -w) -eq 0 ] && return
     docker stop $selected
 
     zle reset-prompt
     zle -R -c
 }
 drm() {
-    selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
-    [ `echo ${selected} | wc -w` -eq 0 ] && return
+    selected=$(docker ps -a | sed 1d | fzf -m | awk '{print $1}')
+    [ $(echo ${selected} | wc -w) -eq 0 ] && return
     docker rm -f $selected
 
     zle reset-prompt
     zle -R -c
 }
 drmi() {
-    selected=`docker images | sed 1d | fzf -m | awk '{print $3}'`
-    [ `echo ${selected} | wc -w` -eq 0 ] && return
+    selected=$(docker images | sed 1d | fzf -m | awk '{print $3}')
+    [ $(echo ${selected} | wc -w) -eq 0 ] && return
     docker rmi -f $selected
 
     zle reset-prompt
     zle -R -c
 }
 dsh() {
-    selected=`docker ps | sed 1d | fzf -m | awk '{print $1}'`
-    [ `echo ${selected} | wc -w` -eq 0 ] && return
+    selected=$(docker ps | sed 1d | fzf -m | awk '{print $1}')
+    [ $(echo ${selected} | wc -w) -eq 0 ] && return
     docker exec -it $selected sh
 
     zle reset-prompt
     zle -R -c
 }
 dlogs() {
-    selected=`docker ps -a | sed 1d | fzf -m | awk '{print $1}'`
-    [ `echo ${selected} | wc -w` -eq 0 ] && return
+    selected=$(docker ps -a | sed 1d | fzf -m | awk '{print $1}')
+    [ $(echo ${selected} | wc -w) -eq 0 ] && return
     docker logs $selected
 
     zle reset-prompt
@@ -368,18 +368,18 @@ dlogs() {
 checkout_gbranch() {
     # NOTE: サブディレクトリからでもcheckout可能にする
     #       プロジェクトルートにcdする制限付き（存在しないディレクトリに入ったりしないために
-    tmpdir=`pwd`; branches=""
+    tmpdir=$(pwd); branches=""
     while true ; do # NOTE: `$ git branch -a` を、cdしなくてもいい方法があればそちらのほうが良い
-        if [ `pwd` = "/" ]; then;
+        if [ $(pwd) = "/" ]; then;
             cd ${tmpdir} && return 0
         fi
 
         if [ -d .git ]; then;
-            branches=`git branch -a`
+            branches=$(git branch -a)
             break
         else cd ../; fi
     done
-    selected=`echo ${branches} | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    selected=$(echo ${branches} | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf)
     # NOTE: プロジェクトルートからしかできない安定版は以下(上がぶっ壊れたらつかう)
     # [ ! -d .git ] && return 0
     # selected=`git branch -a | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
@@ -391,18 +391,18 @@ checkout_gbranch() {
 }
 put_gbranch() {
     # NOTE: checkout_gbranchと基本的に同じ問題を抱えてる
-    tmpdir=`pwd`; branches=""
+    tmpdir=$(pwd); branches=""
     while true ; do
-        if [ `pwd` = "/" ]; then;
+        if [ $(pwd) = "/" ]; then;
             cd ${tmpdir} && return 0
         fi
 
         if [ -d .git ]; then;
-            branches=`git branch -a`
+            branches=$(git branch -a)
             break
         else cd ../; fi
     done
-    selected=`echo ${branches} | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf`
+    selected=$(echo ${branches} | awk 'BEGIN{}{print $1}' | grep -v 'HEAD' | grep -v '\*' | awk 'BEGIN{idx=1;FS="/"}{if($1=="remotes" && $2=="origin"){idx=3};for(i=idx;i<NF;i++){printf "%s/", $i}; print $NF}' | sort | uniq | fzf)
     [ "${selected}" = "" ] && return 0
     LBUFFER+=${selected}
     CURSOR=$#LBUFFER
@@ -412,7 +412,7 @@ put_gbranch() {
     zle -R -c
 }
 cd_ghq() {
-    selected=`for dir in $(ls $GHQPATH/github.com);do for dir2 in $(ls $GHQPATH/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    selected=$(for dir in $(ls $GHQPATH/github.com);do for dir2 in $(ls $GHQPATH/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf)
     [ "${selected}" = "" ] && return 0
     cd $GHQPATH/github.com/${selected}
 
@@ -420,7 +420,7 @@ cd_ghq() {
     zle -R -c
 }
 put_ghq() {
-    selected=`for dir in $(ls $GHQPATH/github.com);do for dir2 in $(ls $GHQPATH/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf`
+    selected=$(for dir in $(ls $GHQPATH/github.com);do for dir2 in $(ls $GHQPATH/github.com/${dir});do echo ${dir}${dir2}; done; done | fzf)
     [ "${selected}" = "" ] && return 0
     LBUFFER+=$GHQPATH/github.com/${selected}
     CURSOR=$#LBUFFER
@@ -429,7 +429,7 @@ put_ghq() {
     zle -R -c
 }
 cd_dirhist() {
-    selected=`dirs -pl | sort | uniq | awk 'BEGIN{FS=" "}{print $1}' | fzf`
+    selected=$(dirs -pl | sort | uniq | awk 'BEGIN{FS=" "}{print $1}' | fzf)
     cd ${selected} > /dev/null 2>&1
 
     zle reset-prompt
@@ -805,7 +805,7 @@ bindkey '^wi' drmi
 #     amixer sset Master 1%-
 #     amixer sset Master 1db-
 # Only Ubuntu
-if [ `uname` = "Linux" ]; then
+if [ $(uname) = "Linux" ]; then
     alias chrome=chromium-browser
     export PATH=$HOME/.bin/DevDocs-0.6.9/:$PATH
 fi
