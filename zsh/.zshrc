@@ -190,10 +190,12 @@ install_tool pyenv \
 # NOTE: initialize pyenv for NeoVim
 eval "$(pyenv init -)"
 [ "$(pyenv versions 2>/dev/null | grep ${NVIM_PYTHON_VERSION})" = "" ] && \
+    echo "pyenv: installing ${NVIM_PYTHON_VERSION}..." && \
     pyenv install ${NVIM_PYTHON_VERSION}
-[ "$(pip list 2>/dev/null | grep neovim)" = "" ] && \
+[ "$(${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3 list 2>/dev/null | grep neovim)" = "" ] && \
+    echo "pyenv: installing neovim package..." && \
     $(echo "${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3") \
-        install neovim # NOTE: for neovim plugin
+        install neovim # NOTE: for NeoVim plugin
 #  _   __(_)___ ___        ____  / /_  ______ _
 # | | / / / __ `__ \______/ __ \/ / / / / __ `/
 # | |/ / / / / / / /_____/ /_/ / / /_/ / /_/ / 
