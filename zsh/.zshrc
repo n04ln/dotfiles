@@ -156,7 +156,7 @@ install_tool pt \
 install_tool jo \
     "brew install jo" \
     "apt-add-repository ppa:duggan/jo --yes; apt-get update -q; apt-get install jo"
-#      __    __  __        _         
+#     __    __  __        _         
 #    / /_  / /_/ /_____  (_)__      
 #   / __ \/ __/ __/ __ \/ / _ \     
 #  / / / / /_/ /_/ /_/ / /  __/     
@@ -201,10 +201,11 @@ install_tool pyenv \
 # NOTE: initialize pyenv for NeoVim
 eval "$(pyenv init -)"
 [ "$(pyenv versions 2>/dev/null | grep ${NVIM_PYTHON_VERSION})" = "" ] && \
+    echo "pyenv: installing ${NVIM_PYTHON_VERSION}..." && \
     pyenv install ${NVIM_PYTHON_VERSION}
-[ "$(pip list 2>/dev/null | grep neovim)" = "" ] && \
+[ "$(${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3 list 2>/dev/null | grep neovim)" = "" ] && \
+    echo "pyenv: installing neovim package..." && \
     $(echo "${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3") \
-        install neovim # NOTE: for neovim plugin
 #         _                       __           
 #  _   __(_)___ ___        ____  / /_  ______ _
 # | | / / / __ `__ \______/ __ \/ / / / / __ `/
