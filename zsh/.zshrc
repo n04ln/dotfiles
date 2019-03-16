@@ -95,6 +95,7 @@ install_tool() {
         fi
     fi
 }
+#     __                     
 #    / /_  ________ _      __
 #   / __ \/ ___/ _ \ | /| / /
 #  / /_/ / /  /  __/ |/ |/ / 
@@ -102,6 +103,7 @@ install_tool() {
 install_tool brew \
     '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew update' \
     'echo unnecessary it'
+#           _ __ 
 #    ____ _(_) /_
 #   / __ `/ / __/
 #  / /_/ / / /_  
@@ -118,6 +120,7 @@ export ZPLUG_HOME=$HOME/.zplug
 [ -f $ZPLUG_HOME/init.zsh ] && source $ZPLUG_HOME/init.zsh
 install_tool zplug \
     'git clone https://github.com/zplug/zplug $ZPLUG_HOME'
+#     ____      ____
 #    / __/___  / __/
 #   / /_/_  / / /_  
 #  / __/ / /_/ __/  
@@ -128,6 +131,7 @@ install_tool fzf \
 export FZF_DEFAULT_OPTS="--reverse --height=20"
 # NOTE:
 #   INSTALLATION SCRIPT for go, pt, jo, httpie, chrome-cli, ghq, neovim
+#    ______    
 #   / ____/___ 
 #  / / __/ __ \
 # / /_/ / /_/ /
@@ -135,6 +139,7 @@ export FZF_DEFAULT_OPTS="--reverse --height=20"
 install_tool go \
     "brew install go" \
     "apt-get install go"
+#            __ 
 #     ____  / /_
 #    / __ \/ __/
 #   / /_/ / /_  
@@ -142,6 +147,7 @@ install_tool go \
 # /_/ 
 install_tool pt \
     "go get -u github.com/monochromegane/the_platinum_searcher/..."
+#        _     
 #       (_)___ 
 #      / / __ \
 #     / / /_/ /
@@ -150,6 +156,7 @@ install_tool pt \
 install_tool jo \
     "brew install jo" \
     "apt-add-repository ppa:duggan/jo --yes; apt-get update -q; apt-get install jo"
+#      __    __  __        _         
 #    / /_  / /_/ /_____  (_)__      
 #   / __ \/ __/ __/ __ \/ / _ \     
 #  / / / / /_/ /_/ /_/ / /  __/     
@@ -158,13 +165,15 @@ install_tool jo \
 install_tool http \
     "brew install httpie" \
     "apt-get install httpie"
-#   _____/ /_  _________  ____ ___  ___        _____/ /(_)
-#  / ___/ __ \/ ___/ __ \/ __ `__ \/ _ \______/ ___/ // / 
-# / /__/ / / / /  / /_/ / / / / / /  __/_____/ /__/ // /  
-# \___/_/ /_/_/   \____/_/ /_/ /_/\___/      \___/_//_/   
+#          __                                         __    _ 
+#   _____/ /_  _________  ____ ___  ___        _____/ /_  (_)
+#  / ___/ __ \/ ___/ __ \/ __ `__ \/ _ \______/ ___/ __ \/ / 
+# / /__/ / / / /  / /_/ / / / / / /  __/_____/ /__/ / / / /  
+# \___/_/ /_/_/   \____/_/ /_/ /_/\___/      \___/_/ /_/_/   
 install_tool chrome-cli \
     "brew install chrome-cli" \
     "echo cannnot install chrome-cli"
+#           __         
 #    ____ _/ /_  ____ _
 #   / __ `/ __ \/ __ `/
 #  / /_/ / / / / /_/ / 
@@ -172,6 +181,7 @@ install_tool chrome-cli \
 # /____/         /_/   
 install_tool ghq \
     "go get github.com/motemen/ghq"
+#     _   __         _    ___         
 #    / | / /__  ____| |  / (_)___ ___ 
 #   /  |/ / _ \/ __ \ | / / / __ `__ \
 #  / /|  /  __/ /_/ / |/ / / / / / / /
@@ -179,6 +189,7 @@ install_tool ghq \
 install_tool nvim \
     "brew install neovim" \
     "apt-get install neovim"
+#     ____  __  _____  ____ _   __
 #    / __ \/ / / / _ \/ __ \ | / /
 #   / /_/ / /_/ /  __/ / / / |/ / 
 #  / .___/\__, /\___/_/ /_/|___/  
@@ -194,6 +205,7 @@ eval "$(pyenv init -)"
 [ "$(pip list 2>/dev/null | grep neovim)" = "" ] && \
     $(echo "${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3") \
         install neovim # NOTE: for neovim plugin
+#         _                       __           
 #  _   __(_)___ ___        ____  / /_  ______ _
 # | | / / / __ `__ \______/ __ \/ / / / / __ `/
 # | |/ / / / / / / /_____/ /_/ / / /_/ / /_/ / 

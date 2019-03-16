@@ -58,6 +58,7 @@ augroup fileTypeIndent
   autocmd BufNewFile,BufRead *.h     setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.cpp   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.java  setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.jomp  setlocal tabstop=2 softtabstop=2 shiftwidth=2 ft=java
   autocmd BufNewFile,BufRead *.js    setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.vue   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.yaml  setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -192,28 +193,31 @@ Plug 'thinca/vim-quickrun'
 Plug 'glidenote/memolist.vim'
 Plug 'majutsushi/tagbar'
 
-" Plug 'prabirshrestha/async.vim'
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'prabirshrestha/asyncomplete.vim'
-" Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'w0rp/ale'
+Plug 'prabirshrestha/async.vim'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'prabirshrestha/asyncomplete.vim'
+Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
-Plug 'Shougo/deoplete.nvim'
-Plug 'zchee/deoplete-go', {'do': 'make'}
-Plug 'fatih/vim-go'
+" Plug 'Shougo/deoplete.nvim'
+" Plug 'zchee/deoplete-go', {'do': 'make'}
+" Plug 'fatih/vim-go'
 
-Plug 'w0rp/ale'
 Plug 'dyng/ctrlsf.vim'
 Plug '$HOME/.fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 
+Plug 'terryma/vim-multiple-cursors'
+Plug 'jdkanani/vim-material-theme'
+
+" Made by @NoahOrberg
 Plug 'NoahOrberg/AYUNiS.nvim'
 Plug 'NoahOrberg/diesirae.nvim'
 Plug 'NoahOrberg/spacemacs-theme.vim'
-
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'jdkanani/vim-material-theme'
+Plug 'NoahOrberg/fizard.nvim'
+Plug 'NoahOrberg/transfact.nvim'
 call plug#end()
 " }}}
 " NERDTree {{{
@@ -221,9 +225,11 @@ let g:NERDTreeShowHidden = 1
 noremap <silent> <C-e> :NERDTreeToggle<CR>
 " }}}
 " deoplete {{{
-let g:deoplete#enable_at_startup = 1
-set completeopt+=noinsert
-let g:deoplete#omni_patterns = {}
+" NOTE: not use deoplete
+" let g:deoplete#enable_at_startup = 1
+" set completeopt+=noinsert
+" let g:deoplete#omni_patterns = {}
+" set shortmess+=c " to silent message
 " }}}
 " snippet {{{
 " Plugin key-mappings.
@@ -283,9 +289,10 @@ noremap <silent><C-l> :CtrlPLine<CR>
 let g:memolist_path = $HOME . "/Documents"
 " }}}
 " vim-go {{{
-let g:go_fmt_command = "goimports"
-nnoremap gt :GoTestFunc<CR>
-nnoremap gT :GoTest<CR>
+" NOTE: not use vim-go now.
+" let g:go_fmt_command = "goimports"
+" nnoremap gt :GoTestFunc<CR>
+" nnoremap gT :GoTest<CR>
 " }}}
 " tagbar {{{
 nmap <F8> :TagbarToggle<CR>
@@ -322,28 +329,44 @@ let g:diesirae_config = {
 " }}}
 " colorscheme {{{
 " original is https://github.com/colepeters/spacemacs-theme.vim
-" but i use https://github.com/NoahOrberg/spacemacs-theme.vim
+" but I use https://github.com/NoahOrberg/spacemacs-theme.vim
 if (has("termguicolors"))
   set termguicolors
 endif
 set background=dark
 colorscheme spacemacs-theme
 " }}}
-" " LSP {{{
-" if executable('go-langserver')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'go-langserver',
-"         \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio']},
-"         \ 'whitelist': ['go'],
-"         \ })
-" endif
-"
-" nmap <silent> gd :vsplit \| :LspDefinition <CR>
-" " }}}
+" LSP {{{
+let g:lsp_auto_enable = 1
+let g:asyncomplete_smart_completion = 1
+let g:asyncomplete_auto_popup = 1
+let g:asyncomplete_remove_duplicates = 1
+
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_guide_size = 1
+
+" to enable omni comp
+autocmd FileType go setlocal omnifunc=lsp#complete
+
+if executable('go-langserver')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'go-langserver',
+        \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio', '-gocodecompletion']},
+        \ 'whitelist': ['go'],
+        \ })
+endif
+
+nmap <silent> gd :<C-u>LspDefinition <CR>
+nmap <silent> gr :<C-u>LspRename<CR>
+let g:lsp_diagnostics_enabled = 0
+" }}}
+" ALE {{{
+let g:ale_fixers = {'go': ['goimports']}
+let g:ale_fix_on_save = 1 " enable Run fmt(goimports) when save it
+" }}}
 " dart-vim-plugin {{{
 let dart_format_on_save = 1
 " }}}
 " fzf.vim {{{
 nnoremap <C-f> :Files<CR>
 " }}}
-source $HOME/.vim/after/syntax/go.vim
