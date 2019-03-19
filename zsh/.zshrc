@@ -218,6 +218,7 @@ eval "$(pyenv init -)"
         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
     echo "Plug: installation done." || \
     echo "Plug: already installed"
+# TODO: gotags, flutter(via pub, and dart-language-server), go-langserver
 # }}}
 # keybind: vim {{{
 #         _                                  __   
@@ -432,12 +433,20 @@ put_ghq() {
 }
 cd_dirhist() {
     selected=$(dirs -pl | sort | uniq | awk 'BEGIN{FS=" "}{print $1}' | fzf)
+    [ "${selected}" = "" ] && return 0
     cd ${selected} > /dev/null 2>&1
 
     zle reset-prompt
     zle -R -c
 }
+cd_current_child() {
+    selected=$(ls -R | grep -e "^.*:$" | awk 'BEGIN{FS=":"}{print $1}' | fzf)
+    [ "${selected}" = "" ] && return 0
+    cd ${selected} > /dev/null 2>&1
 
+    zle reset-prompt
+    zle -R -c
+}
 
 zle -N dstop
 zle -N drm
@@ -451,6 +460,7 @@ zle -N cd_ghq
 zle -N put_gopath
 zle -N put_ghq
 zle -N cd_dirhist
+zle -N cd_current_child
 # }}}
 # for Docker {{{
 #     ____              ____             __            
@@ -765,9 +775,10 @@ bindkey '^[B' put_gbranch # alt-shift-b
 bindkey '^[J' put_ghq # alt-shift-j
 
 bindkey '^x' cd_dirhist
+bindkey '^w' cd_current_child
 
 bindkey '^p' anyframe-widget-put-history
-bindkey '^k' anyframe-widget-kill
+bindkey '^kk' anyframe-widget-kill
 
 bindkey '^ws' dstop
 bindkey '^wr' drm

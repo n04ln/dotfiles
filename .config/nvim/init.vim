@@ -168,6 +168,12 @@ inoremap <C-h> <BACKSPACE>
 nnoremap <leader>t <Cmd>rightbelow 10new<CR><Cmd>terminal<CR>
 " To open a new empty buffer
 nnoremap <leader>n :enew<cr>
+
+" comp
+inoremap <TAB> <C-k><C-n>
+
+" show bufname
+noremap bn :echo bufname('%')<CR>
 " }}}
 " Plug {{{
 " NOTE: INSTALL Plug Command (https://github.com/junegunn/vim-plug#neovim)
@@ -299,6 +305,35 @@ nmap <F8> :TagbarToggle<CR>
 nmap tt :TagbarToggle<CR>
 nmap tc :TagbarCurrentTag<CR>
 let g:tagbar_ctags_bin = '/usr/local/Cellar/ctags/5.8_1/bin/ctags'
+" tagbar setting for golang.
+" ref. https://github.com/jstemmer/gotags#vim-tagbar-configuration
+let g:tagbar_type_go = {
+\ 'ctagstype' : 'go',
+\ 'kinds'     : [
+\   'p:package',
+\   'i:imports:1',
+\   'c:constants',
+\	  'v:variables',
+\	  't:types',
+\	  'n:interfaces',
+\	  'w:fields',
+\	  'e:embedded',
+\	  'm:methods',
+\	  'r:constructor',
+\	  'f:functions'
+\ ],
+\ 'sro' : '.',
+\ 'kind2scope' : {
+\   't' : 'ctype',
+\   'n' : 'ntype'
+\ },
+\ 'scope2kind' : {
+\   'ctype' : 't',
+\   'ntype' : 'n'
+\ },
+\ 'ctagsbin'  : 'gotags',
+\ 'ctagsargs' : '-sort -silent'
+\}
 " }}}
 " AYUNiS.nvim {{{
 let g:ayunis_rtp = $HOME . '/.vim/plugged/AYUNiS.nvim'
