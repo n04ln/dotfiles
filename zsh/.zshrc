@@ -440,9 +440,15 @@ cd_dirhist() {
     zle -R -c
 }
 cd_current_child() {
-    selected=$(ls -R | grep -e "^.*:$" | awk 'BEGIN{FS=":"}{print $1}' | fzf)
+    # NOTE: only use on $GHQPATH
+    #   if current dir is not on ${GHQPATH}, abort
+    [[ ! "$(pwd)" =~ "^${GHQPATH}.*$" ]] && return
+
+    root_path=$(pwd | perl -pe "s/($(echo ${GHQPATH} | sed -e "s/\//\\\\\//g")\/.*?\/.*?\/.*?\/.*?).*/\1/")
+    selected=$(ls -R ${root_path} | grep -e "^.*:$" | \
+        perl -pe "s/^$(echo ${GHQPATH} | sed -e "s/\//\\\\\//g")\/.*?\/.*?\/.*?\/.*?(.*):$/\1/" | fzf)
     [ "${selected}" = "" ] && return 0
-    cd ${selected} > /dev/null 2>&1
+    cd ${root_path}${selected} > /dev/null 2>&1
 
     zle reset-prompt
     zle -R -c
