@@ -444,11 +444,12 @@ cd_current_child() {
     #   if current dir is not on ${GHQPATH}, abort
     [[ ! "$(pwd)" =~ "^${GHQPATH}.*$" ]] && return
 
-    root_path=$(pwd | perl -pe "s/($(echo ${GHQPATH} | sed -e "s/\//\\\\\//g")\/.*?\/.*?\/.*?\/.*?).*/\1/")
+    root_path=$( echo "$(pwd)/" | \
+        perl -pe "s/($(echo ${GHQPATH} | sed -e "s/\//\\\\\//g")\/.*?\/.*?\/.*?\/.*?).*/\1/")
     selected=$(ls -R ${root_path} | grep -e "^.*:$" | \
-        perl -pe "s/^$(echo ${GHQPATH} | sed -e "s/\//\\\\\//g")\/.*?\/.*?\/.*?\/.*?(.*):$/\1/" | fzf)
+        perl -pe "s/^$(echo ${GHQPATH} | sed -e "s/\//\\\\\//g")\/.*?\/.*?\/.*?\/.*?(.*):$/\1/" | awk '{print "." $0} END{print "./"}' | fzf)
     [ "${selected}" = "" ] && return 0
-    cd ${root_path}${selected} > /dev/null 2>&1
+    cd ${root_path}/${selected} > /dev/null 2>&1
 
     zle reset-prompt
     zle -R -c
