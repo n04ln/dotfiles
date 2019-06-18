@@ -219,7 +219,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'jdkanani/vim-material-theme'
 
 " Made by @NoahOrberg
-Plug 'NoahOrberg/AYUNiS.nvim'
+" Plug 'NoahOrberg/AYUNiS.nvim'
 Plug 'NoahOrberg/diesirae.nvim'
 Plug 'NoahOrberg/spacemacs-theme.vim'
 Plug 'NoahOrberg/fizard.nvim'
@@ -263,6 +263,21 @@ endif
 set laststatus=2
 set showtabline=2
 set noshowmode
+" let g:lightline = {
+"       \ 'colorscheme': 'jellybeans',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \   'gitbranch': 'fugitive#head',
+"       \   'ayunis': 'AYUNiSGetNowPlaying'
+"       \ },
+"       \ }
+" let g:lightline.tabline          = {
+"       \ 'left': [['ayunis', 'buffers']],
+"       \ 'right': [['close']]
+"       \ }
 let g:lightline = {
       \ 'colorscheme': 'jellybeans',
       \ 'active': {
@@ -271,11 +286,10 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
-      \   'ayunis': 'AYUNiSGetNowPlaying'
       \ },
       \ }
 let g:lightline.tabline          = {
-      \ 'left': [['ayunis', 'buffers']],
+      \ 'left': [['buffers']],
       \ 'right': [['close']]
       \ }
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
@@ -388,6 +402,22 @@ if executable('go-langserver')
         \ 'name': 'go-langserver',
         \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio', '-gocodecompletion']},
         \ 'whitelist': ['go'],
+        \ })
+endif
+
+if executable('dart_language_server')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'dart_language_server',
+        \ 'cmd': {server_info->['dart_language_server']},
+        \ 'whitelist': ['dart'],
+        \ })
+endif
+
+if executable('protobuf_langserver')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'protobuf_server',
+        \ 'cmd': {server_info->['protobuf_langserver']},
+        \ 'whitelist': ['proto'],
         \ })
 endif
 

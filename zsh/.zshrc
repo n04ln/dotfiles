@@ -368,6 +368,14 @@ dlogs() {
     zle reset-prompt
     zle -R -c
 }
+dlogsf() {
+    selected=$(docker ps -a | sed 1d | fzf -m | awk '{print $1}')
+    [ $(echo ${selected} | wc -w) -eq 0 ] && return
+    docker logs -f $selected
+
+    zle reset-prompt
+    zle -R -c
+}
 checkout_gbranch() {
     # NOTE: サブディレクトリからでもcheckout可能にする
     #       プロジェクトルートにcdする制限付き（存在しないディレクトリに入ったりしないために
@@ -643,6 +651,7 @@ alias emacs='emacs -nw'
 alias e='nvim'
 alias k='kubectl'
 alias t='terraform'
+alias f='flutter'
 
 # docker
 alias dps='docker ps'
