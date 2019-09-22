@@ -416,9 +416,17 @@ if executable('go-langserver')
         \ })
 endif
 
+if executable('dart_language_server')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'dart_language_server',
+        \ 'cmd': {server_info->['dart_language_server']},
+        \ 'whitelist': ['dart'],
+        \ })
+endif
+
 if executable('protobuf_langserver')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'protobuf_langserver',
+        \ 'name': 'protobuf_server',
         \ 'cmd': {server_info->['protobuf_langserver']},
         \ 'whitelist': ['proto'],
         \ })
