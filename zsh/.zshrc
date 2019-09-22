@@ -39,7 +39,7 @@ export GOSAND=$GOPATH/src/github.com/NoahOrberg/sandbox
 export GHQPATH=$GOPATH/src
 export PATH=$PATH:$HOME/.bin
 export PATH="/usr/local/opt/gettext/bin:$PATH"
-export PATH=/Users/noah/.goenv/shims:$PATH
+# export PATH=/Users/noah/.goenv/shims:$PATH # unuse now
 export PATH=/usr/local/bin:$PATH
 export PATH=$HOME/.local/bin:$PATH
 export PATH=$HOME/bin:$PATH
@@ -59,6 +59,9 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export PATH=$HOME/flutter/bin:$PATH
 export PATH=$HOME/flutter/bin/cache/dart-sdk/bin:$PATH # what's cache dir?
 export PATH=$HOME/.pub-cache/bin:$PATH
+export PATH=$HOME/neovim/bin:$PATH
+export PATH=$HOME/.bin:$PATH
+export PATH=$GHQPATH/github.com/cquery-project/cquery/build:$PATH
 # }}}
 # CLI tool and some plugin install {{{
 install_tool() {
@@ -363,7 +366,7 @@ dsh() {
 dlogs() {
     selected=$(docker ps -a | sed 1d | fzf -m | awk '{print $1}')
     [ $(echo ${selected} | wc -w) -eq 0 ] && return
-    docker logs $selected
+    docker logs -f $selected
 
     zle reset-prompt
     zle -R -c
@@ -658,6 +661,7 @@ alias gs='git status'
 alias gP='git push'
 alias gp='git pull'
 alias gd='git diff'
+alias gcb='git checkout -'
 
 # stack
 alias ghc='stack ghc'
@@ -667,6 +671,9 @@ alias runghc='stack runghc'
 # go
 alias gocov='go test -cover'
 alias gocovw='go test -coverprofile=cover.out && go tool cover -html=cover.out -o cover.html && open cover.html'
+
+# check prev command is success
+alias c='echo $?'
 
 # global alias
 alias -g B='|bash'
@@ -682,6 +689,7 @@ alias -g W='|wc'
 j() {
     javac $1 && java $(echo $_ | sed -e "s/\.java//g")
 }
+alias rr=/usr/local/bin/r
 # }}}
 # like vim {{{
 :e() {
@@ -830,18 +838,22 @@ if [ $(uname) = "Linux" ]; then
     export PATH=$HOME/.bin/DevDocs-0.6.9/:$PATH
 fi
 # }}}
-# gcloud {{{
-# The next line enables shell command completion for gcloud.
-if [ -f "$HOME/google-cloud-sdk/completion.zsh.inc" ]; then source "$HOME/google-cloud-sdk/completion.zsh.inc"; fi
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
+# aws {{{
+$(aws ecr get-login --no-include-email --region ap-northeast-1)
 # }}}
+# gcloud {{{# }}}
 # init env {{{
 eval "$(pyenv init -)"
 eval "$(rbenv init -)"
 eval "$(ndenv init -)"
-eval "$(goenv init -)"
+# eval "$(goenv init -)"
 # }}}
 # COMPLETE! {{{
 echo "complete!"
 # }}}
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/noah/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/noah/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/noah/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/noah/google-cloud-sdk/completion.zsh.inc'; fi
