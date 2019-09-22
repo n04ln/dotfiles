@@ -5,6 +5,7 @@ filetype plugin indent on
 command! Cn :e ~/.config/nvim/init.vim
 " Open config file (~/.zshrc)
 command! Cz :e ~/.zshrc
+set runtimepath+=/Users/noah/go/src/github.com/NoahOrberg/protobuf_langserver/
 " typo {{{
 iabbrev TOOD TODO
 iabbrev srting string
@@ -56,7 +57,6 @@ augroup fileTypeIndent
   autocmd!
   autocmd BufNewFile,BufRead *.vim   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.h     setlocal tabstop=2 softtabstop=2 shiftwidth=2
-  autocmd BufNewFile,BufRead *.cpp   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.java  setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.jomp  setlocal tabstop=2 softtabstop=2 shiftwidth=2 ft=java
   autocmd BufNewFile,BufRead *.js    setlocal tabstop=2 softtabstop=2 shiftwidth=2
@@ -64,6 +64,7 @@ augroup fileTypeIndent
   autocmd BufNewFile,BufRead *.yaml  setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.yml   setlocal tabstop=2 softtabstop=2 shiftwidth=2
   autocmd BufNewFile,BufRead *.dart  setlocal tabstop=2 softtabstop=2 shiftwidth=2
+  autocmd BufNewFile,BufRead *.py    setlocal tabstop=2 softtabstop=2 shiftwidth=2
 augroup END
 augroup fileTypeOpt
   autocmd FileType gitcommit setlocal spell
@@ -173,7 +174,15 @@ nnoremap <leader>n :enew<cr>
 inoremap <TAB> <C-k><C-n>
 
 " show bufname
-noremap bn :echo bufname('%')<CR>
+noremap Bn :echo bufname('%')<CR>
+
+" move to TOP and TAIL
+nnoremap H ^
+nnoremap L $
+
+" move next/prev empty line
+nnoremap <C-j> }
+nnoremap <C-k> {
 " }}}
 " Plug {{{
 " NOTE: INSTALL Plug Command (https://github.com/junegunn/vim-plug#neovim)
@@ -181,6 +190,7 @@ noremap bn :echo bufname('%')<CR>
 call plug#begin('~/.vim/plugged')
 Plug 'jparise/vim-graphql'
 " Plug 'ensime/ensime-vim', { 'do': ':UpdateRemotePlugins' }
+Plug 'thinca/vim-showtime'
 
 Plug 'itchyny/lightline.vim'
 Plug 'mgee/lightline-bufferline'
@@ -204,6 +214,7 @@ Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+Plug 'pdavydov108/vim-lsp-cquery'
 Plug 'Shougo/neosnippet.vim'
 Plug 'Shougo/neosnippet-snippets'
 " Plug 'Shougo/deoplete.nvim'
@@ -219,7 +230,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'jdkanani/vim-material-theme'
 
 " Made by @NoahOrberg
-Plug 'NoahOrberg/AYUNiS.nvim'
+" Plug 'NoahOrberg/AYUNiS.nvim'
 Plug 'NoahOrberg/diesirae.nvim'
 Plug 'NoahOrberg/spacemacs-theme.vim'
 Plug 'NoahOrberg/fizard.nvim'
@@ -263,6 +274,21 @@ endif
 set laststatus=2
 set showtabline=2
 set noshowmode
+" let g:lightline = {
+"       \ 'colorscheme': 'jellybeans',
+"       \ 'active': {
+"       \   'left': [ [ 'mode', 'paste' ],
+"       \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+"       \ },
+"       \ 'component_function': {
+"       \   'gitbranch': 'fugitive#head',
+"       \   'ayunis': 'AYUNiSGetNowPlaying'
+"       \ },
+"       \ }
+" let g:lightline.tabline          = {
+"       \ 'left': [['ayunis', 'buffers']],
+"       \ 'right': [['close']]
+"       \ }
 let g:lightline = {
       \ 'colorscheme': 'jellybeans',
       \ 'active': {
@@ -271,11 +297,10 @@ let g:lightline = {
       \ },
       \ 'component_function': {
       \   'gitbranch': 'fugitive#head',
-      \   'ayunis': 'AYUNiSGetNowPlaying'
       \ },
       \ }
 let g:lightline.tabline          = {
-      \ 'left': [['ayunis', 'buffers']],
+      \ 'left': [['buffers']],
       \ 'right': [['close']]
       \ }
 let g:lightline.component_expand = {'buffers': 'lightline#bufferline#buffers'}
@@ -391,9 +416,35 @@ if executable('go-langserver')
         \ })
 endif
 
+if executable('protobuf_langserver')
+    au User lsp_setup call lsp#register_server({
+        \ 'name': 'protobuf_langserver',
+        \ 'cmd': {server_info->['protobuf_langserver']},
+        \ 'whitelist': ['proto'],
+        \ })
+endif
+
+if executable('cquery')
+   au User lsp_setup call lsp#register_server({
+      \ 'name': 'cquery',
+      \ 'cmd': {server_info->['cquery']},
+      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+      \ 'initialization_options': { 'cacheDirectory': '/tmp/cquery/cache' },
+      \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+      \ })
+endif
+
+let g:lsp_signs_enabled = 1         " enable signs
+let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
+let g:lsp_diagnostics_enabled = 0
+
+let g:lsp_signs_error = {'text': '✗'}
+let g:lsp_signs_warning = {'text': '‼'}
+
+let g:asyncomplete_completion_delay=10
+
 nmap <silent> gd :<C-u>LspDefinition <CR>
 nmap <silent> gr :<C-u>LspRename<CR>
-let g:lsp_diagnostics_enabled = 0
 " }}}
 " ALE {{{
 let g:ale_fixers = {'go': ['goimports']}
@@ -404,4 +455,19 @@ let dart_format_on_save = 1
 " }}}
 " fzf.vim {{{
 nnoremap <C-f> :Files<CR>
+" }}}
+" cquery {{{
+autocmd FileType c,cc,cpp,cxx,h,hpp nnoremap <leader>fv :LspCqueryDerived<CR>
+autocmd FileType c,cc,cpp,cxx,h,hpp nnoremap <leader>fc :LspCqueryCallers<CR>
+autocmd FileType c,cc,cpp,cxx,h,hpp nnoremap <leader>fb :LspCqueryBase<CR>
+autocmd FileType c,cc,cpp,cxx,h,hpp nnoremap <leader>fi :LspCqueryVars<CR>
+
+function MakeCquery()
+  let filename = expand('%:p')
+  let d = join(split(filename, '/')[0:-2], '/')
+
+  echo system('echo ''[{"directory": "' . d . '","command": "/usr/bin/c++  ' . filename . ' -std=c++17","file": "' . filename . '"}]'' > compile_commands.json')
+endfunction
+
+autocmd FileType c,cc,cpp,cxx,h,hpp call MakeCquery()
 " }}}
