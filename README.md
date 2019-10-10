@@ -26,4 +26,3 @@ if dotfiles already exists and u wanna force replace them, plz run with `-f` opt
 ``` sh
 $ zsh setup.zsh -f
 ```
-
