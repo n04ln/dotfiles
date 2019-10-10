@@ -21,7 +21,7 @@ $ cd dotfiles
 $ zsh setup.zsh
 ```
 
-if dotfiles already exists and u wanna force replace them, plz run with `-f` option. (overwrite)
+if dotfiles already exists and u wanna force replace them, plz run with `-f` option. (overwrite dotfiles)
 
 ``` sh
 $ zsh setup.zsh -f
