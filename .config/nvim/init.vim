@@ -6,6 +6,7 @@ command! Cn :e ~/.config/nvim/init.vim
 " Open config file (~/.zshrc)
 command! Cz :e ~/.zshrc
 set runtimepath+=/Users/noah/go/src/github.com/NoahOrberg/protobuf_langserver/
+set runtimepath+=/Users/noah/go/src/github.com/NoahOrberg/transfact.nvim/
 " typo {{{
 iabbrev TOOD TODO
 iabbrev srting string
@@ -234,7 +235,7 @@ Plug 'jdkanani/vim-material-theme'
 Plug 'NoahOrberg/diesirae.nvim'
 Plug 'NoahOrberg/spacemacs-theme.vim'
 Plug 'NoahOrberg/fizard.nvim'
-Plug 'NoahOrberg/transfact.nvim'
+" Plug 'NoahOrberg/transfact.nvim', {'branch': 'develop'}
 call plug#end()
 " }}}
 " NERDTree {{{
@@ -416,17 +417,9 @@ if executable('go-langserver')
         \ })
 endif
 
-if executable('dart_language_server')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'dart_language_server',
-        \ 'cmd': {server_info->['dart_language_server']},
-        \ 'whitelist': ['dart'],
-        \ })
-endif
-
 if executable('protobuf_langserver')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'protobuf_server',
+        \ 'name': 'protobuf_langserver',
         \ 'cmd': {server_info->['protobuf_langserver']},
         \ 'whitelist': ['proto'],
         \ })

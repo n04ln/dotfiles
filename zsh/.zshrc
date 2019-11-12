@@ -62,7 +62,7 @@ export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
 export PATH=$HOME/flutter/bin:$PATH
 export PATH=$HOME/flutter/bin/cache/dart-sdk/bin:$PATH # what's cache dir?
 export PATH=$HOME/.pub-cache/bin:$PATH
-export PATH=$HOME/neovim/bin:$PATH
+export PATH=$HOME/neovim-0.4.2/bin:$PATH
 export PATH=$HOME/.bin:$PATH
 export PATH=$GHQPATH/github.com/cquery-project/cquery/build:$PATH
 # }}}
@@ -375,14 +375,6 @@ dlogs() {
     zle reset-prompt
     zle -R -c
 }
-dlogsf() {
-    selected=$(docker ps -a | sed 1d | fzf -m | awk '{print $1}')
-    [ $(echo ${selected} | wc -w) -eq 0 ] && return
-    docker logs -f $selected
-
-    zle reset-prompt
-    zle -R -c
-}
 checkout_gbranch() {
     # NOTE: サブディレクトリからでもcheckout可能にする
     #       プロジェクトルートにcdする制限付き（存在しないディレクトリに入ったりしないために
@@ -656,7 +648,6 @@ alias emacs='emacs -nw'
 alias e='nvim'
 alias k='kubectl'
 alias t='terraform'
-alias f='flutter'
 
 # docker
 alias dps='docker ps'
