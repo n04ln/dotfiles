@@ -1,3 +1,5 @@
+# zmodload zsh/zprof
+
 export LANG=en_US.UTF-8
 # tmux {{{
 #    __                      
@@ -30,6 +32,7 @@ setopt EXTENDED_HISTORY
 #  / /___/ /|  / | |/ /    | |/ / ___ |/ _, _/ 
 # /_____/_/ |_/  |___/     |___/_/  |_/_/ |_|  
 #                                              
+export ZPLUG_LOADFILE=$HOME/.zplug_log
 export PYENV_ROOT=$HOME/.pyenv
 export PKG_CONFIG_PATH=/usr/local/lib
 export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:
@@ -285,7 +288,7 @@ zle -N zle-line-init
 #  / /_/ /_/ / / /_/ / /_/ / 
 # /___/ .___/_/\__,_/\__, /  
 #    /_/            /____/   
-source ~/.zplug/init.zsh
+touch $ZPLUG_LOADFILE
 zplug "zsh-users/zsh-autosuggestions"
 zplug "wbinglee/zsh-wakatime"
 
@@ -307,11 +310,12 @@ zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
 zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
 
 # install
+# NOTE: it took many many time, so wanna install manually
 if ! zplug check; then
     zplug install
 fi
 
-zplug load --verbose
+zplug load
 # }}}
 # initialize anyframe {{{
 #     ____      _ __                       ____                        
@@ -637,8 +641,6 @@ gg() {
     cd $GHQPATH/$(echo $_ | sed -e 's/git\@github.com:\(.*\)/github.com\/\1/')
 }
 # }}}
-# support widgets {{{
-# }}}
 # alias {{{
 #     ___    ___           
 #    /   |  / (_)___ ______
@@ -717,10 +719,10 @@ alias q=":q"
 # / /_/ / /_/ / / /  __/ /    
 # \____/\__/_/ /_/\___/_/     
 #                             
-# アプリケーションの環境変数設定
+# set ENVVAR for application
 source $HOME/env.zsh
 
-# 補完、色つけなど
+# completion, coloring
 fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U compinit
 compinit
@@ -734,7 +736,7 @@ setopt correct
 # `cd` behave `pushd`
 setopt auto_pushd
 
-# 画面の明かるさ調節 (ubuntuのみ)
+# brightness controll (only ubuntu)
 if [ `uname` = "Linux" ]; then
     [ ${br:-default} = "default" ] && br=1.0
     dtarget=`xrandr | grep " connected" | awk 'BEGIN{FS=" "}{print $1}'`
@@ -847,22 +849,16 @@ if [ $(uname) = "Linux" ]; then
     export PATH=$HOME/.bin/DevDocs-0.6.9/:$PATH
 fi
 # }}}
-# aws {{{
-$(aws ecr get-login --no-include-email --region ap-northeast-1)
-# }}}
-# gcloud {{{# }}}
 # init env {{{
-eval "$(pyenv init -)"
-eval "$(rbenv init -)"
-eval "$(ndenv init -)"
+# eval "$(pyenv init -)"
+# eval "$(rbenv init -)"
+# eval "$(ndenv init -)"
 # eval "$(goenv init -)"
 # }}}
 # COMPLETE! {{{
 echo "complete!"
 # }}}
 
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/noah/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/noah/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/noah/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/noah/google-cloud-sdk/completion.zsh.inc'; fi
+# if type zprof > /dev/null 2>&1; then
+#   zprof | less
+# fi
