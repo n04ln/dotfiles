@@ -58,7 +58,7 @@ _mv_config_file() {
     }
 
     _mkdir() {
-            mkdir -p ${1} && echo "No such directory: ${1}\nTherefore make ${1} directory"
+        mkdir -p ${1} && echo "No such directory: ${1}\nTherefore make ${1} directory"
     }
 
     _run() {
@@ -94,7 +94,7 @@ _mv_config_file() {
     }
 
     # Execute!!
-    _run
+    _run ${1} ${2} ${3}
 }
 
 #_show_help: show help message
