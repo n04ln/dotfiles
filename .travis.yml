@@ -1,0 +1,8 @@
+os: osx
+osx_image: xcode11.2
+
+install:
+  brew install zsh
+
+script:
+  zsh ./setup.zsh -cf
