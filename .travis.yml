@@ -5,6 +5,6 @@ install:
   brew install zsh
 
 script:
-  zsh ./setup.zsh -cf
-  exec $(which zsh) -l # reboot zsh
-  nvim -c PlugInstall -c PlugUpdate -c "redir > nvim_errmsg" -c messages -c "redir END" -c qa!
+  - zsh ./setup.zsh -cf
+  - exec $(which zsh) -l # reboot zsh
+  - nvim -c PlugInstall -c PlugUpdate -c "redir > nvim_errmsg" -c messages -c "redir END" -c qa!
