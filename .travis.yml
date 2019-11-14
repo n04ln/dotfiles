@@ -6,3 +6,4 @@ install:
 
 script:
   zsh ./setup.zsh -cf
+
