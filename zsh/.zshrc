@@ -1,5 +1,4 @@
 # zmodload zsh/zprof
-
 export LANG=en_US.UTF-8
 # tmux {{{
 #    __                      
@@ -845,6 +844,10 @@ fi
 # eval "$(rbenv init -)"
 # eval "$(ndenv init -)"
 # eval "$(goenv init -)"
+# }}}
+# travis {{{
+# added by travis gem
+[ -f ${HOME}/.travis/travis.sh ] && source ${HOME}/.travis/travis.sh
 # }}}
 # COMPLETE! {{{
 echo "complete!"

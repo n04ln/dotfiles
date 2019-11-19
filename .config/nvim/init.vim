@@ -5,8 +5,8 @@ filetype plugin indent on
 command! Cn :e ~/.config/nvim/init.vim
 " Open config file (~/.zshrc)
 command! Cz :e ~/.zshrc
-set runtimepath+=/Users/noah/go/src/github.com/NoahOrberg/protobuf_langserver/
-set runtimepath+=/Users/noah/go/src/github.com/NoahOrberg/transfact.nvim/
+set runtimepath+=/Users/noahorberg/go/src/github.com/NoahOrberg/protobuf_langserver/
+set runtimepath+=/Users/noahorberg/go/src/github.com/NoahOrberg/transfact.nvim/
 " typo {{{
 iabbrev TOOD TODO
 iabbrev srting string
@@ -471,4 +471,7 @@ function MakeCquery()
 endfunction
 
 autocmd FileType c,cc,cpp,cxx,h,hpp call MakeCquery()
+" }}}
+" thesis {{{
+command! ThesisPreview :! cd thesis/ && bash compile.sh thesis
 " }}}
