@@ -1,0 +1,114 @@
+install_tool() {
+    # Usage:
+    #   install_tool <COMMAND-NAME> \
+    #     <INSTALL_COMMAND_FOR_MACOS> \
+    #     <INSTALL_COMMAND_FOR_LINUX>
+    #
+    # Args:
+    #     ${1} COMMAND-NAME
+    #       ... The command name
+    #           (e.g, git)
+    #     ${2} INSTALL_COMMAND_FOR_MACOS
+    #       ... The install command for Macintosh.
+    #           This is string.
+    #           (e.g, "brew install git"})
+    #     ${3} INSTALL_COMMAND_FOR_LINUX
+    #       ... The install command for Linux.
+    #           This is string.
+    #           (e.g, "apt-get install git")
+    if $(which ${1} > /dev/null 2>&1); then
+        echo "${1}: already installed"
+    else
+        if [ $(uname) = "Darwin" ]; then
+            echo "${1}: installing..."
+            eval "${2}"
+            echo "${1}: installation done."
+        elif [ $(uname) = "Linux" ]; then
+            echo "${1}: installing..."
+            [ "${3}" != "" ] && eval "${3}" || eval "${2}"
+            echo "${1}: installation done."
+        else
+            echo "Cannot detect OS"
+        fi
+    fi
+}
+
+# brew
+install_tool brew \
+    '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew update' \
+    'echo unnecessary it'
+
+# git
+install_tool git \
+    'brew install git' 'apt-get install git'
+
+# zinit
+export ZPLUG_HOME=$HOME/.zinit/bin
+[ -f $ZPLUG_HOME/zinit.zsh ] && source $ZPLUG_HOME/zinit.zsh
+install_tool zinit \
+    'sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"'
+
+# fzf
+install_tool fzf \
+    'git clone https://github.com/junegunn/fzf.git $HOME/.fzf'
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# NOTE:
+#   INSTALLATION SCRIPT for go, pt, jo, httpie, chrome-cli, ghq, neovim
+
+# go
+install_tool go \
+    "brew install go" \
+    "apt-get install go"
+
+# pt
+install_tool pt \
+    "go get -u github.com/monochromegane/the_platinum_searcher/..."
+
+# jo
+install_tool jo \
+    "brew install jo" \
+    "apt-add-repository ppa:duggan/jo --yes; apt-get update -q; apt-get install jo"
+
+# httpie
+install_tool http \
+    "brew install httpie" \
+    "apt-get install httpie"
+
+# chrome-cli
+install_tool chrome-cli \
+    "brew install chrome-cli" \
+    "echo cannnot install chrome-cli"
+
+# ghq
+install_tool ghq \
+    "go get github.com/x-motemen/ghq"
+
+# neovim
+install_tool nvim \
+    "brew install neovim" \
+    "apt-get install neovim"
+
+# pyenv
+install_tool pyenv \
+    "brew install pyenv" \
+    "git clone https://github.com/pyenv/pyenv.git ${HOME}/.pyenv"
+# NOTE: initialize pyenv for NeoVim
+[ "$(pyenv versions 2>/dev/null | grep ${NVIM_PYTHON_VERSION})" = "" ] && \
+    echo "pyenv: installing ${NVIM_PYTHON_VERSION}..." && \
+    pyenv install ${NVIM_PYTHON_VERSION}
+[ "$(${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3 list 2>/dev/null | grep neovim)" = "" ] && \
+    echo "pyenv: installing neovim package..." && \
+    $(echo "${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3") \
+
+# vimplug
+[ ! -e ${HOME}/.local/share/nvim/site/autoload/plug.vim ] && \
+    echo "Plug: installing..." && \
+    curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
+    echo "Plug: installation done." || \
+    echo "Plug: already installed"
+
+# gopls
+install_tool gopls \
+    "GO111MODULE=on go get golang.org/x/tools/gopls@latest"
+# TODO: gotags, flutter(via pub, and dart-language-server), go-langserver

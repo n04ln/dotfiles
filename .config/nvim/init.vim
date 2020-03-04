@@ -5,6 +5,7 @@ filetype plugin indent on
 command! Cn :e ~/.config/nvim/init.vim
 " Open config file (~/.zshrc)
 command! Cz :e ~/.zshrc
+set runtimepath+=/Users/noahorberg/go/src/github.com/n04ln/yankee.vim/
 set runtimepath+=/Users/noahorberg/go/src/github.com/NoahOrberg/protobuf_langserver/
 set runtimepath+=/Users/noahorberg/go/src/github.com/NoahOrberg/transfact.nvim/
 " typo {{{
@@ -409,10 +410,10 @@ let g:indent_guides_guide_size = 1
 " to enable omni comp
 autocmd FileType go setlocal omnifunc=lsp#complete
 
-if executable('go-langserver')
+if executable('gopls')
     au User lsp_setup call lsp#register_server({
-        \ 'name': 'go-langserver',
-        \ 'cmd': {server_info->['go-langserver', '-mode', 'stdio', '-gocodecompletion']},
+        \ 'name': 'gopls',
+        \ 'cmd': {server_info->['gopls']},
         \ 'whitelist': ['go'],
         \ })
 endif
@@ -435,9 +436,18 @@ if executable('cquery')
       \ })
 endif
 
+if executable('dart_language_server')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'dart_language_server',
+        \ 'cmd': {server_info->['dart_language_server']},
+        \ 'whitelist': ['dart'],
+        \ })
+endif
+
 let g:lsp_signs_enabled = 1         " enable signs
 let g:lsp_diagnostics_echo_cursor = 1 " enable echo under cursor when in normal mode
 let g:lsp_diagnostics_enabled = 0
+let g:lsp_text_edit_enabled = 0
 
 let g:lsp_signs_error = {'text': '✗'}
 let g:lsp_signs_warning = {'text': '‼'}
@@ -445,6 +455,8 @@ let g:lsp_signs_warning = {'text': '‼'}
 let g:asyncomplete_completion_delay=10
 
 nmap <silent> gd :<C-u>LspDefinition <CR>
+nmap <silent> R :<C-u>LspRename <CR>
+nmap <silent> gt :<C-u>LspTypeDefinition <CR>
 nmap <silent> gr :<C-u>LspRename<CR>
 " }}}
 " ALE {{{
@@ -472,6 +484,6 @@ endfunction
 
 autocmd FileType c,cc,cpp,cxx,h,hpp call MakeCquery()
 " }}}
-" thesis {{{
-command! ThesisPreview :! cd thesis/ && bash compile.sh thesis
+" yankee.vim {{{
+let g:yankee_buf_list = ['"b', '"c', '"f', '"h']
 " }}}

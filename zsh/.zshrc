@@ -1,12 +1,5 @@
-# zmodload zsh/zprof
 export LANG=en_US.UTF-8
 # tmux {{{
-#    __                      
-#   / /_____ ___  __  ___  __
-#  / __/ __ `__ \/ / / / |/_/
-# / /_/ / / / / / /_/ />  <  
-# \__/_/ /_/ /_/\__,_/_/|_|  
-#                            
 # if `which tmux > /dev/null 2>&1`; then
 #     if [ $SHLVL = 1 ]; then
 #         tmux
@@ -14,23 +7,12 @@ export LANG=en_US.UTF-8
 # fi
 # }}}
 # export {{{
-#     __    _      __                  
-#    / /_  (_)____/ /_____  _______  __
-#   / __ \/ / ___/ __/ __ \/ ___/ / / /
-#  / / / / (__  ) /_/ /_/ / /  / /_/ / 
-# /_/ /_/_/____/\__/\____/_/   \__, /  
-#                             /____/   
 export HISTFILE=$HOME/.zsh_history
 export HISTSIZE=1000
 export SAVEHIST=100000
 setopt hist_ignore_dups
 setopt EXTENDED_HISTORY
-#     _______   ___    __   _    _____    ____ 
-#    / ____/ | / / |  / /  | |  / /   |  / __ \
-#   / __/ /  |/ /| | / /   | | / / /| | / /_/ /
-#  / /___/ /|  / | |/ /    | |/ / ___ |/ _, _/ 
-# /_____/_/ |_/  |___/     |___/_/  |_/_/ |_|  
-#                                              
+
 export ZPLUG_LOADFILE=$HOME/.zplug_log
 export PYENV_ROOT=$HOME/.pyenv
 export PKG_CONFIG_PATH=/usr/local/lib
@@ -39,6 +21,7 @@ export XDG_CONFIG_HOME=$HOME/.config
 export GOPATH=$HOME/go
 export GOSAND=$GOPATH/src/github.com/NoahOrberg/sandbox
 export GHQPATH=$GOPATH/src
+export PATH=$PATH:$HOME/.zinit/bin
 export PATH=$PATH:$HOME/.bin
 export PATH="/usr/local/opt/gettext/bin:$PATH"
 # export PATH=/Users/noah/.goenv/shims:$PATH # unuse now
@@ -65,185 +48,21 @@ export PATH=$HOME/neovim-0.4.2/bin:$PATH
 export PATH=$HOME/.bin:$PATH
 export PATH=$GHQPATH/github.com/cquery-project/cquery/build:$PATH
 # }}}
-# CLI tool and some plugin install {{{
-install_tool() {
-    # Usage:
-    #   install_tool <COMMAND-NAME> \
-    #     <INSTALL_COMMAND_FOR_MACOS> \
-    #     <INSTALL_COMMAND_FOR_LINUX>
-    #
-    # Args:
-    #     ${1} COMMAND-NAME
-    #       ... The command name
-    #           (e.g, git)
-    #     ${2} INSTALL_COMMAND_FOR_MACOS
-    #       ... The install command for Macintosh.
-    #           This is string.
-    #           (e.g, "brew install git"})
-    #     ${3} INSTALL_COMMAND_FOR_LINUX
-    #       ... The install command for Linux.
-    #           This is string.
-    #           (e.g, "apt-get install git")
-    if $(which ${1} > /dev/null 2>&1); then
-        echo "${1}: already installed"
-    else
-        if [ $(uname) = "Darwin" ]; then
-            echo "${1}: installing..."
-            eval "${2}"
-            echo "${1}: installation done."
-        elif [ $(uname) = "Linux" ]; then
-            echo "${1}: installing..."
-            [ "${3}" != "" ] && eval "${3}" || eval "${2}"
-            echo "${1}: installation done."
-        else
-            echo "Cannot detect OS"
-        fi
-    fi
-}
-#     __                     
-#    / /_  ________ _      __
-#   / __ \/ ___/ _ \ | /| / /
-#  / /_/ / /  /  __/ |/ |/ / 
-# /_.___/_/   \___/|__/|__/  
-install_tool brew \
-    '/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" && brew update' \
-    'echo unnecessary it'
-#           _ __ 
-#    ____ _(_) /_
-#   / __ `/ / __/
-#  / /_/ / / /_  
-#  \__, /_/\__/  
-# /____/         
-install_tool git \
-    'brew install git' 'apt-get install git'
-#  ____  ____  / /_  ______ _
-# /_  / / __ \/ / / / / __ `/
-#  / /_/ /_/ / / /_/ / /_/ / 
-# /___/ .___/_/\__,_/\__, /  
-#    /_/            /____/   
-export ZPLUG_HOME=$HOME/.zplug
-[ -f $ZPLUG_HOME/init.zsh ] && source $ZPLUG_HOME/init.zsh
-install_tool zplug \
-    'git clone https://github.com/zplug/zplug $ZPLUG_HOME'
-#     ____      ____
-#    / __/___  / __/
-#   / /_/_  / / /_  
-#  / __/ / /_/ __/  
-# /_/   /___/_/     
-install_tool fzf \
-    'git clone https://github.com/junegunn/fzf.git $HOME/.fzf'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS="--reverse --height=20"
-# NOTE:
-#   INSTALLATION SCRIPT for go, pt, jo, httpie, chrome-cli, ghq, neovim
-#    ______    
-#   / ____/___ 
-#  / / __/ __ \
-# / /_/ / /_/ /
-# \____/\____/ 
-install_tool go \
-    "brew install go" \
-    "apt-get install go"
-#            __ 
-#     ____  / /_
-#    / __ \/ __/
-#   / /_/ / /_  
-#  / .___/\__/  
-# /_/ 
-install_tool pt \
-    "go get -u github.com/monochromegane/the_platinum_searcher/..."
-#        _     
-#       (_)___ 
-#      / / __ \
-#     / / /_/ /
-#  __/ /\____/ 
-# /___/        
-install_tool jo \
-    "brew install jo" \
-    "apt-add-repository ppa:duggan/jo --yes; apt-get update -q; apt-get install jo"
-#     __    __  __        _         
-#    / /_  / /_/ /_____  (_)__      
-#   / __ \/ __/ __/ __ \/ / _ \     
-#  / / / / /_/ /_/ /_/ / /  __/     
-# /_/ /_/\__/\__/ .___/_/\___/      
-#              /_/                  
-install_tool http \
-    "brew install httpie" \
-    "apt-get install httpie"
-#          __                                         __    _ 
-#   _____/ /_  _________  ____ ___  ___        _____/ /_  (_)
-#  / ___/ __ \/ ___/ __ \/ __ `__ \/ _ \______/ ___/ __ \/ / 
-# / /__/ / / / /  / /_/ / / / / / /  __/_____/ /__/ / / / /  
-# \___/_/ /_/_/   \____/_/ /_/ /_/\___/      \___/_/ /_/_/   
-install_tool chrome-cli \
-    "brew install chrome-cli" \
-    "echo cannnot install chrome-cli"
-#           __         
-#    ____ _/ /_  ____ _
-#   / __ `/ __ \/ __ `/
-#  / /_/ / / / / /_/ / 
-#  \__, /_/ /_/\__, /  
-# /____/         /_/   
-install_tool ghq \
-    "go get github.com/motemen/ghq"
-#     _   __         _    ___         
-#    / | / /__  ____| |  / (_)___ ___ 
-#   /  |/ / _ \/ __ \ | / / / __ `__ \
-#  / /|  /  __/ /_/ / |/ / / / / / / /
-# /_/ |_/\___/\____/|___/_/_/ /_/ /_/ 
-install_tool nvim \
-    "brew install neovim" \
-    "apt-get install neovim"
-#     ____  __  _____  ____ _   __
-#    / __ \/ / / / _ \/ __ \ | / /
-#   / /_/ / /_/ /  __/ / / / |/ / 
-#  / .___/\__, /\___/_/ /_/|___/  
-# /_/    /____/                   
-export NVIM_PYTHON_VERSION=3.6.6
-install_tool pyenv \
-    "brew install pyenv" \
-    "git clone https://github.com/pyenv/pyenv.git ${HOME}/.pyenv"
-# NOTE: initialize pyenv for NeoVim
-eval "$(pyenv init -)"
-[ "$(pyenv versions 2>/dev/null | grep ${NVIM_PYTHON_VERSION})" = "" ] && \
-    echo "pyenv: installing ${NVIM_PYTHON_VERSION}..." && \
-    pyenv install ${NVIM_PYTHON_VERSION}
-[ "$(${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3 list 2>/dev/null | grep neovim)" = "" ] && \
-    echo "pyenv: installing neovim package..." && \
-    $(echo "${PYENV_ROOT}/versions/${NVIM_PYTHON_VERSION}/bin/pip3") \
-#         _                       __           
-#  _   __(_)___ ___        ____  / /_  ______ _
-# | | / / / __ `__ \______/ __ \/ / / / / __ `/
-# | |/ / / / / / / /_____/ /_/ / / /_/ / /_/ / 
-# |___/_/_/ /_/ /_/     / .___/_/\__,_/\__, /  
-#                      /_/            /____/   
-[ ! -e ${HOME}/.local/share/nvim/site/autoload/plug.vim ] && \
-    echo "Plug: installing..." && \
-    curl -fLo ${HOME}/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && \
-    echo "Plug: installation done." || \
-    echo "Plug: already installed"
-# TODO: gotags, flutter(via pub, and dart-language-server), go-langserver
-# }}}
 # keybind: vim {{{
-#         _                                  __   
-#  _   __(_)___ ___     ____ ___  ____  ____/ /__ 
-# | | / / / __ `__ \   / __ `__ \/ __ \/ __  / _ \
-# | |/ / / / / / / /  / / / / / / /_/ / /_/ /  __/
-# |___/_/_/ /_/ /_/  /_/ /_/ /_/\____/\__,_/\___/ 
-#                                                 
 bindkey -v
 bindkey "^N" menu-complete
 bindkey -M viins 'jj' vi-cmd-mode
 export LC_ALL='en_US.UTF-8'
 # }}}
+# initializer () {{{
+export ZPLUG_HOME=$HOME/.zinit/bin
+[ -f $ZPLUG_HOME/zinit.zsh ] && source $ZPLUG_HOME/zinit.zsh
+
+export FZF_DEFAULT_OPTS="--reverse --height=20"
+
+export NVIM_PYTHON_VERSION=3.6.6
+# }}}
 # prompt {{{
-#                                       __ 
-#     ____  _________  ____ ___  ____  / /_
-#    / __ \/ ___/ __ \/ __ `__ \/ __ \/ __/
-#   / /_/ / /  / /_/ / / / / / / /_/ / /_  
-#  / .___/_/   \____/_/ /_/ /_/ .___/\__/  
-# /_/                        /_/           
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn
 zstyle ':vcs_info:*' formats '%{'${fg[red]}'%}[%s %b] %{'$reset_color'%}'
@@ -280,60 +99,35 @@ function zle-line-init zle-keymap-select {
 zle -N zle-keymap-select
 zle -N zle-line-init
 # }}}
-# zplug {{{
-#               __           
-#  ____  ____  / /_  ______ _
-# /_  / / __ \/ / / / / __ `/
-#  / /_/ /_/ / / /_/ / /_/ / 
-# /___/ .___/_/\__,_/\__, /  
-#    /_/            /____/   
+# zinit {{{
 touch $ZPLUG_LOADFILE
-zplug "zsh-users/zsh-autosuggestions"
-zplug "wbinglee/zsh-wakatime"
+zinit load "zsh-users/zsh-autosuggestions"
+zinit load "wbinglee/zsh-wakatime"
 
 # syntax
-zplug "chrissicool/zsh-256color"
-zplug "Tarrasch/zsh-colors"
-zplug "ascii-soup/zsh-url-highlighter"
+zinit load "chrissicool/zsh-256color"
+zinit load "Tarrasch/zsh-colors"
+zinit load "ascii-soup/zsh-url-highlighter"
 
 # program
-zplug "voronkovich/mysql.plugin.zsh"
+zinit load "voronkovich/mysql.plugin.zsh"
 
 # other
-zplug "b4b4r07/zsh-vimode-visual", defer:3
-zplug "hchbaw/opp.zsh"
-zplug "zsh-users/zsh-syntax-highlighting", defer:2
-zplug "zsh-users/zsh-completions"
-zplug "mollifier/anyframe"
-zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf
-zplug "junegunn/fzf", as:command, use:bin/fzf-tmux
+zinit load "b4b4r07/zsh-vimode-visual" #, defer:3
+# zinit load "hchbaw/opp.zsh"
+zinit load "zsh-users/zsh-syntax-highlighting" #, defer:2
+zinit load "zsh-users/zsh-completions"
+zinit load "mollifier/anyframe"
+zinit load "junegunn/fzf-bin" #, as:command, from:gh-r, rename-to:fzf
+zinit load "junegunn/fzf" #, as:command, use:bin/fzf-tmux
 
-# install
-# NOTE: it took many many time, so wanna install manually
-if ! zplug check; then
-    zplug install
-fi
-
-zplug load
 # }}}
 # initialize anyframe {{{
-#     ____      _ __                       ____                        
-#    /  _/___  (_) /_   ____ _____  __  __/ __/________ _____ ___  ___ 
-#    / // __ \/ / __/  / __ `/ __ \/ / / / /_/ ___/ __ `/ __ `__ \/ _ \
-#  _/ // / / / / /_   / /_/ / / / / /_/ / __/ /  / /_/ / / / / / /  __/
-# /___/_/ /_/_/\__/   \__,_/_/ /_/\__, /_/ /_/   \__,_/_/ /_/ /_/\___/ 
-#                                /____/                                
 fpath=($HOME/.zsh/anyframe(N-/) $fpath)
 autoload -Uz anyframe-init
 anyframe-init
 # }}}
 # for fzf (customized) {{{
-#     ____      ____
-#    / __/___  / __/
-#   / /_/_  / / /_  
-#  / __/ / /_/ __/  
-# /_/   /___/_/     
-#                   
 dstop() {
     selected=$(docker ps | sed 1d | fzf -m | awk '{print $1}')
     [ $(echo ${selected} | wc -w) -eq 0 ] && return
@@ -476,12 +270,6 @@ zle -N cd_dirhist
 zle -N cd_current_child
 # }}}
 # for Docker {{{
-#     ____              ____             __            
-#    / __/___  _____   / __ \____  _____/ /_____  _____
-#   / /_/ __ \/ ___/  / / / / __ \/ ___/ //_/ _ \/ ___/
-#  / __/ /_/ / /     / /_/ / /_/ / /__/ ,< /  __/ /    
-# /_/  \____/_/     /_____/\____/\___/_/|_|\___/_/     
-#                                                      
 _check_to_exec_comand() {
     read yn\?${1}
     case "${yn}" in
@@ -633,12 +421,6 @@ gg() {
 }
 # }}}
 # alias {{{
-#     ___    ___           
-#    /   |  / (_)___ ______
-#   / /| | / / / __ `/ ___/
-#  / ___ |/ / / /_/ (__  ) 
-# /_/  |_/_/_/\__,_/____/  
-#                          
 alias sss='exec $SHELL -l'
 alias ls='ls -F'
 alias la='ls -la'
@@ -703,12 +485,6 @@ alias e=":e"
 alias q=":q"
 # }}}
 # other {{{
-#    ____  __  __             
-#   / __ \/ /_/ /_  ___  _____
-#  / / / / __/ __ \/ _ \/ ___/
-# / /_/ / /_/ / / /  __/ /    
-# \____/\__/_/ /_/\___/_/     
-#                             
 # set ENVVAR for application
 source $HOME/env.zsh
 
@@ -726,43 +502,6 @@ setopt correct
 # `cd` behave `pushd`
 setopt auto_pushd
 
-# brightness controll (only ubuntu)
-if [ `uname` = "Linux" ]; then
-    [ ${br:-default} = "default" ] && br=1.0
-    dtarget=`xrandr | grep " connected" | awk 'BEGIN{FS=" "}{print $1}'`
-    xrandr --output ${dtarget} --brightness ${br}
-    echo "${dtarget}: brightness is ${br}"
-
-    brdown() {
-        if [ `echo "${br} > 0.1" | bc` = 1 ]; then
-            br=`echo "${br} - 0.05" | bc`
-        fi
-        _brightness
-    }
-    brup() {
-        if [ `echo "${br} < 1.0" | bc` = 1 ]; then
-            br=`echo "${br} + 0.05" | bc`
-        fi
-        _brightness
-    }
-    _brightness() {
-        xrandr --output ${dtarget} --brightness ${br}
-        # brstatus
-    }
-    brstatus() {
-        echo "${dtarget}: brightness is ${br}"
-    }
-
-    zle -N brdown
-    zle -N brup
-
-    # bindkey for Linux
-    bindkey '^rx' brdown
-    bindkey '^ra' brup
-else
-    echo "unnecessary brightness control functions"
-fi
-
 # coloring error output
 # exec 2> >( read e; [ "${e}" != "" ] && $(echo ${e} | sed "s/^/${fg_bold[magenta]}/;s/$/${reset_color}/") )
 
@@ -776,12 +515,6 @@ jp() {
 }
 # }}}
 # bind widgets {{{
-#     ____  _           __   _       ___     __           __      
-#    / __ )(_)___  ____/ /  | |     / (_)___/ /___ ____  / /______
-#   / __  / / __ \/ __  /   | | /| / / / __  / __ `/ _ \/ __/ ___/
-#  / /_/ / / / / / /_/ /    | |/ |/ / / /_/ / /_/ /  __/ /_(__  ) 
-# /_____/_/_/ /_/\__,_/     |__/|__/_/\__,_/\__, /\___/\__/____/  
-#                                          /____/                 
 bindkey '^a' autosuggest-accept
 bindkey '^e' autosuggest-execute
 
@@ -801,46 +534,8 @@ bindkey '^wr' drm
 bindkey '^wi' drmi
 
 # }}}
-# for Thinkpad X230 Tips {{{
-#   ________    _       __                   __   __  _           
-#  /_  __/ /_  (_)___  / /______  ____ _____/ /  / /_(_)___  _____
-#   / / / __ \/ / __ \/ //_/ __ \/ __ `/ __  /  / __/ / __ \/ ___/
-#  / / / / / / / / / / ,< / /_/ / /_/ / /_/ /  / /_/ / /_/ (__  ) 
-# /_/ /_/ /_/_/_/ /_/_/|_/ .___/\__,_/\__,_/   \__/_/ .___/____/  
-#                       /_/                        /_/            
-# NOTE:
-# To reverse touchpad scrolling
-#   $ xinput -list
-#     SynPS/2 Synaptics TouchPad id=11 [slave pointer (2)]
-#   $ xinput list-props 11 | grep "Scrolling Distance"
-#     Synaptics Scrolling Distance (285): 125, 125
-#   $ xinput set-prop 11 285 -125 -125
-# To set Wi-Fi
-#   Show SSIDs
-#     $ nmcli device wifi list
-#   Connect Wi-Fi
-#     $ nmcli device wifi connect 'SSID' password 'password' ifname wlan0
-#   Status
-#     $ nmcli device status
-#   Disconnect
-#     $ nmcli dev disconnect wlan0
-# For sounds control
-#   Initialization
-#     alsactl init # initialization for sound device
-#   Up
-#     amixer sset Master 1%+
-#     amixer sset Master 1db+
-#   Down
-#     amixer sset Master 1%-
-#     amixer sset Master 1db-
-# Only Ubuntu
-if [ $(uname) = "Linux" ]; then
-    alias chrome=chromium-browser
-    export PATH=$HOME/.bin/DevDocs-0.6.9/:$PATH
-fi
-# }}}
 # init env {{{
-# eval "$(pyenv init -)"
+eval "$(pyenv init -)"
 # eval "$(rbenv init -)"
 # eval "$(ndenv init -)"
 # eval "$(goenv init -)"
@@ -853,6 +548,5 @@ fi
 echo "complete!"
 # }}}
 
-# if type zprof > /dev/null 2>&1; then
-#   zprof | less
-# fi
+### End of Zinit's installer chunk
+### End of Zinit's installer chunk
