@@ -2,25 +2,21 @@ require("plugins.plugin")
 
 vim.scriptencoding = "utf-8"
 vim.opt.number = true
--- vim.opt.background = "dark"
--- if vim.fn.has('termguicolors') == 1 then
---   vim.opt.termguicolors = true
--- end
--- vim.cmd[[colorscheme spacemacs-theme]]
 vim.opt.relativenumber = true
 vim.opt.hidden = true
 vim.opt.showmatch = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 vim.opt.softtabstop = 4
--- vim.opt.undofile = true
--- vim.opt.undodir = "~/.vim/undo"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.scrolloff = 3
 vim.cmd.colorscheme "catppuccin"
+vim.opt.swapfile = false
+vim.opt.undofile = true
+vim.opt.undodir = os.getenv("HOME") .. "/.vim/undo"
 
 vim.api.nvim_set_keymap("n", "<SPACE>q", "<CMD>q<CR>", { noremap = true })
 vim.api.nvim_set_keymap("n", "<SPACE>w", "<CMD>w<CR>", { noremap = true })
@@ -31,8 +27,14 @@ end
 
 vim.api.nvim_set_keymap("n", "Bn", "<CMD>lua show_current_bufname()<CR>", { noremap = true })
 
-vim.api.nvim_set_keymap("n", "<C-j>", "<C-w>+", {})
-vim.api.nvim_set_keymap("n", "<C-k>", "<C-w>-", {})
-vim.api.nvim_set_keymap("n", "<C-l>", "<C-w>>", {})
-vim.api.nvim_set_keymap("n", "<C-h>", "<C-w><", {})
+vim.api.nvim_set_keymap("n", "<C-w><C-j>", "<C-w>+<C-x>", {})
+vim.api.nvim_set_keymap("n", "<C-w><C-k>", "<C-w>-<C-x>", {})
+vim.api.nvim_set_keymap("n", "<C-w><C-l>", "<C-w>><C-x>", {})
+vim.api.nvim_set_keymap("n", "<C-w><C-h>", "<C-w><<C-x>", {})
+vim.api.nvim_set_keymap("n", "<C-x><C-j>", "<C-w>+<C-x>", {})
+vim.api.nvim_set_keymap("n", "<C-x><C-k>", "<C-w>-<C-x>", {})
+vim.api.nvim_set_keymap("n", "<C-x><C-l>", "<C-w>><C-x>", {})
+vim.api.nvim_set_keymap("n", "<C-x><C-h>", "<C-w><<C-x>", {})
+
 vim.api.nvim_set_keymap("i", "jj", "<ESC>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<ESC><ESC>", "<CMD>noh<CR>", { noremap = true })
