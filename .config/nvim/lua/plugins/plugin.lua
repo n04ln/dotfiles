@@ -33,6 +33,7 @@ require("lazy").setup({
 	"nvim-treesitter/nvim-treesitter",
 
 	"dyng/ctrlsf.vim",
+	"ctrlpvim/ctrlp.vim",
 	"cohama/lexima.vim",
 	"tomtom/tcomment_vim",
 	"nvim-lua/plenary.nvim",
@@ -41,6 +42,8 @@ require("lazy").setup({
 	"Yggdroot/indentLine",
 	"nvim-lualine/lualine.nvim",
 	"goolord/alpha-nvim",
+	"junegunn/fzf.vim",
+	"junegunn/fzf",
 	{
 		"luckasRanarison/nvim-devdocs",
 		opts = {}
@@ -57,3 +60,5 @@ require("plugins.lualine")
 require("plugins.alpha")
 require("plugins.tagbar")
 require("plugins.nvim-devdocs")
+require("plugins.ctrlsf")
+require("plugins.fzf")
